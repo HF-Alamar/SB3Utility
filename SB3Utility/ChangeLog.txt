@@ -1,0 +1,41 @@
+﻿[rev]
+SB3Utility:
+  - Removed Utility.Convert() for a single object since it's just a cast. The array version is kept
+
+[rev405]
+SB3Utility:
+  - xx.CreateTexture() now removes the footer for .tga files. This is for OS2
+  - Added .ema support
+  - Added Extensions.ReadToEnd() and changed xaParser to use it
+  - Added xx.ImportedTexture()
+  - ScriptExecutor.RunScript() and related wrappers now return the results of root expressions
+SB3UtilityGUI:
+  - Initial release
+SB3UtilityScript:
+  - Fixed displaying inner exceptions
+
+[rev404]
+SB3Utility:
+  - Fixed ppFormat.TryFile() for ppFormat auto-detection
+SB3UtilityPlugins:
+  - Fixed changing the output path to the plugins directory
+  - Fixed texture paths in .mqo files
+  - Updated FBX SDK to 2012.2. ImportMorph() & ExportMorph() are still using depreciated methods
+  - OpenPP() throws an exception if ppFormat auto-detection fails
+  - Added an OpenPP() overload with a format parameter
+Help File:
+  - Fixed the Function Overloading section. The Default Variable is matched before named parameters
+
+[rev403]
+SB3Utility:
+  - Added ScriptMain.LoadPlugin()
+  - Added ChangeLog.txt
+SB3UtilityScript:
+  - Fixed loading SB3UtilityPlugins.dll when the current directory isn't the same as the executable's
+  - Can now load multiple scripts
+  - Now shows inner exception messages
+SB3UtilityPlugins:
+  - Moved fbxsdk_20113.dll to the plugins directory
+
+[rev398]
+- Initial release

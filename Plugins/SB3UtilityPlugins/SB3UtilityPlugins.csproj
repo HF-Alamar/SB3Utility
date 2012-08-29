@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{76C12FB4-AEBF-4271-9CCA-6F04A25ED266}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SB3Utility</RootNamespace>
+    <AssemblyName>SB3UtilityPlugins</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\bin\plugins\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <DocumentationFile>..\..\bin\plugins\SB3UtilityPlugins.XML</DocumentationFile>
+    <NoWarn>1591</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>..\..\bin\plugins\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <DocumentationFile>..\..\bin\plugins\SB3UtilityPlugins.XML</DocumentationFile>
+    <NoWarn>1591</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="SlimDX, Version=4.0.13.43, Culture=neutral, PublicKeyToken=b1b0c32fd1ffe4f9, processorArchitecture=x86" />
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.XML" />
+    <Reference Include="WeifenLuo.WinFormsUI.Docking">
+      <HintPath>..\..\bin\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FormImageFiles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormImageFiles.Designer.cs">
+      <DependentUpon>FormImageFiles.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormWorkspace.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormWorkspace.Designer.cs">
+      <DependentUpon>FormWorkspace.cs</DependentUpon>
+    </Compile>
+    <Compile Include="pp\Collada.cs" />
+    <Compile Include="pp\ColladaConditioner.cs" />
+    <Compile Include="pp\ColladaDocument.cs" />
+    <Compile Include="pp\DirectX.cs" />
+    <Compile Include="pp\Fbx.cs" />
+    <Compile Include="pp\FormXXDragDrop.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pp\FormXXDragDrop.Designer.cs">
+      <DependentUpon>FormXXDragDrop.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImportedEditor.cs" />
+    <Compile Include="pp\DataGridViewEditor.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="pp\EditTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="pp\FormPP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pp\FormPP.Designer.cs">
+      <DependentUpon>FormPP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="pp\FormPPSave.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pp\FormPPSave.Designer.cs">
+      <DependentUpon>FormPPSave.cs</DependentUpon>
+    </Compile>
+    <Compile Include="pp\FormXA.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pp\FormXA.Designer.cs">
+      <DependentUpon>FormXA.cs</DependentUpon>
+    </Compile>
+    <Compile Include="pp\FormXX.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pp\FormXX.Designer.cs">
+      <DependentUpon>FormXX.cs</DependentUpon>
+    </Compile>
+    <Compile Include="pp\FormXXConvert.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pp\FormXXConvert.Designer.cs">
+      <DependentUpon>FormXXConvert.cs</DependentUpon>
+    </Compile>
+    <Compile Include="pp\FormXXNormals.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pp\FormXXNormals.Designer.cs">
+      <DependentUpon>FormXXNormals.cs</DependentUpon>
+    </Compile>
+    <Compile Include="pp\Mqo.cs" />
+    <Compile Include="pp\ppEditor.cs" />
+    <Compile Include="pp\RenderObjectXX.cs" />
+    <Compile Include="pp\FormPPRename.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pp\FormPPRename.Designer.cs">
+      <DependentUpon>FormPPRename.cs</DependentUpon>
+    </Compile>
+    <Compile Include="pp\Texture.cs" />
+    <Compile Include="ImportBinary.cs" />
+    <Compile Include="pp\pp.cs" />
+    <Compile Include="pp\FormXXEditHex.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pp\FormXXEditHex.designer.cs">
+      <DependentUpon>FormXXEditHex.cs</DependentUpon>
+    </Compile>
+    <Compile Include="pp\xaEditor.cs" />
+    <Compile Include="pp\xxEditor.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Example.cs" />
+    <Compile Include="pp\xa.cs" />
+    <Compile Include="pp\xx.cs" />
+    <Compile Include="ScriptHelper.cs" />
+    <Compile Include="SetProperty.cs" />
+    <Compile Include="TriStateTreeView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\SB3Utility\SB3Utility.csproj">
+      <Project>{A351DFAB-3235-4CEA-9916-1BAE973B65AE}</Project>
+      <Name>SB3Utility</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\SB3UtilityFBX\SB3UtilityFBX.vcxproj">
+      <Project>{120B541E-0A9D-4871-9315-679CB97109E2}</Project>
+      <Name>SB3UtilityFBX</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\SB3UtilityPP\SB3UtilityPP.csproj">
+      <Project>{5647B104-8F58-4867-B849-DAC65D5243BD}</Project>
+      <Name>SB3UtilityPP</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="FormImageFiles.resx">
+      <DependentUpon>FormImageFiles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormWorkspace.resx">
+      <DependentUpon>FormWorkspace.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pp\FormXXDragDrop.resx">
+      <DependentUpon>FormXXDragDrop.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pp\FormPP.resx">
+      <DependentUpon>FormPP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pp\FormPPSave.resx">
+      <DependentUpon>FormPPSave.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pp\FormXA.resx">
+      <DependentUpon>FormXA.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pp\FormXX.resx">
+      <DependentUpon>FormXX.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pp\FormXXConvert.resx">
+      <DependentUpon>FormXXConvert.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pp\FormXXEditHex.resx">
+      <DependentUpon>FormXXEditHex.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pp\FormPPRename.resx">
+      <DependentUpon>FormPPRename.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pp\FormXXNormals.resx">
+      <DependentUpon>FormXXNormals.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

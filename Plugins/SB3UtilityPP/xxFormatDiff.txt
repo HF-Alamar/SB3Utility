@@ -1,0 +1,38 @@
+﻿xx
+==
+Header: (>= 1) 26, (< 1) 21
+Footer: (>= 2) 10
+
+Frame
+=====
+Unknown1: (>= 7) 32, (< 7) 16
+Unknown2: (>= 7) 64, (< 7) 16
+Name2: (>= 6) name
+
+Submesh
+=======
+Unknown1: (>= 7) 64, (< 7) 16
+Unknown2: (>= 7) 20
+Unknown3: (>= 2) 100
+Unknown4: (>= 7) 284, (>= 3) 64
+Unknown5: (>= 8) 21, (>= 5) 20
+Unknown6: (>= 6 && < 7) 28
+
+Vertex
+======
+Index: (>= 4) ushort, (< 4) int
+Unknown1: (>= 4) 20
+
+Material
+========
+Unknown1: (>= 0) 88, (< 0) 4
+
+
+Files affected:
+xxParser.cs
+xxReplace.cs: Create()
+Structures.cs: WriteTo(), Clone()
+xxOps.cs: CopyUnknowns(), ConvertFormat()
+Plugins\pp\FormXX.cs
+Plugins\pp\FormXXEditHex.cs
+Plugins\pp\xxEditor.cs

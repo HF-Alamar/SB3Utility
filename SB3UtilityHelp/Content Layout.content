@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Topics>
+  <Topic id="debfd500-89bc-4a81-aad1-dbf86e2da788" visible="True" isDefault="true" title="Scripting" />
+  <Topic id="62338287-1fa9-4c04-a1d8-11b785be7efb" visible="True" isSelected="true" apiParentMode="InsertAsChild" title="Plugins" />
+</Topics>

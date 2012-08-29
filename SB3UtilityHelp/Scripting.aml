@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="debfd500-89bc-4a81-aad1-dbf86e2da788" revisionNumber="1">
+  <developerWalkthroughDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!--
+    <summary>
+      <para>Optional summary abstract</para>
+    </summary>
+    -->
+    <introduction>
+      <!-- Uncomment this to generate an outline of the section and sub-section
+           titles.  Specify a numeric value as the inner text to limit it to
+           a specific number of sub-topics when creating the outline.  Specify
+           zero (0) to limit it to top-level sections only.  -->
+      <!-- <autoOutline /> -->
+      <para>To introduce to you scripting, I'll first provide a single-line
+      script example and then examine it. The script would go into a text
+      file. Then you can run it from the command line like: <command>SB3UtilityScript script.txt</command></para>
+    </introduction>
+    <section address="Example">
+      <title>Example Script</title>
+      <content>
+         <para><legacyBold>A=DoStuff(50)</legacyBold></para>
+         <para>This reads as: Assign the variable <command>A</command> the value of
+         <command>DoStuff(50)</command>. The function <command>DoStuff</command> just returns the number
+         passed to it, so <command>A</command> would be given the value of <command>50</command>.</para>
+         <para>The next sections will discuss script writing in detail.</para>
+      </content>
+    </section>
+    <section address="General">
+      <title>General Scripting Info</title>
+      <content>
+        <list class="bullet">
+          <listItem><para>Script files should generally be encoded as UTF-8.</para></listItem>
+          <listItem><para>Except for <link xlink:href="#String">string literals</link>, everything is case-insensitive including variable and function names.</para></listItem>
+          <listItem><para>When running or importing scripts, the current working directory is set to the script's directory. This will affect relative paths. Since LoadPlugin() will usually use relative paths, use the <link xlink:href="#LoadPlugin">PluginDirectory</link> variable.</para></listItem>
+        </list>
+      </content>
+    </section>
+    <section address="Grammar">
+      <title>Scripting Grammar &#38; Syntax</title>
+      <sections>
+        <section address="Comments">
+          <title>Comments</title>
+          <content>
+            <para>Comments are removed from scripts before being ran. They use C/C++ style comments:</para>
+            <para>// This is a line comment.</para>
+            <para>/* This is<markup><br/></markup>a block comment. */</para>
+          </content>
+        </section>
+        <section address="Assignment">
+          <title>Assignment to a Variable</title>
+          <content>
+            <para>Having <command>Name=Expr</command> will assign the variable <command>Name</command> the value of <link xlink:href="#Expressions">expression</link>&#160;<command>Expr</command>.</para>
+            <para>If there's only an expression and no variable to assign it to, it'll automatically assign it to the <link xlink:href="#DefaultVar">Default Variable</link>.</para>
+          </content>
+        </section>
+        <section address="Literals">
+          <title>Literals</title>
+          <content>
+            <para>These are the simplest units/words that make up <link xlink:href="#Expressions">expressions</link>.</para>
+            <list class="bullet">
+              <listItem address="String"><para><command>String</command> - Any characters (including newlines) surrounded by double-quotes. Ex: "This is a literal string." Use <literal>\"</literal> to add double-quotes in a literal string. Ex: "What is \"this\"?"</para></listItem>
+              <listItem><para><command>Bytes</command> - An array of bytes. Each byte is 2 digits in hex, and they're surrounded by square brackets. Only hex characters (0-9, A-F) are processed, and the rest are removed. Ex: [0A0D20] or [0A 0D 20] or [0A,0D,20]</para></listItem>
+              <listItem address="Name"><para><command>Name</command> - These are variable and function names. Names must start with a letter. The rest can be any combination of numbers, letters, and underscores. Underscores in function names have a <link xlink:href="#FunctionNames">special purpose</link>.</para></listItem>
+              <listItem><para><command>Number</command> - Numbers are always evaluated as 64-bit floating-point numbers (AKA <command>double</command>). Numbers can have a minus sign in front, and decimal points must be followed by a digit. Ex: #  .#  #.#  -#  -.#  -#.#</para></listItem>
+              <listItem><para><command>Bool</command> - This can be either <literal>true</literal> or <literal>false</literal>.</para></listItem>
+              <listItem><para><command>Null</command> - This represents a value of nothing. Use <literal>null</literal>.</para></listItem>
+            </list>
+          </content>
+        </section>
+        <section address="Expressions">
+          <title>Expressions</title>
+          <content>
+            <para>Expressions are made up of one or more <link xlink:href="#Literals">literals</link> and are ended by newlines. When evaluated, they always end up as a single value, such as a <command>double</command> or <command>object</command>. They're evaluated at run-time, so scripts can fail in the middle of running even though the syntax is correct, such as multiplying two variables that aren't numbers.</para>
+            <sections>
+              <section address="SimpleExpr">
+                <title>Simple Expressions</title>
+                <content>
+                  <list class="bullet">
+                    <listItem><para><legacyBold>Array</legacyBold> - An expression/object array. Format: { Expr, Expr, ... } where <command>Expr</command> is an optional expression.</para></listItem>
+                    <listItem><para><legacyBold>Function</legacyBold> - Runs a function. Format: FunctionName(ParameterName=Expr, Expr, ...). Ex: DoStuff() or DoStuff(a=10, b=20, 30, 40) <link xlink:href="#Functions">More info</link>.</para></listItem>
+                    <listItem><para><legacyBold>.Function</legacyBold> - Runs a function using the <link xlink:href="#DefaultVar">Default Variable</link>. Format: .FunctionName(ParameterName=Expr, Expr, ...).</para></listItem>
+                    <listItem><para><legacyBold>Instance.Function</legacyBold> - Runs an instance's function. Format: InstanceName.FunctionName(ParameterName=Expr, Expr, ...) where <command>InstanceName</command> is the instance variable. See <link xlink:href="#ClassMethod">Classes &#38; Methods</link>.</para></listItem>
+                    <listItem><para><legacyBold>Instance..Function</legacyBold> - Runs an instance's function using the <link xlink:href="#DefaultVar">Default Variable</link>. Format: InstanceName..FunctionName(ParameterName=Expr, Expr, ...)</para></listItem>
+                    <listItem><para><legacyBold>Math Operations</legacyBold> - You can use <literal>+ - * / % ( )</literal> to form mathematical expressions. Ex: 5*(3+2) or 7*(ExprA-ExprB) where <command>ExprA</command> &#38; <command>ExprB</command> are converted to <command>doubles</command>.</para></listItem>
+                    <listItem><para><legacyBold>Negative</legacyBold> - Gives the negative of a number. Format: -Expr where <command>Expr</command> is converted to a <command>double</command>.</para></listItem>
+                    <listItem><para><legacyBold>String Concatenation</legacyBold> - Format: ExprA + ExprB where <command>ExprA</command> &#38; <command>ExprB</command> are both strings.</para></listItem>
+                  </list>
+                </content>
+              </section>
+              <section address="ComplexExpr">
+                <title>Complex Expressions</title>
+                <content>
+                  <para>Functions are expressions themselves, so you can pass functions as arguments. Ex: DoStuff(DoStuff(3*(3+3)))</para>
+                </content>
+              </section>
+            </sections>
+          </content>
+        </section>
+      </sections>
+    </section>
+    <section address="LoadPlugin">
+      <title>Loading Plugins</title>
+      <content>
+        <para>SB3UtilityPlugins.dll is automatically loaded in SB3UtilityScript.</para>
+        <para>To load additional plugins, use the LoadPlugin("dllPath") function where <command>dllPath</command> can either be a relative or absolute path. Ex: LoadPlugin("plugin.dll") or LoadPlugin("C:\plugin.dll")</para>
+        <para>Plugins are only loaded once from the same path, so you don't have to worry about using <command>LoadPlugin()</command> multiple times on the same plugin. Plugins can't be unloaded.</para>
+        <para>Make use of the <literal>PluginDirectory</literal> variable. Ex: LoadPlugin(PluginDirectory+"plugin.dll") It's first set to the program's <command>plugins</command> directory, such as <command>\SB3UtilityScript's directory\plugins\</command>.</para>
+      </content>
+    </section>
+    <section address="Import">
+      <title>Importing Scripts</title>
+      <content>
+        <para>Use Import("scriptPath") to load another script within the current script. Ex: Import("anotherScript.txt")</para>
+        <para>Imported scripts are evaluated at run-time, so they are only loaded at the time when the function is used.</para>
+        <para>When importing a script, the current working directory (CWD) is set to the imported script's directory. This affects relative paths. When the imported script is finished, the CWD is restored to the previous script's directory.</para>
+        <para>There are only global variables, so variables before importing can be used and written to by an imported script.</para>
+      </content>
+    </section>
+    <section address="DefaultVar">
+      <title>The Default Variable</title>
+      <content>
+        <para>Many times, the function you need to run uses the previous result. Instead of assigning the previous result to a variable, it can automatically be assigned to the Default Variable. Ex:
+        <legacyBold><markup><br/>20<br/>.DoStuff()</markup></legacyBold></para>
+        <para>The 1st line gives the Default Variable a value of 20. The 2nd line passes that 20 as an argument to the DoStuff() function. Since DoStuff() just returns the number, and there's no variable specified to assign it to, the Default Variable gets assigned 20 again.</para>
+        <para>Functions have to specify which parameter they want to use the Default Variable for. You have to look at the function's documentation to see which one it is.</para>
+        <para>If a function doesn't use the Default Variable, using <command>.FunctionName()</command> will pass the Default Variable as the 1st argument.</para>
+        <para>Expressions that are passed as arguments won't be assigned to the Default Variable. For example, with DoStuffA(DoStuffB(70)) the Default Variable will only given the value of the outer DoStuffA(). The inner DoStuffB(70) won't be assigned to it.</para>
+      </content>
+    </section>
+    <section address="Functions">
+      <title>Functions</title>
+      <sections>
+        <section address="ParameterNames">
+          <title>Parameter Names</title>
+          <content>
+            <para>Every function has names for its parameters. You have to look at the function's documentation to find out their names.</para>
+            <para>When you have something like <command>FunctionName(num=30)</command>, it looks for a parameter named <command>num</command> and passes 30 to it. It gives an error if there's no function with that parameter name.</para>
+            <para>Named parameters are matched first. The remaining arguments are passed in order to the remaining parameters. For example, say you have a function <command>Add(double numA, double numB)</command>. Using <command>Add(numB=5, 6)</command> will be the same as using <command>Add(6, 5)</command>. The number <command>5</command> is matched to <command>numB</command> first. Then the remaining number <command>6</command> is matched to <command>numA</command>.</para>
+          </content>
+        </section>
+        <section address="ClassMethod">
+          <title>Classes &#38; Methods</title>
+          <content>
+            <para>A function is a class constructor, an instance method, or a static method. If it's a class constructor, it'll return an instance object. If you need to call one of the instance's methods, the instance object needs to be assigned to a variable because of the InstanceName.FunctionName() syntax.</para>
+            <para>Methods that have a <command>void</command> return will return <command>null</command>.</para>
+          </content>
+        </section>
+        <section address="FunctionOverloading">
+        <title>Function Overloading</title>
+          <content>
+            <para>If multiple functions are named the same, there are certain steps to figure out the best one to use:</para>
+            <list class="ordered">
+              <listItem><para>The number of parameters must match the number of arguments given (including the Default Variable if used).</para></listItem>
+              <listItem><para>If used, the Default Variable is matched first. If used and the function supports it, the function will be disqualified if the parameter data type isn't compatible.</para></listItem>
+              <listItem><para>If there are named parameters, functions that don't have matching parameter names will be disqualified.</para></listItem>
+              <listItem><para>The remaining arguments are checked if they're compatible with the remaining parameter data types.</para></listItem>
+              <listItem><para>The first function that qualifies with the least number of conversions will be used. For example, if you have a <command>float</command>, <command>DoStuff(float num)</command> will be used instead of <command>DoStuff(double num)</command>. If you have an <command>int</command>, whatever function was checked first will be used since both are tied with 1 conversion.</para></listItem>
+            </list>
+            <para><command>LoadPlugin()</command> and <command>Import()</command> are handled in a special way, so they're the only functions that can't be overloaded. Functions with the same name from other plugins can't be used.</para>
+          </content>
+        </section>
+        <section address="FunctionNames">
+        <title>Function Names</title>
+          <content>
+            <para>If you have more than one assembly or class with the same function name, you can specify which one to use. Format: AssemblyName_ClassName_FunctionName(Expr, Expr, ...) where the <command>AssemblyName</command> is the name of the dll file. You can also specify the class name and not the assembly name. Ex: ClassName_FunctionName(Expr, Expr, ...)</para>
+            <para>Since the underscore is a special character, any FunctionName with an underscore can't be used. For example, <command>Do_Stuff</command> won't work as the function name. It needs to be <command>DoStuff</command>.</para>
+          </content>
+        </section>
+      </sections>
+    </section>
+    <!-- Optional next steps info
+    <nextSteps>
+      <content><para>Next steps info goes here</para></content>
+    </nextSteps>
+    -->
+    <relatedTopics>
+      <!-- One or more of the following:
+           - A local link
+           - An external link
+           - A code entity reference
+
+      <link xlink:href="Other Topic's ID">Link text</link>
+      <externalLink>
+          <linkText>Link text</linkText>
+          <linkAlternateText>Optional alternate link text</linkAlternateText>
+          <linkUri>URI</linkUri>
+      </externalLink>
+      <codeEntityReference>API member ID</codeEntityReference>
+
+      Examples:
+
+      <link xlink:href="00e97994-e9e6-46e0-b420-5be86b2f8278">Some other topic</link>
+
+      <externalLink>
+          <linkText>SHFB on CodePlex</linkText>
+          <linkAlternateText>Go to CodePlex</linkAlternateText>
+          <linkUri>http://shfb.codeplex.com</linkUri>
+      </externalLink>
+
+      <codeEntityReference>T:TestDoc.TestClass</codeEntityReference>
+      <codeEntityReference>P:TestDoc.TestClass.SomeProperty</codeEntityReference>
+      <codeEntityReference>M:TestDoc.TestClass.#ctor</codeEntityReference>
+      <codeEntityReference>M:TestDoc.TestClass.#ctor(System.String,System.Int32)</codeEntityReference>
+      <codeEntityReference>M:TestDoc.TestClass.ToString</codeEntityReference>
+      <codeEntityReference>M:TestDoc.TestClass.FirstMethod</codeEntityReference>
+      <codeEntityReference>M:TestDoc.TestClass.SecondMethod(System.Int32,System.String)</codeEntityReference>
+      -->
+    </relatedTopics>
+  </developerWalkthroughDocument>
+</topic>
