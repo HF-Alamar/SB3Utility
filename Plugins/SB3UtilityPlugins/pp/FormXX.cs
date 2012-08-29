@@ -94,7 +94,7 @@ namespace SB3Utility
 				this.ShowHint = DockState.Document;
 				this.Text = Path.GetFileName(path);
 				this.ToolTipText = path;
-				this.exportDir = Path.GetDirectoryName(path) + @"\" + Path.GetFileNameWithoutExtension(path) + @"\";
+				this.exportDir = Path.GetDirectoryName(path) + @"\" + Path.GetFileNameWithoutExtension(path);
 
 				ParserVar = Gui.Scripting.GetNextVariable("xxParser");
 				string parserCommand = ParserVar + " = OpenXX(path=\"" + path + "\")";
@@ -124,7 +124,7 @@ namespace SB3Utility
 				this.ShowHint = DockState.Document;
 				this.Text = parser.Name;
 				this.ToolTipText = ppParser.FilePath + @"\" + parser.Name;
-				this.exportDir = Path.GetDirectoryName(ppParser.FilePath) + @"\" + Path.GetFileNameWithoutExtension(ppParser.FilePath) + @"\" + Path.GetFileNameWithoutExtension(parser.Name) + @"\";
+				this.exportDir = Path.GetDirectoryName(ppParser.FilePath) + @"\" + Path.GetFileNameWithoutExtension(ppParser.FilePath) + @"\" + Path.GetFileNameWithoutExtension(parser.Name);
 
 				ParserVar = xxParserVar;
 
@@ -492,6 +492,8 @@ namespace SB3Utility
 			}
 
 			HighlightSubmeshes();
+			if (highlightedBone != null)
+				HighlightBone(highlightedBone, true);
 		}
 
 		void textBoxFrameName_AfterEditTextChanged(object sender, EventArgs e)
@@ -1085,21 +1087,21 @@ namespace SB3Utility
 
 			listViewMeshMaterial.BeginUpdate();
 			listViewMeshTexture.BeginUpdate();
-			for (int i = 0; i < listViewMesh.SelectedItems.Count; i++)
+			foreach (var pair in crossRefMeshMaterials)
 			{
-				int meshParent = (int)listViewMesh.SelectedItems[i].Tag;
-				CrossRefRemoveItem(crossRefMeshMaterials[meshParent], crossRefMeshMaterialsCount, listViewMeshMaterial);
-				CrossRefRemoveItem(crossRefMeshTextures[meshParent], crossRefMeshTexturesCount, listViewMeshTexture);
+				int mesh = pair.Key;
+				CrossRefRemoveItem(pair.Value, crossRefMeshMaterialsCount, listViewMeshMaterial);
+				CrossRefRemoveItem(crossRefMeshTextures[mesh], crossRefMeshTexturesCount, listViewMeshTexture);
 			}
 			listViewMeshMaterial.EndUpdate();
 			listViewMeshTexture.EndUpdate();
 
 			listViewMaterialMesh.BeginUpdate();
 			listViewMaterialTexture.BeginUpdate();
-			for (int i = 0; i < listViewMaterial.SelectedItems.Count; i++)
+			foreach (var pair in crossRefMaterialMeshes)
 			{
-				int mat = (int)listViewMaterial.SelectedItems[i].Tag;
-				CrossRefRemoveItem(crossRefMaterialMeshes[mat], crossRefMaterialMeshesCount, listViewMaterialMesh);
+				int mat = pair.Key;
+				CrossRefRemoveItem(pair.Value, crossRefMaterialMeshesCount, listViewMaterialMesh);
 				CrossRefRemoveItem(crossRefMaterialTextures[mat], crossRefMaterialTexturesCount, listViewMaterialTexture);
 			}
 			listViewMaterialMesh.EndUpdate();
@@ -1107,10 +1109,10 @@ namespace SB3Utility
 
 			listViewTextureMesh.BeginUpdate();
 			listViewTextureMaterial.BeginUpdate();
-			for (int i = 0; i < listViewTexture.SelectedItems.Count; i++)
+			foreach (var pair in crossRefTextureMeshes)
 			{
-				int tex = (int)listViewTexture.SelectedItems[i].Tag;
-				CrossRefRemoveItem(crossRefTextureMeshes[tex], crossRefTextureMeshesCount, listViewTextureMesh);
+				int tex = pair.Key;
+				CrossRefRemoveItem(pair.Value, crossRefTextureMeshesCount, listViewTextureMesh);
 				CrossRefRemoveItem(crossRefTextureMaterials[tex], crossRefTextureMaterialsCount, listViewTextureMaterial);
 			}
 			listViewTextureMesh.EndUpdate();
@@ -2423,10 +2425,12 @@ namespace SB3Utility
 
 				dataGridViewMesh.SelectionChanged -= new EventHandler(dataGridViewMesh_SelectionChanged);
 
+				int lastSelectedRow = -1;
 				List<int> indices = new List<int>();
 				foreach (DataGridViewRow row in dataGridViewMesh.SelectedRows)
 				{
 					indices.Add(row.Index);
+					lastSelectedRow = row.Index;
 				}
 				indices.Sort();
 
@@ -2442,12 +2446,18 @@ namespace SB3Utility
 
 				if (meshRemoved)
 				{
-					LoadMesh(-1);
-					InitMeshes();
-					InitFrames();
+					RecreateMeshes();
 				}
-				RecreateRenderObjects();
-				RecreateCrossRefs();
+				else
+				{
+					LoadMesh(loadedMesh);
+					if (lastSelectedRow == dataGridViewMesh.Rows.Count)
+						lastSelectedRow--;
+					dataGridViewMesh.Rows[lastSelectedRow].Selected = true;
+					dataGridViewMesh.FirstDisplayedScrollingRowIndex = lastSelectedRow;
+					RecreateRenderObjects();
+					RecreateCrossRefs();
+				}
 			}
 			catch (Exception ex)
 			{

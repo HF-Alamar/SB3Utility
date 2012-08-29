@@ -277,7 +277,7 @@ namespace SB3Utility
 					}
 					tokens.Add(new Token(sb.ToString(), TokenType.HexOrIndex, scriptName, line, column));
 				}
-				else if (Char.IsLetter(c))
+				else if (Char.IsLetter(c) || c == '_')
 				{
 					var sb = new StringBuilder();
 					sb.Append(c);

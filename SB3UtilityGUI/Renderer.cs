@@ -336,48 +336,116 @@ namespace SB3Utility
 
 		public virtual void Render()
 		{
-			if (isInitialized && !isRendering && (swapChain != null))
+			try
 			{
-				isRendering = true;
-				using (Surface surface = swapChain.GetBackBuffer(0))
+				if (isInitialized && !isRendering && (swapChain != null))
 				{
-					Device.SetRenderTarget(0, surface);
-				}
+					isRendering = true;
+					using (Surface surface = swapChain.GetBackBuffer(0))
+					{
+						Device.SetRenderTarget(0, surface);
+					}
 
-				Light light = this.Device.GetLight(0);
-				light.Direction = camera.Direction;
+					Light light = this.Device.GetLight(0);
+					light.Direction = camera.Direction;
+					Device.SetLight(0, light);
+
+					Device.SetTransform(TransformState.View, camera.View);
+					Device.SetTransform(TransformState.Projection, camera.Projection);
+
+					Device.Clear(ClearFlags.Target | ClearFlags.ZBuffer, Background, 1.0f, 0);
+					Device.BeginScene();
+
+					foreach (var pair in renderObjects)
+					{
+						pair.Value.Render();
+					}
+
+					if (mouseDown != MouseButtons.None)
+					{
+						DrawCursor();
+						DrawAxes();
+
+						string camStr = "(" + camera.target.X.ToString("0.##") + ", " + camera.target.Y.ToString("0.##") + ", " + camera.target.Z.ToString("0.##") + ")";
+						TextFont.DrawString(null, camStr, renderRect, DrawTextFormat.Right | DrawTextFormat.Top, TextColor);
+					}
+
+					Device.EndScene();
+					swapChain.Present(Present.None, renderRect, renderRect, renderControl.Handle);
+
+					isRendering = false;
+				}
+			}
+			catch (Exception)
+			{
+				swapChain.Dispose();
+				swapChain = null;
+				TextFont.Dispose();
+				TextFont = null;
+				CursorMesh.Dispose();
+				CursorMesh = null;
+
+				PresentParameters presentParams = new PresentParameters();
+				presentParams.Windowed = true;
+				presentParams.BackBufferCount = 0;
+				presentParams.BackBufferWidth = Screen.PrimaryScreen.WorkingArea.Width;
+				presentParams.BackBufferHeight = Screen.PrimaryScreen.WorkingArea.Height;
+				Device.Reset(new PresentParameters[] { presentParams });
+
+				RenderControl = renderControl;
+
+				Device.SetRenderState(RenderState.Lighting, true);
+				Device.SetRenderState(RenderState.DiffuseMaterialSource, ColorSource.Material);
+				Device.SetRenderState(RenderState.EmissiveMaterialSource, ColorSource.Material);
+				Device.SetRenderState(RenderState.SpecularMaterialSource, ColorSource.Material);
+				Device.SetRenderState(RenderState.SpecularEnable, true);
+				Device.SetRenderState(RenderState.AlphaBlendEnable, true);
+				Device.SetRenderState(RenderState.BlendOperationAlpha, BlendOperation.Add);
+				Device.SetRenderState(RenderState.SourceBlend, Blend.SourceAlpha);
+				Device.SetRenderState(RenderState.DestinationBlend, Blend.InverseSourceAlpha);
+
+				Light light = new Light();
+				light.Type = LightType.Directional;
+				light.Ambient = new Color4(1, 0.3f, 0.3f, 0.3f);
+				light.Diffuse = new Color4(1, 0.6f, 0.6f, 0.6f);
+				light.Specular = new Color4(1, 1, 1, 1);
 				Device.SetLight(0, light);
+				Device.EnableLight(0, true);
 
-				Device.SetTransform(TransformState.View, camera.View);
-				Device.SetTransform(TransformState.Projection, camera.Projection);
+				TextFont = new SlimDX.Direct3D9.Font(Device, new System.Drawing.Font("Arial", 8));
+				TextColor = new Color4(Color.White);
 
-				Device.Clear(ClearFlags.Target | ClearFlags.ZBuffer, Background, 1.0f, 0);
-				Device.BeginScene();
+				CursorMesh = Mesh.CreateSphere(Device, 1, 10, 10);
+				CursorMaterial = new Material();
+				CursorMaterial.Ambient = new Color4(1, 1f, 1f, 1f);
+				CursorMaterial.Diffuse = new Color4(1, 0.6f, 1, 0.3f);
 
-				if (mouseDown != MouseButtons.None)
-				{
-					DrawCursor();
-					DrawAxes();
+				Culling = true;
+				Background = Color.FromArgb(255, 10, 10, 60);
 
-					string camStr = "(" + camera.target.X.ToString("0.##") + ", " + camera.target.Y.ToString("0.##") + ", " + camera.target.Z.ToString("0.##") + ")";
-					TextFont.DrawString(null, camStr, renderRect, DrawTextFormat.Right | DrawTextFormat.Top, TextColor);
-				}
-
-				foreach (var pair in renderObjects)
-				{
-					pair.Value.Render();
-				}
-
-				Device.EndScene();
-				swapChain.Present(Present.None, renderRect, renderRect, renderControl.Handle);
-
+				isInitialized = true;
 				isRendering = false;
 			}
 		}
 
 		void DrawCursor()
 		{
-			Device.SetRenderState(RenderState.ZEnable, ZBufferType.UseZBuffer);
+			Device.SetRenderState(RenderState.AlphaBlendEnable, true);
+			Device.SetRenderState(RenderState.BlendOperationAlpha, BlendOperation.Add);
+
+// very colourful
+			Device.SetRenderState(RenderState.SourceBlend, Blend.InverseSourceColor);
+			Device.SetRenderState(RenderState.DestinationBlend, Blend.DestinationColor);
+
+// a bit dark
+/*
+			Device.SetRenderState(RenderState.SourceBlend, Blend.DestinationColor);
+			Device.SetRenderState(RenderState.DestinationBlend, Blend.DestinationColor);
+ */
+
+			Device.SetRenderState(RenderState.ZEnable, ZBufferType.DontUseZBuffer);
+			Device.SetRenderState(RenderState.ZWriteEnable, false);
+
 			Device.SetRenderState(RenderState.VertexBlend, VertexBlend.Disable);
 			Device.SetRenderState(RenderState.Lighting, true);
 			Device.SetRenderState(RenderState.FillMode, FillMode.Solid);
@@ -399,6 +467,11 @@ namespace SB3Utility
 			light.Ambient = ambient;
 			light.Diffuse = diffuse;
 			Device.SetLight(0, light);
+
+			Device.SetRenderState(RenderState.SourceBlend, Blend.SourceAlpha);
+			Device.SetRenderState(RenderState.DestinationBlend, Blend.InverseSourceAlpha);
+			Device.SetRenderState(RenderState.ZEnable, ZBufferType.UseZBuffer);
+			Device.SetRenderState(RenderState.ZWriteEnable, true);
 		}
 
 		void DrawAxes()
