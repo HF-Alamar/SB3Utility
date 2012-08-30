@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
+using System.IO;
 
 namespace SB3Utility
 {
@@ -13,19 +14,133 @@ namespace SB3Utility
 	[PluginTool("Workspace")]
 	public partial class FormWorkspace : DockContent
 	{
-		public TriStateTreeView TreeView { get { return treeView; } }
+		private Dictionary<ImportedSubmesh, bool> replaceSubmeshDic = new Dictionary<ImportedSubmesh, bool>();
 
-		public FormWorkspace()
+		public FormWorkspace(string path, Fbx.Importer importer, string editorVar, ImportedEditor editor)
 		{
 			try
 			{
 				InitializeComponent();
+				toolStripTextBoxTargetPosition.AfterEditTextChanged += toolStripTextBoxTargetPosition_AfterEditTextChanged;
+				toolStripTextBoxMaterialName.AfterEditTextChanged += toolStripTextBoxMaterialName_AfterEditTextChanged;
+				InitWorkspace(path, importer, editorVar, editor);
 
 				Gui.Docking.ShowDockContent(this, Gui.Docking.DockFiles);
 			}
 			catch (Exception ex)
 			{
 				Utility.ReportException(ex);
+			}
+		}
+
+		private void InitWorkspace(string path, Fbx.Importer importer, string editorVar, ImportedEditor editor)
+		{
+			this.Text = Path.GetFileName(path);
+			this.ToolTipText = path;
+
+			if (editor.Frames != null)
+			{
+				TreeNode root = new TreeNode(typeof(ImportedFrame).Name);
+				root.Checked = true;
+				this.treeView.AddChild(root);
+
+				for (int i = 0; i < importer.FrameList.Count; i++)
+				{
+					var frame = importer.FrameList[i];
+					TreeNode node = new TreeNode(frame.Name);
+					node.Checked = true;
+					node.Tag = new DragSource(editorVar, typeof(ImportedFrame), editor.Frames.IndexOf(frame));
+					this.treeView.AddChild(root, node);
+
+					foreach (var child in frame)
+					{
+						BuildTree(editorVar, child, node, editor);
+					}
+				}
+			}
+
+			AddList(importer.MeshList, typeof(ImportedMesh).Name, editorVar);
+			AddList(importer.MaterialList, typeof(ImportedMaterial).Name, editorVar);
+			AddList(importer.TextureList, typeof(ImportedTexture).Name, editorVar);
+			AddList(importer.MorphList, typeof(ImportedMorph).Name, editorVar);
+
+			if ((importer.AnimationList != null) && (importer.AnimationList.Count > 0))
+			{
+				TreeNode root = new TreeNode(typeof(ImportedAnimation).Name);
+				root.Checked = true;
+				this.treeView.AddChild(root);
+
+				for (int i = 0; i < importer.AnimationList.Count; i++)
+				{
+					TreeNode node = new TreeNode("Animation" + i);
+					node.Checked = true;
+					node.Tag = new DragSource(editorVar, typeof(ImportedAnimation), i);
+					this.treeView.AddChild(root, node);
+				}
+			}
+
+			foreach (TreeNode root in this.treeView.Nodes)
+			{
+				root.Expand();
+			}
+			if (this.treeView.Nodes.Count > 0)
+			{
+				this.treeView.Nodes[0].EnsureVisible();
+			}
+		}
+
+		private void AddList<T>(List<T> list, string rootName, string editorVar)
+		{
+			if ((list != null) && (list.Count > 0))
+			{
+				TreeNode root = new TreeNode(rootName);
+				root.Checked = true;
+				this.treeView.AddChild(root);
+
+				for (int i = 0; i < list.Count; i++)
+				{
+					dynamic item = list[i];
+					TreeNode node = new TreeNode(item.Name);
+					node.Checked = true;
+					node.Tag = new DragSource(editorVar, typeof(T), i);
+					this.treeView.AddChild(root, node);
+					if (item is ImportedMesh)
+					{
+						ImportedMesh mesh = item;
+						for (int j = 0; j < mesh.SubmeshList.Count; j++)
+						{
+							ImportedSubmesh submesh = mesh.SubmeshList[j];
+							replaceSubmeshDic.Add(submesh, true);
+							TreeNode submeshNode = new TreeNode();
+							submeshNode.Checked = true;
+							submeshNode.Tag = submesh;
+							UpdateSubmeshNode(submeshNode);
+							submeshNode.ContextMenuStrip = this.contextMenuStripSubmesh;
+							this.treeView.AddChild(node, submeshNode);
+						}
+					}
+				}
+			}
+		}
+
+		private void UpdateSubmeshNode(TreeNode node)
+		{
+			ImportedSubmesh submesh = (ImportedSubmesh)node.Tag;
+			bool replaceSubmesh;
+			replaceSubmeshDic.TryGetValue(submesh, out replaceSubmesh);
+			node.Text = "Sub: V " + submesh.VertexList.Count + ", F " + submesh.FaceList.Count + ", Base: " + submesh.Index + ", Replace: " + replaceSubmesh + ", Mat: " + submesh.Material + ", World:" + submesh.WorldCoords;
+		}
+
+		private void BuildTree(string editorVar, ImportedFrame frame, TreeNode parent, ImportedEditor editor)
+		{
+			TreeNode node = new TreeNode(frame.Name);
+			node.Checked = true;
+			node.Tag = new DragSource(editorVar, typeof(ImportedFrame), editor.Frames.IndexOf(frame));
+			this.treeView.AddChild(parent, node);
+
+			foreach (var child in frame)
+			{
+				BuildTree(editorVar, child, node, editor);
 			}
 		}
 
@@ -180,6 +295,70 @@ namespace SB3Utility
 			treeView.BeginUpdate();
 			treeView.CollapseAll();
 			treeView.EndUpdate();
+		}
+
+		private void contextMenuStripSubmesh_Opening(object sender, CancelEventArgs e)
+		{
+			Point contextLoc = new Point(contextMenuStripSubmesh.Left, contextMenuStripSubmesh.Top);
+			Point relativeLoc = treeView.PointToClient(contextLoc);
+			TreeNode submeshNode = treeView.GetNodeAt(relativeLoc);
+			ImportedSubmesh submesh = (ImportedSubmesh)submeshNode.Tag;
+			toolStripTextBoxTargetPosition.Text = submesh.Index.ToString();
+			bool replaceSubmesh;
+			replaceSubmeshDic.TryGetValue(submesh, out replaceSubmesh);
+			replaceToolStripMenuItem.Checked = replaceSubmesh;
+			toolStripTextBoxMaterialName.Text = submesh.Material;
+			worldCoordinatesToolStripMenuItem.Checked = submesh.WorldCoords;
+		}
+
+		private void toolStripTextBoxTargetPosition_AfterEditTextChanged(object sender, EventArgs e)
+		{
+			Point contextLoc = new Point(contextMenuStripSubmesh.Left, contextMenuStripSubmesh.Top);
+			Point relativeLoc = treeView.PointToClient(contextLoc);
+			TreeNode submeshNode = treeView.GetNodeAt(relativeLoc);
+			ImportedSubmesh submesh = (ImportedSubmesh)submeshNode.Tag;
+			int newIndex;
+			if (Int32.TryParse(toolStripTextBoxTargetPosition.Text, out newIndex))
+			{
+				submesh.Index = newIndex;
+				UpdateSubmeshNode(submeshNode);
+			}
+		}
+
+		private void replaceToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Point contextLoc = new Point(contextMenuStripSubmesh.Left, contextMenuStripSubmesh.Top);
+			Point relativeLoc = treeView.PointToClient(contextLoc);
+			TreeNode submeshNode = treeView.GetNodeAt(relativeLoc);
+			ImportedSubmesh submesh = (ImportedSubmesh)submeshNode.Tag;
+			bool replaceSubmesh;
+			replaceSubmeshDic.TryGetValue(submesh, out replaceSubmesh);
+			replaceSubmesh ^= true;
+			replaceSubmeshDic.Remove(submesh);
+			replaceSubmeshDic.Add(submesh, replaceSubmesh);
+			replaceToolStripMenuItem.Checked = replaceSubmesh;
+			UpdateSubmeshNode(submeshNode);
+		}
+
+		private void toolStripTextBoxMaterialName_AfterEditTextChanged(object sender, EventArgs e)
+		{
+			Point contextLoc = new Point(contextMenuStripSubmesh.Left, contextMenuStripSubmesh.Top);
+			Point relativeLoc = treeView.PointToClient(contextLoc);
+			TreeNode submeshNode = treeView.GetNodeAt(relativeLoc);
+			ImportedSubmesh submesh = (ImportedSubmesh)submeshNode.Tag;
+			submesh.Material = toolStripTextBoxMaterialName.Text;
+			UpdateSubmeshNode(submeshNode);
+		}
+
+		private void worldCoordinatesToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Point contextLoc = new Point(contextMenuStripSubmesh.Left, contextMenuStripSubmesh.Top);
+			Point relativeLoc = treeView.PointToClient(contextLoc);
+			TreeNode submeshNode = treeView.GetNodeAt(relativeLoc);
+			ImportedSubmesh submesh = (ImportedSubmesh)submeshNode.Tag;
+			submesh.WorldCoords ^= true;
+			worldCoordinatesToolStripMenuItem.Checked = submesh.WorldCoords;
+			UpdateSubmeshNode(submeshNode);
 		}
 	}
 }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Windows.Forms;
 using SlimDX;
 
@@ -18,92 +17,7 @@ namespace SB3Utility
 			string editorVar = Gui.Scripting.GetNextVariable("importedEditor");
 			var editor = (ImportedEditor)Gui.Scripting.RunScript(editorVar + " = ImportedEditor(" + importVar + ")");
 
-			var workspace = new FormWorkspace();
-			workspace.Text = Path.GetFileName(path);
-			workspace.ToolTipText = path;
-
-			if (editor.Frames != null)
-			{
-				TreeNode root = new TreeNode(typeof(ImportedFrame).Name);
-				root.Checked = true;
-				workspace.TreeView.AddChild(root);
-
-				for (int i = 0; i < importer.FrameList.Count; i++)
-				{
-					var frame = importer.FrameList[i];
-					TreeNode node = new TreeNode(frame.Name);
-					node.Checked = true;
-					node.Tag = new DragSource(editorVar, typeof(ImportedFrame), editor.Frames.IndexOf(frame));
-					workspace.TreeView.AddChild(root, node);
-
-					foreach (var child in frame)
-					{
-						BuildTree(editorVar, child, node, editor, workspace);
-					}
-				}
-			}
-
-			AddList(importer.MeshList, typeof(ImportedMesh).Name, workspace, editorVar);
-			AddList(importer.MaterialList, typeof(ImportedMaterial).Name, workspace, editorVar);
-			AddList(importer.TextureList, typeof(ImportedTexture).Name, workspace, editorVar);
-			AddList(importer.MorphList, typeof(ImportedMorph).Name, workspace, editorVar);
-
-			if ((importer.AnimationList != null) && (importer.AnimationList.Count > 0))
-			{
-				TreeNode root = new TreeNode(typeof(ImportedAnimation).Name);
-				root.Checked = true;
-				workspace.TreeView.AddChild(root);
-
-				for (int i = 0; i < importer.AnimationList.Count; i++)
-				{
-					TreeNode node = new TreeNode("Animation" + i);
-					node.Checked = true;
-					node.Tag = new DragSource(editorVar, typeof(ImportedAnimation), i);
-					workspace.TreeView.AddChild(root, node);
-				}
-			}
-
-			foreach (TreeNode root in workspace.TreeView.Nodes)
-			{
-				root.Expand();
-			}
-			if (workspace.TreeView.Nodes.Count > 0)
-			{
-				workspace.TreeView.Nodes[0].EnsureVisible();
-			}
-		}
-
-		static void AddList<T>(List<T> list, string rootName, FormWorkspace workspace, string editorVar)
-		{
-			if ((list != null) && (list.Count > 0))
-			{
-				TreeNode root = new TreeNode(rootName);
-				root.Checked = true;
-				workspace.TreeView.AddChild(root);
-
-				for (int i = 0; i < list.Count; i++)
-				{
-					dynamic item = list[i];
-					TreeNode node = new TreeNode(item.Name);
-					node.Checked = true;
-					node.Tag = new DragSource(editorVar, typeof(T), i);
-					workspace.TreeView.AddChild(root, node);
-				}
-			}
-		}
-
-		static void BuildTree(string editorVar, ImportedFrame frame, TreeNode parent, ImportedEditor editor, FormWorkspace workspace)
-		{
-			TreeNode node = new TreeNode(frame.Name);
-			node.Checked = true;
-			node.Tag = editor.Frames.IndexOf(frame);
-			node.Tag = new DragSource(editorVar, typeof(ImportedFrame), editor.Frames.IndexOf(frame));
-			workspace.TreeView.AddChild(parent, node);
-
-			foreach (var child in frame)
-			{
-				BuildTree(editorVar, child, node, editor, workspace);
-			}
+			new FormWorkspace(path, importer, editorVar, editor);
 		}
 
 		[Plugin]

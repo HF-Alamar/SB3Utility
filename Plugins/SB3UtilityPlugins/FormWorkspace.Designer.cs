@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.buttonRemove = new System.Windows.Forms.Button();
 			this.label1 = new System.Windows.Forms.Label();
@@ -36,10 +37,18 @@
 			this.nodesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.expandAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.collapseAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.contextMenuStripSubmesh = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.targetPositionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.replaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.materialNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.worldCoordinatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.treeView = new SB3Utility.TriStateTreeView();
+			this.toolStripTextBoxTargetPosition = new SB3Utility.ToolStripEditTextBox();
+			this.toolStripTextBoxMaterialName = new SB3Utility.ToolStripEditTextBox();
 			this.panel1.SuspendLayout();
 			this.panel2.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
+			this.contextMenuStripSubmesh.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// panel1
@@ -71,7 +80,7 @@
 			this.label1.Size = new System.Drawing.Size(224, 26);
 			this.label1.TabIndex = 7;
 			this.label1.Text = "• Drag and drop from or to other trees.\r\n• Checkboxes may or may not have an effe" +
-				"ct.";
+    "ct.";
 			// 
 			// panel2
 			// 
@@ -116,6 +125,49 @@
 			this.collapseAllToolStripMenuItem.Text = "Collapse All";
 			this.collapseAllToolStripMenuItem.Click += new System.EventHandler(this.collapseAllToolStripMenuItem_Click);
 			// 
+			// contextMenuStripSubmesh
+			// 
+			this.contextMenuStripSubmesh.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.targetPositionToolStripMenuItem,
+            this.replaceToolStripMenuItem,
+            this.materialNameToolStripMenuItem,
+            this.worldCoordinatesToolStripMenuItem});
+			this.contextMenuStripSubmesh.Name = "contextMenuStripSubmesh";
+			this.contextMenuStripSubmesh.Size = new System.Drawing.Size(198, 92);
+			this.contextMenuStripSubmesh.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripSubmesh_Opening);
+			// 
+			// targetPositionToolStripMenuItem
+			// 
+			this.targetPositionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripTextBoxTargetPosition});
+			this.targetPositionToolStripMenuItem.Name = "targetPositionToolStripMenuItem";
+			this.targetPositionToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+			this.targetPositionToolStripMenuItem.Text = "Target Position";
+			// 
+			// replaceToolStripMenuItem
+			// 
+			this.replaceToolStripMenuItem.Checked = true;
+			this.replaceToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.replaceToolStripMenuItem.Name = "replaceToolStripMenuItem";
+			this.replaceToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+			this.replaceToolStripMenuItem.Text = "Replace Original Submesh";
+			this.replaceToolStripMenuItem.Click += new System.EventHandler(this.replaceToolStripMenuItem_Click);
+			// 
+			// materialNameToolStripMenuItem
+			// 
+			this.materialNameToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripTextBoxMaterialName});
+			this.materialNameToolStripMenuItem.Name = "materialNameToolStripMenuItem";
+			this.materialNameToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+			this.materialNameToolStripMenuItem.Text = "Material Name";
+			// 
+			// worldCoordinatesToolStripMenuItem
+			// 
+			this.worldCoordinatesToolStripMenuItem.Name = "worldCoordinatesToolStripMenuItem";
+			this.worldCoordinatesToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+			this.worldCoordinatesToolStripMenuItem.Text = "World Coordinates";
+			this.worldCoordinatesToolStripMenuItem.Click += new System.EventHandler(this.worldCoordinatesToolStripMenuItem_Click);
+			// 
 			// treeView
 			// 
 			this.treeView.AllowDrop = true;
@@ -130,6 +182,18 @@
 			this.treeView.DragDrop += new System.Windows.Forms.DragEventHandler(this.treeView_DragDrop);
 			this.treeView.DragEnter += new System.Windows.Forms.DragEventHandler(this.treeView_DragEnter);
 			this.treeView.DragOver += new System.Windows.Forms.DragEventHandler(this.treeView_DragOver);
+			// 
+			// toolStripTextBoxTargetPosition
+			// 
+			this.toolStripTextBoxTargetPosition.Name = "toolStripTextBoxTargetPosition";
+			this.toolStripTextBoxTargetPosition.Size = new System.Drawing.Size(22, 21);
+			// 
+			// toolStripTextBoxMaterialName
+			// 
+			this.toolStripTextBoxMaterialName.AcceptsReturn = true;
+			this.toolStripTextBoxMaterialName.MaxLength = 64;
+			this.toolStripTextBoxMaterialName.Name = "toolStripTextBoxMaterialName";
+			this.toolStripTextBoxMaterialName.Size = new System.Drawing.Size(120, 21);
 			// 
 			// FormWorkspace
 			// 
@@ -148,6 +212,7 @@
 			this.panel2.PerformLayout();
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
+			this.contextMenuStripSubmesh.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -164,6 +229,13 @@
 		private System.Windows.Forms.ToolStripMenuItem nodesToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem expandAllToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem collapseAllToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem targetPositionToolStripMenuItem;
+		private ToolStripEditTextBox toolStripTextBoxTargetPosition;
+		private System.Windows.Forms.ToolStripMenuItem replaceToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem materialNameToolStripMenuItem;
+		private ToolStripEditTextBox toolStripTextBoxMaterialName;
+		private System.Windows.Forms.ToolStripMenuItem worldCoordinatesToolStripMenuItem;
+		private System.Windows.Forms.ContextMenuStrip contextMenuStripSubmesh;
 
 	}
 }
