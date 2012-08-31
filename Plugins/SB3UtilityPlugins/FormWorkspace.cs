@@ -14,8 +14,6 @@ namespace SB3Utility
 	[PluginTool("Workspace")]
 	public partial class FormWorkspace : DockContent
 	{
-		private Dictionary<ImportedSubmesh, bool> replaceSubmeshDic = new Dictionary<ImportedSubmesh, bool>();
-
 		public FormWorkspace(string path, Fbx.Importer importer, string editorVar, ImportedEditor editor)
 		{
 			try
@@ -110,13 +108,12 @@ namespace SB3Utility
 						for (int j = 0; j < mesh.SubmeshList.Count; j++)
 						{
 							ImportedSubmesh submesh = mesh.SubmeshList[j];
-							replaceSubmeshDic.Add(submesh, true);
 							TreeNode submeshNode = new TreeNode();
 							submeshNode.Checked = true;
 							submeshNode.Tag = submesh;
-							UpdateSubmeshNode(submeshNode);
 							submeshNode.ContextMenuStrip = this.contextMenuStripSubmesh;
 							this.treeView.AddChild(node, submeshNode);
+							UpdateSubmeshNode(submeshNode);
 						}
 					}
 				}
@@ -126,8 +123,10 @@ namespace SB3Utility
 		private void UpdateSubmeshNode(TreeNode node)
 		{
 			ImportedSubmesh submesh = (ImportedSubmesh)node.Tag;
-			bool replaceSubmesh;
-			replaceSubmeshDic.TryGetValue(submesh, out replaceSubmesh);
+			TreeNode meshNode = node.Parent;
+			DragSource dragSrc = (DragSource)meshNode.Tag;
+			var srcEditor = (ImportedEditor)Gui.Scripting.Variables[dragSrc.Variable];
+			bool replaceSubmesh = srcEditor.Meshes[(int)dragSrc.Id].isSubmeshReplacingOriginals(submesh);
 			node.Text = "Sub: V " + submesh.VertexList.Count + ", F " + submesh.FaceList.Count + ", Base: " + submesh.Index + ", Replace: " + replaceSubmesh + ", Mat: " + submesh.Material + ", World:" + submesh.WorldCoords;
 		}
 
@@ -304,8 +303,10 @@ namespace SB3Utility
 			TreeNode submeshNode = treeView.GetNodeAt(relativeLoc);
 			ImportedSubmesh submesh = (ImportedSubmesh)submeshNode.Tag;
 			toolStripTextBoxTargetPosition.Text = submesh.Index.ToString();
-			bool replaceSubmesh;
-			replaceSubmeshDic.TryGetValue(submesh, out replaceSubmesh);
+			TreeNode meshNode = submeshNode.Parent;
+			DragSource dragSrc = (DragSource)meshNode.Tag;
+			var srcEditor = (ImportedEditor)Gui.Scripting.Variables[dragSrc.Variable];
+			bool replaceSubmesh = srcEditor.Meshes[(int)dragSrc.Id].isSubmeshReplacingOriginals(submesh);
 			replaceToolStripMenuItem.Checked = replaceSubmesh;
 			toolStripTextBoxMaterialName.Text = submesh.Material;
 			worldCoordinatesToolStripMenuItem.Checked = submesh.WorldCoords;
@@ -331,11 +332,12 @@ namespace SB3Utility
 			Point relativeLoc = treeView.PointToClient(contextLoc);
 			TreeNode submeshNode = treeView.GetNodeAt(relativeLoc);
 			ImportedSubmesh submesh = (ImportedSubmesh)submeshNode.Tag;
-			bool replaceSubmesh;
-			replaceSubmeshDic.TryGetValue(submesh, out replaceSubmesh);
+			TreeNode meshNode = submeshNode.Parent;
+			DragSource dragSrc = (DragSource)meshNode.Tag;
+			var srcEditor = (ImportedEditor)Gui.Scripting.Variables[dragSrc.Variable];
+			bool replaceSubmesh = srcEditor.Meshes[(int)dragSrc.Id].isSubmeshReplacingOriginals(submesh);
 			replaceSubmesh ^= true;
-			replaceSubmeshDic.Remove(submesh);
-			replaceSubmeshDic.Add(submesh, replaceSubmesh);
+			srcEditor.Meshes[(int)dragSrc.Id].setSubmeshReplacingOriginals(submesh, replaceSubmesh);
 			replaceToolStripMenuItem.Checked = replaceSubmesh;
 			UpdateSubmeshNode(submeshNode);
 		}

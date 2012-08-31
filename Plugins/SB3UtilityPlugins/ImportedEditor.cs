@@ -9,6 +9,7 @@ namespace SB3Utility
 	{
 		public IImported Imported { get; protected set; }
 		public List<ImportedFrame> Frames { get; protected set; }
+		public List<WorkspaceMesh> Meshes { get; protected set; }
 
 		public ImportedEditor(IImported imported)
 		{
@@ -20,6 +21,16 @@ namespace SB3Utility
 				foreach (var frame in Imported.FrameList)
 				{
 					InitFrames(frame);
+				}
+			}
+
+			if (Imported.MeshList != null && Imported.MeshList.Count > 0)
+			{
+				Meshes = new List<WorkspaceMesh>(Imported.MeshList.Count);
+				foreach (ImportedMesh mesh in Imported.MeshList)
+				{
+					WorkspaceMesh wsMesh = new WorkspaceMesh(mesh);
+					Meshes.Add(wsMesh);
 				}
 			}
 		}
