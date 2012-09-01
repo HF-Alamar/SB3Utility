@@ -95,6 +95,7 @@
     <Compile Include="Utility.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Workspace.cs" />
     <Compile Include="XmlComments.cs">
       <SubType>Code</SubType>
     </Compile>

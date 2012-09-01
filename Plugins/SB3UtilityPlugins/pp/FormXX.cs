@@ -1641,7 +1641,7 @@ namespace SB3Utility
 		{
 			if (node.Tag is DragSource)
 			{
-				if ((node.Parent != null) && !node.Checked)
+				if ((node.Parent != null) && !node.Checked && node.StateImageIndex != (int)CheckState.Indeterminate)
 				{
 					return;
 				}
@@ -1691,7 +1691,7 @@ namespace SB3Utility
 						}
 					}
 				}
-				else if (source.Type == typeof(ImportedMesh))
+				else if (source.Type == typeof(WorkspaceMesh))
 				{
 					using (var dragOptions = new FormXXDragDrop(Editor, false))
 					{
@@ -1706,7 +1706,23 @@ namespace SB3Utility
 
 						if (dragOptions.ShowDialog() == DialogResult.OK)
 						{
-							Gui.Scripting.RunScript(EditorVar + ".ReplaceMesh(mesh=" + source.Variable + ".Imported.MeshList[" + (int)source.Id + "], frameId=" + dragOptions.numericMeshId.Value + ", merge=" + dragOptions.radioButtonMeshMerge.Checked + ", normals=\"" + dragOptions.NormalsMethod.GetName() + "\", bones=\"" + dragOptions.BonesMethod.GetName() + "\")");
+							// repeating only final choices for repeatability of the script
+							WorkspaceMesh wsMesh = srcEditor.Meshes[(int)source.Id];
+							foreach (ImportedSubmesh submesh in wsMesh.SubmeshList)
+							{
+								if (wsMesh.isSubmeshEnabled(submesh))
+								{
+									if (!wsMesh.isSubmeshReplacingOriginals(submesh))
+									{
+										Gui.Scripting.RunScript(source.Variable + ".setSubmeshReplacingOriginals(meshId=" + (int)source.Id + ", id=" + wsMesh.SubmeshList.IndexOf(submesh) + ", replaceOriginals=false)");
+									}
+								}
+								else
+								{
+									Gui.Scripting.RunScript(source.Variable + ".setSubmeshEnabled(meshId=" + (int)source.Id + ", id=" + wsMesh.SubmeshList.IndexOf(submesh) + ", enabled=false)");
+								}
+							}
+							Gui.Scripting.RunScript(EditorVar + ".ReplaceMesh(mesh=" + source.Variable + ".Meshes[" + (int)source.Id + "], frameId=" + dragOptions.numericMeshId.Value + ", merge=" + dragOptions.radioButtonMeshMerge.Checked + ", normals=\"" + dragOptions.NormalsMethod.GetName() + "\", bones=\"" + dragOptions.BonesMethod.GetName() + "\")");
 							RecreateMeshes();
 						}
 					}

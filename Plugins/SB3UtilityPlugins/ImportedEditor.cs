@@ -44,5 +44,19 @@ namespace SB3Utility
 				InitFrames(child);
 			}
 		}
+
+		[Plugin]
+		public void setSubmeshEnabled(int meshId, int id, bool enabled)
+		{
+			ImportedSubmesh submesh = this.Meshes[meshId].SubmeshList[id];
+			this.Meshes[meshId].setSubmeshEnabled(submesh, enabled);
+		}
+
+		[Plugin]
+		public void setSubmeshReplacingOriginals(int meshId, int id, bool replaceOriginals)
+		{
+			ImportedSubmesh submesh = this.Meshes[meshId].SubmeshList[id];
+			this.Meshes[meshId].setSubmeshEnabled(submesh, replaceOriginals);
+		}
 	}
 }

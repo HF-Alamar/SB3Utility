@@ -57,7 +57,7 @@ namespace SB3Utility
 				}
 			}
 
-			AddList(importer.MeshList, typeof(ImportedMesh).Name, editorVar);
+			AddList(editor.Meshes, typeof(ImportedMesh).Name, editorVar);
 			AddList(importer.MaterialList, typeof(ImportedMaterial).Name, editorVar);
 			AddList(importer.TextureList, typeof(ImportedTexture).Name, editorVar);
 			AddList(importer.MorphList, typeof(ImportedMorph).Name, editorVar);
@@ -85,6 +85,8 @@ namespace SB3Utility
 			{
 				this.treeView.Nodes[0].EnsureVisible();
 			}
+
+			this.treeView.AfterCheck += treeView_AfterCheck;
 		}
 
 		private void AddList<T>(List<T> list, string rootName, string editorVar)
@@ -102,14 +104,14 @@ namespace SB3Utility
 					node.Checked = true;
 					node.Tag = new DragSource(editorVar, typeof(T), i);
 					this.treeView.AddChild(root, node);
-					if (item is ImportedMesh)
+					if (item is WorkspaceMesh)
 					{
-						ImportedMesh mesh = item;
+						WorkspaceMesh mesh = item;
 						for (int j = 0; j < mesh.SubmeshList.Count; j++)
 						{
 							ImportedSubmesh submesh = mesh.SubmeshList[j];
 							TreeNode submeshNode = new TreeNode();
-							submeshNode.Checked = true;
+							submeshNode.Checked = mesh.isSubmeshEnabled(submesh);
 							submeshNode.Tag = submesh;
 							submeshNode.ContextMenuStrip = this.contextMenuStripSubmesh;
 							this.treeView.AddChild(node, submeshNode);
@@ -140,6 +142,19 @@ namespace SB3Utility
 			foreach (var child in frame)
 			{
 				BuildTree(editorVar, child, node, editor);
+			}
+		}
+
+		private void treeView_AfterCheck(object sender, TreeViewEventArgs e)
+		{
+			if (e.Node.Tag is ImportedSubmesh)
+			{
+				TreeNode submeshNode = e.Node;
+				ImportedSubmesh submesh = (ImportedSubmesh)submeshNode.Tag;
+				TreeNode meshNode = submeshNode.Parent;
+				DragSource dragSrc = (DragSource)meshNode.Tag;
+				var srcEditor = (ImportedEditor)Gui.Scripting.Variables[dragSrc.Variable];
+				srcEditor.Meshes[(int)dragSrc.Id].setSubmeshEnabled(submesh, submeshNode.Checked);
 			}
 		}
 

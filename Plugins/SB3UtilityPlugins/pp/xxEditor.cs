@@ -433,7 +433,7 @@ namespace SB3Utility
 		}
 
 		[Plugin]
-		public void ReplaceMesh(ImportedMesh mesh, int frameId, bool merge, string normals, string bones)
+		public void ReplaceMesh(WorkspaceMesh mesh, int frameId, bool merge, string normals, string bones)
 		{
 			var normalsMethod = (CopyMeshMethod)Enum.Parse(typeof(CopyMeshMethod), normals);
 			var bonesMethod = (CopyMeshMethod)Enum.Parse(typeof(CopyMeshMethod), bones);

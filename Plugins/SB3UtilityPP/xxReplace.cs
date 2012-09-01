@@ -71,27 +71,37 @@ namespace SB3Utility
 			return xxBoneList;
 		}
 
-		public static xxMesh CreateMesh(ImportedMesh mesh, int xxFormat, out string[] materialNames, out int[] indices, out bool[] worldCoords)
+		public static xxMesh CreateMesh(WorkspaceMesh mesh, int xxFormat, out string[] materialNames, out int[] indices, out bool[] worldCoords)
 		{
-			materialNames = new string[mesh.SubmeshList.Count];
-			indices = new int[mesh.SubmeshList.Count];
-			worldCoords = new bool[mesh.SubmeshList.Count];
+			int numUncheckedSubmeshes = 0;
+			foreach (ImportedSubmesh submesh in mesh.SubmeshList)
+			{
+				if (!mesh.isSubmeshEnabled(submesh))
+					numUncheckedSubmeshes++;
+			}
+			int numSubmeshes = mesh.SubmeshList.Count - numUncheckedSubmeshes;
+			materialNames = new string[numSubmeshes];
+			indices = new int[numSubmeshes];
+			worldCoords = new bool[numSubmeshes];
 
 			xxMesh xxMesh = new xxMesh();
 			xxMesh.BoneList = CreateBoneList(mesh.BoneList);
 
 			xxMesh.SubmeshList = new List<xxSubmesh>(mesh.SubmeshList.Count);
-			for (int i = 0; i < mesh.SubmeshList.Count; i++)
+			for (int i = 0, submeshIdx = 0; i < numSubmeshes; i++, submeshIdx++)
 			{
+				while (!mesh.isSubmeshEnabled(mesh.SubmeshList[submeshIdx]))
+					submeshIdx++;
+
 				xxSubmesh xxSubmesh = new xxSubmesh();
 				xxMesh.SubmeshList.Add(xxSubmesh);
 
 				xxSubmesh.MaterialIndex = -1;
-				materialNames[i] = mesh.SubmeshList[i].Material;
-				indices[i] = mesh.SubmeshList[i].Index;
-				worldCoords[i] = mesh.SubmeshList[i].WorldCoords;
+				materialNames[i] = mesh.SubmeshList[submeshIdx].Material;
+				indices[i] = mesh.SubmeshList[submeshIdx].Index;
+				worldCoords[i] = mesh.SubmeshList[submeshIdx].WorldCoords;
 
-				List<ImportedVertex> vertexList = mesh.SubmeshList[i].VertexList;
+				List<ImportedVertex> vertexList = mesh.SubmeshList[submeshIdx].VertexList;
 				List<xxVertex> xxVertexList = new List<xxVertex>(vertexList.Count);
 				for (int j = 0; j < vertexList.Count; j++)
 				{
@@ -116,7 +126,7 @@ namespace SB3Utility
 				}
 				xxSubmesh.VertexList = xxVertexList;
 
-				List<ImportedFace> faceList = mesh.SubmeshList[i].FaceList;
+				List<ImportedFace> faceList = mesh.SubmeshList[submeshIdx].FaceList;
 				List<xxFace> xxFaceList = new List<xxFace>(faceList.Count);
 				for (int j = 0; j < faceList.Count; j++)
 				{
@@ -132,7 +142,7 @@ namespace SB3Utility
 			return xxMesh;
 		}
 
-		public static void ReplaceMesh(xxFrame frame, xxParser parser, ImportedMesh mesh, bool merge, CopyMeshMethod normalsMethod, CopyMeshMethod bonesMethod)
+		public static void ReplaceMesh(xxFrame frame, xxParser parser, WorkspaceMesh mesh, bool merge, CopyMeshMethod normalsMethod, CopyMeshMethod bonesMethod)
 		{
 			Matrix transform = Matrix.Identity;
 			xxFrame transformFrame = parser.Frame;
@@ -296,7 +306,11 @@ namespace SB3Utility
 							for (int j = 0; j < vertexList.Count; j++)
 							{
 								byte[] boneIndices = vertexList[j].BoneIndices;
-								vertexList[j].BoneIndices = new byte[4] { boneIdxMap[boneIndices[0]], boneIdxMap[boneIndices[1]], boneIdxMap[boneIndices[2]], boneIdxMap[boneIndices[3]] };
+								vertexList[j].BoneIndices = new byte[4];
+								for (int k = 0; k < 4; k++)
+								{
+									vertexList[j].BoneIndices[k] = boneIndices[k] < 0xFF ? boneIdxMap[boneIndices[k]] : (byte)0xFF;
+								}
 							}
 						}
 					}
@@ -306,7 +320,11 @@ namespace SB3Utility
 						for (int j = 0; j < vertexList.Count; j++)
 						{
 							byte[] boneIndices = vertexList[j].BoneIndices;
-							vertexList[j].BoneIndices = new byte[4] { boneIdxMap[boneIndices[0]], boneIdxMap[boneIndices[1]], boneIdxMap[boneIndices[2]], boneIdxMap[boneIndices[3]] };
+							vertexList[j].BoneIndices = new byte[4];
+							for (int k = 0; k < 4; k++)
+							{
+								vertexList[j].BoneIndices[k] = boneIndices[k] < 0xFF ? boneIdxMap[boneIndices[k]] : (byte)0xFF;
+							}
 						}
 					}
 				}

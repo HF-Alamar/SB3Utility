@@ -166,7 +166,6 @@
     <Compile Include="TriStateTreeView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Workspace.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\SB3Utility\SB3Utility.csproj">

@@ -4,10 +4,8 @@ using System.Collections.Generic;
 namespace SB3Utility
 {
 	[Plugin]
-	public class WorkspaceMesh
+	public class WorkspaceMesh : ImportedMesh
 	{
-		public ImportedMesh ImportedMesh { get; protected set; }
-
 		protected class AdditionalSubmeshOptions
 		{
 			public bool Enabled = true;
@@ -15,9 +13,13 @@ namespace SB3Utility
 		}
 		protected Dictionary<ImportedSubmesh, AdditionalSubmeshOptions> SubmeshOptions { get; set; }
 
-		public WorkspaceMesh(ImportedMesh importedMesh)
+		public WorkspaceMesh(ImportedMesh importedMesh) :
+			base()
 		{
-			this.ImportedMesh = importedMesh;
+			this.Name = importedMesh.Name;
+			this.SubmeshList = importedMesh.SubmeshList;
+			this.BoneList = importedMesh.BoneList;
+
 			this.SubmeshOptions = new Dictionary<ImportedSubmesh, AdditionalSubmeshOptions>(importedMesh.SubmeshList.Count);
 			foreach (ImportedSubmesh submesh in importedMesh.SubmeshList)
 			{
@@ -47,19 +49,6 @@ namespace SB3Utility
 			throw new Exception("Submesh not found");
 		}
 
-		[Plugin]
-		public void setSubmeshEnabled(int id, bool enabled)
-		{
-			ImportedSubmesh submesh = ImportedMesh.SubmeshList[id];
-			AdditionalSubmeshOptions options;
-			if (this.SubmeshOptions.TryGetValue(submesh, out options))
-			{
-				options.Enabled = enabled;
-				return;
-			}
-			throw new Exception("Submesh not found");
-		}
-
 		public bool isSubmeshReplacingOriginals(ImportedSubmesh submesh)
 		{
 			AdditionalSubmeshOptions options;
@@ -72,19 +61,6 @@ namespace SB3Utility
 
 		public void setSubmeshReplacingOriginals(ImportedSubmesh submesh, bool replaceOriginals)
 		{
-			AdditionalSubmeshOptions options;
-			if (this.SubmeshOptions.TryGetValue(submesh, out options))
-			{
-				options.ReplaceOriginals = replaceOriginals;
-				return;
-			}
-			throw new Exception("Submesh not found");
-		}
-
-		[Plugin]
-		public void setSubmeshReplacingOriginals(int id, bool replaceOriginals)
-		{
-			ImportedSubmesh submesh = ImportedMesh.SubmeshList[id];
 			AdditionalSubmeshOptions options;
 			if (this.SubmeshOptions.TryGetValue(submesh, out options))
 			{
