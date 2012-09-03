@@ -235,15 +235,18 @@ namespace SB3Utility
 
 		void OpenFile(string path, List<object> results)
 		{
-			string ext = Path.GetExtension(path).ToLowerInvariant();
-			List<string> functions;
-			if (PluginManager.OpensFile.TryGetValue(ext, out functions))
+			for (int extIdx = 0; (extIdx = path.IndexOf('.', extIdx)) > 0; extIdx++)
 			{
-				for (int i = 0; i < functions.Count; i++)
+				string ext = path.Substring(extIdx).ToLowerInvariant();
+				List<string> functions;
+				if (PluginManager.OpensFile.TryGetValue(ext, out functions))
 				{
-					string opensFileVar = Gui.Scripting.GetNextVariable("opens" + ext.Replace(".", String.Empty).ToUpperInvariant());
-					object result = Gui.Scripting.RunScript(opensFileVar + " = " + functions[i] + "(\"" + path + "\", \"" + opensFileVar + "\")", false);
-					results.Add(result);
+					for (int i = 0; i < functions.Count; i++)
+					{
+						string opensFileVar = Gui.Scripting.GetNextVariable("opens" + ext.Replace(".", String.Empty).ToUpperInvariant());
+						object result = Gui.Scripting.RunScript(opensFileVar + " = " + functions[i] + "(\"" + path + "\", \"" + opensFileVar + "\")", false);
+						results.Add(result);
+					}
 				}
 			}
 		}

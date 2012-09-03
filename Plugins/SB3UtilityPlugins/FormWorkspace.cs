@@ -14,7 +14,7 @@ namespace SB3Utility
 	[PluginTool("Workspace")]
 	public partial class FormWorkspace : DockContent
 	{
-		public FormWorkspace(string path, Fbx.Importer importer, string editorVar, ImportedEditor editor)
+		public FormWorkspace(string path, IImported importer, string editorVar, ImportedEditor editor)
 		{
 			try
 			{
@@ -31,7 +31,7 @@ namespace SB3Utility
 			}
 		}
 
-		private void InitWorkspace(string path, Fbx.Importer importer, string editorVar, ImportedEditor editor)
+		private void InitWorkspace(string path, IImported importer, string editorVar, ImportedEditor editor)
 		{
 			this.Text = Path.GetFileName(path);
 			this.ToolTipText = path;

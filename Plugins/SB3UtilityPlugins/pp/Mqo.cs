@@ -8,6 +8,35 @@ namespace SB3Utility
 {
 	public static partial class Plugins
 	{
+		[Plugin]
+		[PluginOpensFile(".mqo")]
+		public static void WorkspaceMqo(string path, string variable)
+		{
+			if (path.ToLower().EndsWith(".morph.mqo"))
+				throw new Exception("Note! \"" + path + "\" is not opened as normal mqo.");
+
+			string importVar = Gui.Scripting.GetNextVariable("importMqo");
+			var importer = (Mqo.Importer)Gui.Scripting.RunScript(importVar + " = ImportMqo(\"" + path + "\")");
+
+			string editorVar = Gui.Scripting.GetNextVariable("importedEditor");
+			var editor = (ImportedEditor)Gui.Scripting.RunScript(editorVar + " = ImportedEditor(" + importVar + ")");
+
+			new FormWorkspace(path, importer, editorVar, editor);
+		}
+
+		[Plugin]
+		[PluginOpensFile(".morph.mqo")]
+		public static void WorkspaceMorphMqo(string path, string variable)
+		{
+			string importVar = Gui.Scripting.GetNextVariable("importMorphMqo");
+			var importer = (Mqo.ImporterMorph)Gui.Scripting.RunScript(importVar + " = ImportMorphMqo(\"" + path + "\")");
+
+			string editorVar = Gui.Scripting.GetNextVariable("importedEditor");
+			var editor = (ImportedEditor)Gui.Scripting.RunScript(editorVar + " = ImportedEditor(" + importVar + ")");
+
+			new FormWorkspace(path, importer, editorVar, editor);
+		}
+
 		/// <summary>
 		/// Exports the specified meshes to Metasequoia format.
 		/// </summary>
