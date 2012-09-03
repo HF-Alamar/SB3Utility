@@ -53,10 +53,10 @@ namespace SB3Utility
 		}
 
 		[Plugin]
-		public void setSubmeshReplacingOriginals(int meshId, int id, bool replaceOriginals)
+		public void setSubmeshReplacingOriginal(int meshId, int id, bool replaceOriginal)
 		{
 			ImportedSubmesh submesh = this.Meshes[meshId].SubmeshList[id];
-			this.Meshes[meshId].setSubmeshEnabled(submesh, replaceOriginals);
+			this.Meshes[meshId].setSubmeshReplacingOriginal(submesh, replaceOriginal);
 		}
 	}
 }

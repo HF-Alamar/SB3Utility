@@ -1712,9 +1712,9 @@ namespace SB3Utility
 							{
 								if (wsMesh.isSubmeshEnabled(submesh))
 								{
-									if (!wsMesh.isSubmeshReplacingOriginals(submesh))
+									if (!wsMesh.isSubmeshReplacingOriginal(submesh))
 									{
-										Gui.Scripting.RunScript(source.Variable + ".setSubmeshReplacingOriginals(meshId=" + (int)source.Id + ", id=" + wsMesh.SubmeshList.IndexOf(submesh) + ", replaceOriginals=false)");
+										Gui.Scripting.RunScript(source.Variable + ".setSubmeshReplacingOriginal(meshId=" + (int)source.Id + ", id=" + wsMesh.SubmeshList.IndexOf(submesh) + ", replaceOriginal=false)");
 									}
 								}
 								else

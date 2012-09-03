@@ -128,7 +128,7 @@ namespace SB3Utility
 			TreeNode meshNode = node.Parent;
 			DragSource dragSrc = (DragSource)meshNode.Tag;
 			var srcEditor = (ImportedEditor)Gui.Scripting.Variables[dragSrc.Variable];
-			bool replaceSubmesh = srcEditor.Meshes[(int)dragSrc.Id].isSubmeshReplacingOriginals(submesh);
+			bool replaceSubmesh = srcEditor.Meshes[(int)dragSrc.Id].isSubmeshReplacingOriginal(submesh);
 			node.Text = "Sub: V " + submesh.VertexList.Count + ", F " + submesh.FaceList.Count + ", Base: " + submesh.Index + ", Replace: " + replaceSubmesh + ", Mat: " + submesh.Material + ", World:" + submesh.WorldCoords;
 		}
 
@@ -321,7 +321,7 @@ namespace SB3Utility
 			TreeNode meshNode = submeshNode.Parent;
 			DragSource dragSrc = (DragSource)meshNode.Tag;
 			var srcEditor = (ImportedEditor)Gui.Scripting.Variables[dragSrc.Variable];
-			bool replaceSubmesh = srcEditor.Meshes[(int)dragSrc.Id].isSubmeshReplacingOriginals(submesh);
+			bool replaceSubmesh = srcEditor.Meshes[(int)dragSrc.Id].isSubmeshReplacingOriginal(submesh);
 			replaceToolStripMenuItem.Checked = replaceSubmesh;
 			toolStripTextBoxMaterialName.Text = submesh.Material;
 			worldCoordinatesToolStripMenuItem.Checked = submesh.WorldCoords;
@@ -350,9 +350,9 @@ namespace SB3Utility
 			TreeNode meshNode = submeshNode.Parent;
 			DragSource dragSrc = (DragSource)meshNode.Tag;
 			var srcEditor = (ImportedEditor)Gui.Scripting.Variables[dragSrc.Variable];
-			bool replaceSubmesh = srcEditor.Meshes[(int)dragSrc.Id].isSubmeshReplacingOriginals(submesh);
+			bool replaceSubmesh = srcEditor.Meshes[(int)dragSrc.Id].isSubmeshReplacingOriginal(submesh);
 			replaceSubmesh ^= true;
-			srcEditor.Meshes[(int)dragSrc.Id].setSubmeshReplacingOriginals(submesh, replaceSubmesh);
+			srcEditor.Meshes[(int)dragSrc.Id].setSubmeshReplacingOriginal(submesh, replaceSubmesh);
 			replaceToolStripMenuItem.Checked = replaceSubmesh;
 			UpdateSubmeshNode(submeshNode);
 		}

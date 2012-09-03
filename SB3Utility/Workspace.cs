@@ -9,7 +9,7 @@ namespace SB3Utility
 		protected class AdditionalSubmeshOptions
 		{
 			public bool Enabled = true;
-			public bool ReplaceOriginals = true;
+			public bool ReplaceOriginal = true;
 		}
 		protected Dictionary<ImportedSubmesh, AdditionalSubmeshOptions> SubmeshOptions { get; set; }
 
@@ -49,22 +49,22 @@ namespace SB3Utility
 			throw new Exception("Submesh not found");
 		}
 
-		public bool isSubmeshReplacingOriginals(ImportedSubmesh submesh)
+		public bool isSubmeshReplacingOriginal(ImportedSubmesh submesh)
 		{
 			AdditionalSubmeshOptions options;
 			if (this.SubmeshOptions.TryGetValue(submesh, out options))
 			{
-				return options.ReplaceOriginals;
+				return options.ReplaceOriginal;
 			}
 			throw new Exception("Submesh not found");
 		}
 
-		public void setSubmeshReplacingOriginals(ImportedSubmesh submesh, bool replaceOriginals)
+		public void setSubmeshReplacingOriginal(ImportedSubmesh submesh, bool replaceOriginal)
 		{
 			AdditionalSubmeshOptions options;
 			if (this.SubmeshOptions.TryGetValue(submesh, out options))
 			{
-				options.ReplaceOriginals = replaceOriginals;
+				options.ReplaceOriginal = replaceOriginal;
 				return;
 			}
 			throw new Exception("Submesh not found");

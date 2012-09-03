@@ -71,7 +71,7 @@ namespace SB3Utility
 			return xxBoneList;
 		}
 
-		public static xxMesh CreateMesh(WorkspaceMesh mesh, int xxFormat, out string[] materialNames, out int[] indices, out bool[] worldCoords)
+		public static xxMesh CreateMesh(WorkspaceMesh mesh, int xxFormat, out string[] materialNames, out int[] indices, out bool[] worldCoords, out bool[] replaceSubmeshesOption)
 		{
 			int numUncheckedSubmeshes = 0;
 			foreach (ImportedSubmesh submesh in mesh.SubmeshList)
@@ -83,6 +83,7 @@ namespace SB3Utility
 			materialNames = new string[numSubmeshes];
 			indices = new int[numSubmeshes];
 			worldCoords = new bool[numSubmeshes];
+			replaceSubmeshesOption = new bool[numSubmeshes];
 
 			xxMesh xxMesh = new xxMesh();
 			xxMesh.BoneList = CreateBoneList(mesh.BoneList);
@@ -100,6 +101,7 @@ namespace SB3Utility
 				materialNames[i] = mesh.SubmeshList[submeshIdx].Material;
 				indices[i] = mesh.SubmeshList[submeshIdx].Index;
 				worldCoords[i] = mesh.SubmeshList[submeshIdx].WorldCoords;
+				replaceSubmeshesOption[i] = mesh.isSubmeshReplacingOriginal(mesh.SubmeshList[submeshIdx]);
 
 				List<ImportedVertex> vertexList = mesh.SubmeshList[submeshIdx].VertexList;
 				List<xxVertex> xxVertexList = new List<xxVertex>(vertexList.Count);
@@ -156,7 +158,8 @@ namespace SB3Utility
 			string[] materialNames;
 			int[] indices;
 			bool[] worldCoords;
-			xxMesh xxMesh = CreateMesh(mesh, parser.Format, out materialNames, out indices, out worldCoords);
+			bool[] replaceSubmeshesOption;
+			xxMesh xxMesh = CreateMesh(mesh, parser.Format, out materialNames, out indices, out worldCoords, out replaceSubmeshesOption);
 
 			if (frame.Mesh == null)
 			{
@@ -232,7 +235,7 @@ namespace SB3Utility
 					}
 				}
 
-				if ((baseSubmesh != null) && merge)
+				if ((baseSubmesh != null) && merge && replaceSubmeshesOption[i])
 				{
 					replaceSubmeshes[idx] = xxSubmesh;
 				}
