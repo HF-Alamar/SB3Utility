@@ -13,5 +13,11 @@ namespace SB3Utility
 		{
 			Parser = parser;
 		}
+
+		[Plugin]
+		public void ReplaceMorph(WorkspaceMorph morph, string destMorphName, string newName, bool replaceNormals, double minSquaredDistance)
+		{
+			xa.ReplaceMorph(destMorphName, Parser, morph, newName, replaceNormals, (float)minSquaredDistance);
+		}
 	}
 }

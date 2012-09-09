@@ -77,5 +77,84 @@ namespace SB3Utility
 			}
 			return valid;
 		}
+
+		public static void ReplaceMorph(string destMorphName, xaParser parser, WorkspaceMorph wsMorphList, string newMorphName, bool replaceNormals, float minSquaredDistance)
+		{
+			if (parser.MorphSection == null)
+			{
+				Report.ReportLog("The .xa file doesn't have a morph section. Skipping these morphs");
+				return;
+			}
+
+			xaMorphSection morphSection = parser.MorphSection;
+			xaMorphIndexSet indices = FindMorphIndexSet(destMorphName, morphSection);
+			if (indices == null)
+			{
+				Report.ReportLog("Couldn't find morph clip " + destMorphName + ". Skipping these morphs");
+				return;
+			}
+
+			Report.ReportLog("Replacing morphs ...");
+			try
+			{
+				ushort[] meshIndices = indices.MeshIndices;
+				ushort[] morphIndices = indices.MorphIndices;
+				foreach (ImportedMorphKeyframe wsMorph in wsMorphList.KeyframeList)
+				{
+					xaMorphKeyframe keyframe = FindMorphKeyFrame(wsMorph.Name, morphSection);
+					if (keyframe == null)
+					{
+						Report.ReportLog("Warning: Couldn't find morph keyframe " + wsMorph.Name + ". Skipping this morph");
+						continue;
+					}
+
+					List<ImportedVertex> vertList = wsMorph.VertexList;
+					for (int i = 0; i < meshIndices.Length; i++)
+					{
+						Vector3 orgPos = new Vector3(keyframe.PositionList[morphIndices[i]].X, keyframe.PositionList[morphIndices[i]].Y, keyframe.PositionList[morphIndices[i]].Z),
+							newPos = new Vector3(vertList[meshIndices[i]].Position.X, vertList[meshIndices[i]].Position.Y, vertList[meshIndices[i]].Position.Z);
+						if ((orgPos - newPos).LengthSquared() >= minSquaredDistance)
+							keyframe.PositionList[morphIndices[i]] = vertList[meshIndices[i]].Position;
+						if (replaceNormals)
+						{
+							keyframe.NormalList[morphIndices[i]] = vertList[meshIndices[i]].Normal;
+						}
+					}
+
+					string morphNewName = wsMorphList.getMorphKeyframeNewName(wsMorph);
+					if (morphNewName != String.Empty)
+					{
+						for (int i = 0; i < morphSection.ClipList.Count; i++)
+						{
+							xaMorphClip clip = morphSection.ClipList[i];
+							for (int j = 0; j < clip.KeyframeRefList.Count; j++)
+							{
+								xaMorphKeyframeRef keyframeRef = clip.KeyframeRefList[j];
+								if (keyframeRef.Name == wsMorph.Name)
+									keyframeRef.Name = morphNewName;
+							}
+						}
+						keyframe.Name = morphNewName;
+					}
+				}
+				if (newMorphName != String.Empty)
+				{
+					for (int i = 0; i < morphSection.ClipList.Count; i++)
+					{
+						xaMorphClip clip = morphSection.ClipList[i];
+						if (clip.Name == wsMorphList.Name)
+						{
+							clip.Name = newMorphName;
+							break;
+						}
+					}
+					indices.Name = newMorphName;
+				}
+			}
+			catch (Exception ex)
+			{
+				Report.ReportLog("Error replacing morphs: " + ex.Message);
+			}
+		}
 	}
 }

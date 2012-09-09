@@ -117,13 +117,13 @@
 			this.buttonAnimationClipMoveDown = new System.Windows.Forms.Button();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.buttonAnimationClipPlayPause = new System.Windows.Forms.Button();
+			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
 			this.trackBarAnimationClipKeyframe = new System.Windows.Forms.TrackBar();
 			this.checkBoxAnimationClipLoadNextClip = new System.Windows.Forms.CheckBox();
 			this.numericAnimationClipSpeed = new System.Windows.Forms.NumericUpDown();
 			this.numericAnimationClipKeyframe = new System.Windows.Forms.NumericUpDown();
 			this.labelSkeletalRender = new System.Windows.Forms.Label();
 			this.label30 = new System.Windows.Forms.Label();
-			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
 			this.tabControlXA.SuspendLayout();
 			this.tabPageXAObjectView.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).BeginInit();
@@ -561,22 +561,22 @@
 			// 
 			this.splitContainerMorph.Panel2.Controls.Add(this.label3);
 			this.splitContainerMorph.Panel2.Controls.Add(this.listViewMorphKeyframe);
-			this.splitContainerMorph.Size = new System.Drawing.Size(462, 437);
-			this.splitContainerMorph.SplitterDistance = 249;
+			this.splitContainerMorph.Size = new System.Drawing.Size(510, 504);
+			this.splitContainerMorph.SplitterDistance = 287;
 			this.splitContainerMorph.TabIndex = 123;
 			// 
 			// groupBox5
 			// 
-			this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.groupBox5.Controls.Add(this.label5);
 			this.groupBox5.Controls.Add(this.comboBoxMorphMesh);
 			this.groupBox5.Controls.Add(this.groupBox4);
 			this.groupBox5.Controls.Add(this.label4);
 			this.groupBox5.Controls.Add(this.buttonMorphClipExport);
-			this.groupBox5.Location = new System.Drawing.Point(0, 182);
+			this.groupBox5.Location = new System.Drawing.Point(0, 220);
 			this.groupBox5.Name = "groupBox5";
-			this.groupBox5.Size = new System.Drawing.Size(461, 67);
+			this.groupBox5.Size = new System.Drawing.Size(509, 67);
 			this.groupBox5.TabIndex = 125;
 			this.groupBox5.TabStop = false;
 			this.groupBox5.Text = "Export Options";
@@ -593,15 +593,15 @@
 			// 
 			// comboBoxMorphMesh
 			// 
-			this.comboBoxMorphMesh.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.comboBoxMorphMesh.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.comboBoxMorphMesh.DropDownHeight = 200;
 			this.comboBoxMorphMesh.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxMorphMesh.FormattingEnabled = true;
 			this.comboBoxMorphMesh.IntegralHeight = false;
 			this.comboBoxMorphMesh.Location = new System.Drawing.Point(133, 13);
 			this.comboBoxMorphMesh.Name = "comboBoxMorphMesh";
-			this.comboBoxMorphMesh.Size = new System.Drawing.Size(322, 21);
+			this.comboBoxMorphMesh.Size = new System.Drawing.Size(370, 21);
 			this.comboBoxMorphMesh.TabIndex = 122;
 			// 
 			// groupBox4
@@ -650,7 +650,7 @@
 			// buttonMorphClipExport
 			// 
 			this.buttonMorphClipExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonMorphClipExport.Location = new System.Drawing.Point(363, 38);
+			this.buttonMorphClipExport.Location = new System.Drawing.Point(411, 38);
 			this.buttonMorphClipExport.Name = "buttonMorphClipExport";
 			this.buttonMorphClipExport.Size = new System.Drawing.Size(92, 23);
 			this.buttonMorphClipExport.TabIndex = 2;
@@ -659,14 +659,19 @@
 			// 
 			// treeViewMorphClip
 			// 
-			this.treeViewMorphClip.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.treeViewMorphClip.AllowDrop = true;
+			this.treeViewMorphClip.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.treeViewMorphClip.HideSelection = false;
 			this.treeViewMorphClip.Location = new System.Drawing.Point(0, 18);
 			this.treeViewMorphClip.Name = "treeViewMorphClip";
-			this.treeViewMorphClip.Size = new System.Drawing.Size(461, 159);
+			this.treeViewMorphClip.Size = new System.Drawing.Size(509, 197);
 			this.treeViewMorphClip.TabIndex = 7;
+			this.treeViewMorphClip.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeViewMorphClip_ItemDrag);
+			this.treeViewMorphClip.DragDrop += new System.Windows.Forms.DragEventHandler(this.treeViewMorphClip_DragDrop);
+			this.treeViewMorphClip.DragEnter += new System.Windows.Forms.DragEventHandler(this.treeViewMorphClip_DragEnter);
+			this.treeViewMorphClip.DragOver += new System.Windows.Forms.DragEventHandler(this.treeViewMorphClip_DragOver);
 			// 
 			// label57
 			// 
@@ -688,9 +693,9 @@
 			// 
 			// listViewMorphKeyframe
 			// 
-			this.listViewMorphKeyframe.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.listViewMorphKeyframe.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.listViewMorphKeyframe.AutoArrange = false;
 			this.listViewMorphKeyframe.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeaderMorphKeyframeName,
@@ -704,7 +709,7 @@
 			this.listViewMorphKeyframe.Name = "listViewMorphKeyframe";
 			this.listViewMorphKeyframe.ShowGroups = false;
 			this.listViewMorphKeyframe.ShowItemToolTips = true;
-			this.listViewMorphKeyframe.Size = new System.Drawing.Size(461, 167);
+			this.listViewMorphKeyframe.Size = new System.Drawing.Size(509, 196);
 			this.listViewMorphKeyframe.TabIndex = 6;
 			this.listViewMorphKeyframe.UseCompatibleStateImageBehavior = false;
 			this.listViewMorphKeyframe.View = System.Windows.Forms.View.Details;
@@ -786,9 +791,9 @@
 			// 
 			// listViewAnimationTrack
 			// 
-			this.listViewAnimationTrack.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.listViewAnimationTrack.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.listViewAnimationTrack.AutoArrange = false;
 			this.listViewAnimationTrack.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader3,
@@ -896,9 +901,9 @@
 			// 
 			// listViewAnimationClip
 			// 
-			this.listViewAnimationClip.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.listViewAnimationClip.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.listViewAnimationClip.AutoArrange = false;
 			this.listViewAnimationClip.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader8,
@@ -1036,10 +1041,17 @@
 			this.buttonAnimationClipPlayPause.UseVisualStyleBackColor = true;
 			this.buttonAnimationClipPlayPause.Click += new System.EventHandler(this.buttonAnimationClipPlayPause_Click);
 			// 
+			// imageList1
+			// 
+			this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+			this.imageList1.TransparentColor = System.Drawing.Color.White;
+			this.imageList1.Images.SetKeyName(0, "play.bmp");
+			this.imageList1.Images.SetKeyName(1, "pause.bmp");
+			// 
 			// trackBarAnimationClipKeyframe
 			// 
-			this.trackBarAnimationClipKeyframe.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.trackBarAnimationClipKeyframe.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.trackBarAnimationClipKeyframe.AutoSize = false;
 			this.trackBarAnimationClipKeyframe.Location = new System.Drawing.Point(33, 14);
 			this.trackBarAnimationClipKeyframe.Name = "trackBarAnimationClipKeyframe";
@@ -1109,13 +1121,6 @@
 			this.label30.Size = new System.Drawing.Size(38, 13);
 			this.label30.TabIndex = 146;
 			this.label30.Text = "Speed";
-			// 
-			// imageList1
-			// 
-			this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-			this.imageList1.TransparentColor = System.Drawing.Color.White;
-			this.imageList1.Images.SetKeyName(0, "play.bmp");
-			this.imageList1.Images.SetKeyName(1, "pause.bmp");
 			// 
 			// FormXA
 			// 

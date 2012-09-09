@@ -157,6 +157,7 @@ namespace SB3Utility
 
 			if (Editor.Parser.MaterialSection != null)
 			{
+				listViewType1.Items.Clear();
 				for (int i = 0; i < Editor.Parser.MaterialSection.MaterialList.Count; i++)
 				{
 					xaMaterial mat = Editor.Parser.MaterialSection.MaterialList[i];
@@ -170,6 +171,7 @@ namespace SB3Utility
 
 			if (Editor.Parser.MorphSection != null)
 			{
+				listViewMorphKeyframe.Items.Clear();
 				List<xaMorphKeyframe> morphKeyframeList = Editor.Parser.MorphSection.KeyframeList;
 				for (int i = 0; i < morphKeyframeList.Count; i++)
 				{
@@ -181,6 +183,7 @@ namespace SB3Utility
 				}
 				columnHeaderMorphKeyframeName.AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
 
+				treeViewMorphClip.Nodes.Clear();
 				List<xaMorphClip> morphClipList = Editor.Parser.MorphSection.ClipList;
 				for (int i = 0; i < morphClipList.Count; i++)
 				{
@@ -236,6 +239,11 @@ namespace SB3Utility
 			}
 		}
 
+		private void UnloadXA()
+		{
+			CustomDispose();
+		}
+
 		private void Renderer_RenderObjectAdded(object sender, EventArgs e)
 		{
 			if (trackEnabled)
@@ -273,6 +281,7 @@ namespace SB3Utility
 			if (animationTrackList.Count > 0)
 			{
 				listViewAnimationTrack.BeginUpdate();
+				listViewAnimationTrack.Items.Clear();
 				for (int i = 0; i < animationTrackList.Count; i++)
 				{
 					xaAnimationTrack track = animationTrackList[i];
@@ -304,6 +313,7 @@ namespace SB3Utility
 			}
 
 			clipListView.BeginUpdate();
+			clipListView.Items.Clear();
 			for (int i = 0; i <= clipMax; i++)
 			{
 				xaAnimationClip clip = clipList[i];
@@ -561,6 +571,126 @@ namespace SB3Utility
 				userTrackBar = false;
 				trackBarAnimationClipKeyframe.Value = Decimal.ToInt32(numericAnimationClipKeyframe.Value);
 				userTrackBar = true;
+			}
+		}
+
+		private void treeViewMorphClip_ItemDrag(object sender, ItemDragEventArgs e)
+		{
+			try
+			{
+				if (e.Item is TreeNode)
+				{
+					treeViewMorphClip.DoDragDrop(e.Item, DragDropEffects.Copy);
+				}
+			}
+			catch (Exception ex)
+			{
+				Utility.ReportException(ex);
+			}
+		}
+
+		private void treeViewMorphClip_DragEnter(object sender, DragEventArgs e)
+		{
+			try
+			{
+				UpdateDragDrop(sender, e);
+			}
+			catch (Exception ex)
+			{
+				Utility.ReportException(ex);
+			}
+		}
+
+		private void treeViewMorphClip_DragOver(object sender, DragEventArgs e)
+		{
+			try
+			{
+				UpdateDragDrop(sender, e);
+			}
+			catch (Exception ex)
+			{
+				Utility.ReportException(ex);
+			}
+		}
+
+		private void treeViewMorphClip_DragDrop(object sender, DragEventArgs e)
+		{
+			try
+			{
+				TreeNode node = (TreeNode)e.Data.GetData(typeof(TreeNode));
+				if (node == null)
+				{
+					Gui.Docking.DockDragDrop(sender, e);
+				}
+				else
+				{
+					ProcessDragDropSources(node);
+				}
+			}
+			catch (Exception ex)
+			{
+				Utility.ReportException(ex);
+			}
+		}
+
+		private void ProcessDragDropSources(TreeNode node)
+		{
+			if (node.Tag is DragSource)
+			{
+				if ((node.Parent != null) && !node.Checked && node.StateImageIndex != (int)CheckState.Indeterminate)
+				{
+					return;
+				}
+
+				DragSource? dest = null;
+				if (treeViewMorphClip.SelectedNode != null)
+				{
+					dest = treeViewMorphClip.SelectedNode.Tag as DragSource?;
+				}
+
+				DragSource source = (DragSource)node.Tag;
+				if (source.Type == typeof(WorkspaceMorph))
+				{
+					using (var dragOptions = new FormXADragDrop(Editor))
+					{
+						var srcEditor = (ImportedEditor)Gui.Scripting.Variables[source.Variable];
+						dragOptions.textBoxName.Text = srcEditor.Imported.MorphList[(int)source.Id].Name;
+						if (dragOptions.ShowDialog() == DialogResult.OK)
+						{
+							Gui.Scripting.RunScript(EditorVar + ".ReplaceMorph(morph=" + source.Variable + ".Morphs[" + (int)source.Id + "], destMorphName=\"" + dragOptions.textBoxName.Text + "\", newName=\"" + dragOptions.textBoxNewName.Text + "\", replaceNormals=" + dragOptions.radioButtonReplaceNormalsYes.Checked + ", minSquaredDistance=" + dragOptions.numericUpDownMinimumDistanceSquared.Value + ")");
+							UnloadXA();
+							LoadXA();
+						}
+					}
+				}
+			}
+			else
+			{
+				foreach (TreeNode child in node.Nodes)
+				{
+					ProcessDragDropSources(child);
+				}
+			}
+		}
+
+		private void UpdateDragDrop(object sender, DragEventArgs e)
+		{
+			Point p = treeViewMorphClip.PointToClient(new Point(e.X, e.Y));
+			TreeNode target = treeViewMorphClip.GetNodeAt(p);
+			if ((target != null) && ((p.X < target.Bounds.Left) || (p.X > target.Bounds.Right) || (p.Y < target.Bounds.Top) || (p.Y > target.Bounds.Bottom)))
+			{
+				target = null;
+			}
+			treeViewMorphClip.SelectedNode = target;
+
+			TreeNode node = (TreeNode)e.Data.GetData(typeof(TreeNode));
+			if (node == null)
+			{
+				Gui.Docking.DockDragEnter(sender, e);
+			}
+			else
+			{
+				e.Effect = e.AllowedEffect & DragDropEffects.Copy;
 			}
 		}
 	}

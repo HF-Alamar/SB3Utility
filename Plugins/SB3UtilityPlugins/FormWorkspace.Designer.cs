@@ -42,13 +42,17 @@
 			this.replaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.materialNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.worldCoordinatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.contextMenuStripMorphKeyframe = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.renameToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.treeView = new SB3Utility.TriStateTreeView();
 			this.toolStripTextBoxTargetPosition = new SB3Utility.ToolStripEditTextBox();
 			this.toolStripTextBoxMaterialName = new SB3Utility.ToolStripEditTextBox();
+			this.toolStripEditTextBoxNewMorphKeyframeName = new SB3Utility.ToolStripEditTextBox();
 			this.panel1.SuspendLayout();
 			this.panel2.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			this.contextMenuStripSubmesh.SuspendLayout();
+			this.contextMenuStripMorphKeyframe.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// panel1
@@ -133,7 +137,7 @@
             this.materialNameToolStripMenuItem,
             this.worldCoordinatesToolStripMenuItem});
 			this.contextMenuStripSubmesh.Name = "contextMenuStripSubmesh";
-			this.contextMenuStripSubmesh.Size = new System.Drawing.Size(198, 92);
+			this.contextMenuStripSubmesh.Size = new System.Drawing.Size(198, 114);
 			this.contextMenuStripSubmesh.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripSubmesh_Opening);
 			// 
 			// targetPositionToolStripMenuItem
@@ -168,6 +172,22 @@
 			this.worldCoordinatesToolStripMenuItem.Text = "World Coordinates";
 			this.worldCoordinatesToolStripMenuItem.Click += new System.EventHandler(this.worldCoordinatesToolStripMenuItem_Click);
 			// 
+			// contextMenuStripMorphKeyframe
+			// 
+			this.contextMenuStripMorphKeyframe.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.renameToToolStripMenuItem});
+			this.contextMenuStripMorphKeyframe.Name = "contextMenuStripMorphKeyframe";
+			this.contextMenuStripMorphKeyframe.Size = new System.Drawing.Size(153, 48);
+			this.contextMenuStripMorphKeyframe.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripMorphKeyframe_Opening);
+			// 
+			// renameToToolStripMenuItem
+			// 
+			this.renameToToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripEditTextBoxNewMorphKeyframeName});
+			this.renameToToolStripMenuItem.Name = "renameToToolStripMenuItem";
+			this.renameToToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.renameToToolStripMenuItem.Text = "Rename to";
+			// 
 			// treeView
 			// 
 			this.treeView.AllowDrop = true;
@@ -187,6 +207,7 @@
 			// 
 			this.toolStripTextBoxTargetPosition.Name = "toolStripTextBoxTargetPosition";
 			this.toolStripTextBoxTargetPosition.Size = new System.Drawing.Size(22, 21);
+			this.toolStripTextBoxTargetPosition.AfterEditTextChanged += new System.EventHandler(this.toolStripTextBoxTargetPosition_AfterEditTextChanged);
 			// 
 			// toolStripTextBoxMaterialName
 			// 
@@ -194,6 +215,15 @@
 			this.toolStripTextBoxMaterialName.MaxLength = 64;
 			this.toolStripTextBoxMaterialName.Name = "toolStripTextBoxMaterialName";
 			this.toolStripTextBoxMaterialName.Size = new System.Drawing.Size(120, 21);
+			this.toolStripTextBoxMaterialName.AfterEditTextChanged += new System.EventHandler(this.toolStripTextBoxMaterialName_AfterEditTextChanged);
+			// 
+			// toolStripEditTextBoxNewMorphKeyframeName
+			// 
+			this.toolStripEditTextBoxNewMorphKeyframeName.AcceptsReturn = true;
+			this.toolStripEditTextBoxNewMorphKeyframeName.MaxLength = 64;
+			this.toolStripEditTextBoxNewMorphKeyframeName.Name = "toolStripEditTextBoxNewMorphKeyframeName";
+			this.toolStripEditTextBoxNewMorphKeyframeName.Size = new System.Drawing.Size(120, 21);
+			this.toolStripEditTextBoxNewMorphKeyframeName.AfterEditTextChanged += new System.EventHandler(this.toolStripEditTextBoxNewMorphKeyframeName_AfterEditTextChanged);
 			// 
 			// FormWorkspace
 			// 
@@ -213,6 +243,7 @@
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			this.contextMenuStripSubmesh.ResumeLayout(false);
+			this.contextMenuStripMorphKeyframe.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -236,6 +267,9 @@
 		private ToolStripEditTextBox toolStripTextBoxMaterialName;
 		private System.Windows.Forms.ToolStripMenuItem worldCoordinatesToolStripMenuItem;
 		private System.Windows.Forms.ContextMenuStrip contextMenuStripSubmesh;
+		private System.Windows.Forms.ContextMenuStrip contextMenuStripMorphKeyframe;
+		private System.Windows.Forms.ToolStripMenuItem renameToToolStripMenuItem;
+		private ToolStripEditTextBox toolStripEditTextBoxNewMorphKeyframeName;
 
 	}
 }

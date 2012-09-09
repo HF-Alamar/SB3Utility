@@ -86,6 +86,12 @@
     <Compile Include="pp\Collada.cs" />
     <Compile Include="pp\ColladaConditioner.cs" />
     <Compile Include="pp\ColladaDocument.cs" />
+    <Compile Include="pp\FormXADragDrop.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pp\FormXADragDrop.Designer.cs">
+      <DependentUpon>FormXADragDrop.cs</DependentUpon>
+    </Compile>
     <Compile Include="pp\DirectX.cs" />
     <Compile Include="pp\Fbx.cs" />
     <Compile Include="pp\FormXXDragDrop.cs">
@@ -212,6 +218,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormWorkspace.resx">
       <DependentUpon>FormWorkspace.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pp\FormXADragDrop.resx">
+      <DependentUpon>FormXADragDrop.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="pp\FormXXDragDrop.resx">
       <DependentUpon>FormXXDragDrop.cs</DependentUpon>

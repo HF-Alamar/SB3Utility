@@ -19,8 +19,6 @@ namespace SB3Utility
 			try
 			{
 				InitializeComponent();
-				toolStripTextBoxTargetPosition.AfterEditTextChanged += toolStripTextBoxTargetPosition_AfterEditTextChanged;
-				toolStripTextBoxMaterialName.AfterEditTextChanged += toolStripTextBoxMaterialName_AfterEditTextChanged;
 				InitWorkspace(path, importer, editorVar, editor);
 
 				Gui.Docking.ShowDockContent(this, Gui.Docking.DockFiles);
@@ -60,7 +58,7 @@ namespace SB3Utility
 			AddList(editor.Meshes, typeof(ImportedMesh).Name, editorVar);
 			AddList(importer.MaterialList, typeof(ImportedMaterial).Name, editorVar);
 			AddList(importer.TextureList, typeof(ImportedTexture).Name, editorVar);
-			AddList(importer.MorphList, typeof(ImportedMorph).Name, editorVar);
+			AddList(editor.Morphs, typeof(ImportedMorph).Name, editorVar);
 
 			if ((importer.AnimationList != null) && (importer.AnimationList.Count > 0))
 			{
@@ -118,6 +116,20 @@ namespace SB3Utility
 							UpdateSubmeshNode(submeshNode);
 						}
 					}
+					if (item is WorkspaceMorph)
+					{
+						WorkspaceMorph morph = item;
+						for (int j = 0; j < morph.KeyframeList.Count; j++)
+						{
+							ImportedMorphKeyframe keyframe = morph.KeyframeList[j];
+							TreeNode keyframeNode = new TreeNode();
+							keyframeNode.Checked = morph.isMorphKeyframeEnabled(keyframe);
+							keyframeNode.Tag = keyframe;
+							keyframeNode.ContextMenuStrip = this.contextMenuStripMorphKeyframe;
+							this.treeView.AddChild(node, keyframeNode);
+							UpdateMorphKeyframeNode(keyframeNode);
+						}
+					}
 				}
 			}
 		}
@@ -130,6 +142,16 @@ namespace SB3Utility
 			var srcEditor = (ImportedEditor)Gui.Scripting.Variables[dragSrc.Variable];
 			bool replaceSubmesh = srcEditor.Meshes[(int)dragSrc.Id].isSubmeshReplacingOriginal(submesh);
 			node.Text = "Sub: V " + submesh.VertexList.Count + ", F " + submesh.FaceList.Count + ", Base: " + submesh.Index + ", Replace: " + replaceSubmesh + ", Mat: " + submesh.Material + ", World:" + submesh.WorldCoords;
+		}
+
+		private void UpdateMorphKeyframeNode(TreeNode node)
+		{
+			ImportedMorphKeyframe keyframe = (ImportedMorphKeyframe)node.Tag;
+			TreeNode morphNode = node.Parent;
+			DragSource dragSrc = (DragSource)morphNode.Tag;
+			var srcEditor = (ImportedEditor)Gui.Scripting.Variables[dragSrc.Variable];
+			string newName = srcEditor.Morphs[(int)dragSrc.Id].getMorphKeyframeNewName(keyframe);
+			node.Text = "Morph: " + keyframe.Name + (newName != String.Empty ? ", Rename to: " + newName : null);
 		}
 
 		private void BuildTree(string editorVar, ImportedFrame frame, TreeNode parent, ImportedEditor editor)
@@ -376,6 +398,33 @@ namespace SB3Utility
 			submesh.WorldCoords ^= true;
 			worldCoordinatesToolStripMenuItem.Checked = submesh.WorldCoords;
 			UpdateSubmeshNode(submeshNode);
+		}
+
+		private void contextMenuStripMorphKeyframe_Opening(object sender, CancelEventArgs e)
+		{
+			Point contextLoc = new Point(contextMenuStripMorphKeyframe.Left, contextMenuStripMorphKeyframe.Top);
+			Point relativeLoc = treeView.PointToClient(contextLoc);
+			TreeNode morphKeyframeNode = treeView.GetNodeAt(relativeLoc);
+			ImportedMorphKeyframe keyframe = (ImportedMorphKeyframe)morphKeyframeNode.Tag;
+			TreeNode morphNode = morphKeyframeNode.Parent;
+			DragSource dragSrc = (DragSource)morphNode.Tag;
+			var srcEditor = (ImportedEditor)Gui.Scripting.Variables[dragSrc.Variable];
+			string newName = srcEditor.Morphs[(int)dragSrc.Id].getMorphKeyframeNewName(keyframe);
+			toolStripEditTextBoxNewMorphKeyframeName.Text = newName;
+		}
+
+		private void toolStripEditTextBoxNewMorphKeyframeName_AfterEditTextChanged(object sender, EventArgs e)
+		{
+			Point contextLoc = new Point(contextMenuStripMorphKeyframe.Left, contextMenuStripMorphKeyframe.Top);
+			Point relativeLoc = treeView.PointToClient(contextLoc);
+			TreeNode morphKeyframeNode = treeView.GetNodeAt(relativeLoc);
+			ImportedMorphKeyframe keyframe = (ImportedMorphKeyframe)morphKeyframeNode.Tag;
+			TreeNode morphNode = morphKeyframeNode.Parent;
+			DragSource dragSrc = (DragSource)morphNode.Tag;
+			var srcEditor = (ImportedEditor)Gui.Scripting.Variables[dragSrc.Variable];
+			string newName = toolStripEditTextBoxNewMorphKeyframeName.Text;
+			srcEditor.Morphs[(int)dragSrc.Id].setMorphKeyframeNewName(keyframe, newName != String.Empty ? newName : null);
+			UpdateMorphKeyframeNode(morphKeyframeNode);
 		}
 	}
 }
