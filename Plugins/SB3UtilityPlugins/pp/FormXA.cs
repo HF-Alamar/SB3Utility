@@ -593,7 +593,7 @@ namespace SB3Utility
 		{
 			try
 			{
-				UpdateDragDrop(sender, e);
+				UpdateDragDropMorphs(sender, e);
 			}
 			catch (Exception ex)
 			{
@@ -605,7 +605,7 @@ namespace SB3Utility
 		{
 			try
 			{
-				UpdateDragDrop(sender, e);
+				UpdateDragDropMorphs(sender, e);
 			}
 			catch (Exception ex)
 			{
@@ -624,7 +624,7 @@ namespace SB3Utility
 				}
 				else
 				{
-					ProcessDragDropSources(node);
+					ProcessDragDropMorphs(node);
 				}
 			}
 			catch (Exception ex)
@@ -633,7 +633,7 @@ namespace SB3Utility
 			}
 		}
 
-		private void ProcessDragDropSources(TreeNode node)
+		private void ProcessDragDropMorphs(TreeNode node)
 		{
 			if (node.Tag is DragSource)
 			{
@@ -651,12 +651,21 @@ namespace SB3Utility
 				DragSource source = (DragSource)node.Tag;
 				if (source.Type == typeof(WorkspaceMorph))
 				{
-					using (var dragOptions = new FormXADragDrop(Editor))
+					using (var dragOptions = new FormXADragDrop(Editor, true))
 					{
 						var srcEditor = (ImportedEditor)Gui.Scripting.Variables[source.Variable];
-						dragOptions.textBoxName.Text = srcEditor.Imported.MorphList[(int)source.Id].Name;
+						dragOptions.textBoxName.Text = srcEditor.Morphs[(int)source.Id].Name;
 						if (dragOptions.ShowDialog() == DialogResult.OK)
 						{
+							// repeating only final choices for repeatability of the script
+							WorkspaceMorph wsMorph = srcEditor.Morphs[(int)source.Id];
+							foreach (ImportedMorphKeyframe keyframe in wsMorph.KeyframeList)
+							{
+								if (!wsMorph.isMorphKeyframeEnabled(keyframe))
+								{
+									Gui.Scripting.RunScript(source.Variable + ".setMorphKeyframeEnabled(morphId=" + (int)source.Id + ", id=" + wsMorph.KeyframeList.IndexOf(keyframe) + ", enabled=false)");
+								}
+							}
 							Gui.Scripting.RunScript(EditorVar + ".ReplaceMorph(morph=" + source.Variable + ".Morphs[" + (int)source.Id + "], destMorphName=\"" + dragOptions.textBoxName.Text + "\", newName=\"" + dragOptions.textBoxNewName.Text + "\", replaceNormals=" + dragOptions.radioButtonReplaceNormalsYes.Checked + ", minSquaredDistance=" + dragOptions.numericUpDownMinimumDistanceSquared.Value + ")");
 							UnloadXA();
 							LoadXA();
@@ -668,12 +677,12 @@ namespace SB3Utility
 			{
 				foreach (TreeNode child in node.Nodes)
 				{
-					ProcessDragDropSources(child);
+					ProcessDragDropMorphs(child);
 				}
 			}
 		}
 
-		private void UpdateDragDrop(object sender, DragEventArgs e)
+		private void UpdateDragDropMorphs(object sender, DragEventArgs e)
 		{
 			Point p = treeViewMorphClip.PointToClient(new Point(e.X, e.Y));
 			TreeNode target = treeViewMorphClip.GetNodeAt(p);
@@ -685,6 +694,128 @@ namespace SB3Utility
 
 			TreeNode node = (TreeNode)e.Data.GetData(typeof(TreeNode));
 			if (node == null)
+			{
+				Gui.Docking.DockDragEnter(sender, e);
+			}
+			else
+			{
+				e.Effect = e.AllowedEffect & DragDropEffects.Copy;
+			}
+		}
+
+		private void listViewAnimationTrack_ItemDrag(object sender, ItemDragEventArgs e)
+		{
+			try
+			{
+				if (e.Item is TreeNode)
+				{
+					listViewAnimationTrack.DoDragDrop(e.Item, DragDropEffects.Copy);
+				}
+			}
+			catch (Exception ex)
+			{
+				Utility.ReportException(ex);
+			}
+		}
+
+		private void listViewAnimationTrack_DragEnter(object sender, DragEventArgs e)
+		{
+			try
+			{
+				UpdateDragDropAnimations(sender, e);
+			}
+			catch (Exception ex)
+			{
+				Utility.ReportException(ex);
+			}
+		}
+
+		private void listViewAnimationTrack_DragOver(object sender, DragEventArgs e)
+		{
+			try
+			{
+				UpdateDragDropAnimations(sender, e);
+			}
+			catch (Exception ex)
+			{
+				Utility.ReportException(ex);
+			}
+		}
+
+		private void listViewAnimationTrack_DragDrop(object sender, DragEventArgs e)
+		{
+			try
+			{
+				TreeNode node = (TreeNode)e.Data.GetData(typeof(TreeNode));
+				if (node == null)
+				{
+					Gui.Docking.DockDragDrop(sender, e);
+				}
+				else
+				{
+					ProcessDragDropAnimations(node);
+				}
+			}
+			catch (Exception ex)
+			{
+				Utility.ReportException(ex);
+			}
+		}
+
+		private void ProcessDragDropAnimations(TreeNode node)
+		{
+			if (node.Tag is DragSource)
+			{
+				if ((node.Parent != null) && !node.Checked && node.StateImageIndex != (int)CheckState.Indeterminate)
+				{
+					return;
+				}
+
+				DragSource source = (DragSource)node.Tag;
+				if (source.Type == typeof(WorkspaceAnimation))
+				{
+					using (var dragOptions = new FormXADragDrop(Editor, false))
+					{
+						var srcEditor = (ImportedEditor)Gui.Scripting.Variables[source.Variable];
+						dragOptions.numericResample.Value = srcEditor.Animations[(int)source.Id].TrackList[0].Keyframes.Length;
+						dragOptions.comboBoxMethod.SelectedIndex = (int)ReplaceAnimationMethod.Replace;
+						if (dragOptions.ShowDialog() == DialogResult.OK)
+						{
+							// repeating only final choices for repeatability of the script
+							WorkspaceAnimation wsAnimation = srcEditor.Animations[(int)source.Id];
+							foreach (ImportedAnimationTrack track in wsAnimation.TrackList)
+							{
+								if (!wsAnimation.isTrackEnabled(track))
+								{
+									Gui.Scripting.RunScript(source.Variable + ".setTrackEnabled(animationId=" + (int)source.Id + ", id=" + wsAnimation.TrackList.IndexOf(track) + ", enabled=false)");
+								}
+							}
+							Gui.Scripting.RunScript(EditorVar + ".ReplaceAnimation(animation=" + source.Variable + ".Animations[" + (int)source.Id + "], resampleCount=" + dragOptions.numericResample.Value + ", method=\"" + dragOptions.comboBoxMethod.SelectedItem + "\", insertPos=" + dragOptions.numericPosition.Value + ")");
+							UnloadXA();
+							LoadXA();
+						}
+					}
+				}
+			}
+			else
+			{
+				foreach (TreeNode child in node.Nodes)
+				{
+					ProcessDragDropAnimations(child);
+				}
+			}
+		}
+
+		private void UpdateDragDropAnimations(object sender, DragEventArgs e)
+		{
+			Point p = listViewAnimationTrack.PointToClient(new Point(e.X, e.Y));
+			ListViewItem target = listViewAnimationTrack.GetItemAt(p.X, p.Y);
+			if ((target != null) && ((p.X < target.Bounds.Left) || (p.X > target.Bounds.Right) || (p.Y < target.Bounds.Top) || (p.Y > target.Bounds.Bottom)))
+			{
+				target = null;
+			}
+
+			if (target == null)
 			{
 				Gui.Docking.DockDragEnter(sender, e);
 			}

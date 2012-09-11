@@ -19,5 +19,12 @@ namespace SB3Utility
 		{
 			xa.ReplaceMorph(destMorphName, Parser, morph, newName, replaceNormals, (float)minSquaredDistance);
 		}
+
+		[Plugin]
+		public void ReplaceAnimation(WorkspaceAnimation animation, int resampleCount, string method, int insertPos)
+		{
+			var replaceMethod = (ReplaceAnimationMethod)Enum.Parse(typeof(ReplaceAnimationMethod), method);
+			xa.ReplaceAnimation(animation, Parser, resampleCount, replaceMethod, insertPos);
+		}
 	}
 }

@@ -791,6 +791,7 @@
 			// 
 			// listViewAnimationTrack
 			// 
+			this.listViewAnimationTrack.AllowDrop = true;
 			this.listViewAnimationTrack.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -812,6 +813,10 @@
 			this.listViewAnimationTrack.TabIndex = 137;
 			this.listViewAnimationTrack.UseCompatibleStateImageBehavior = false;
 			this.listViewAnimationTrack.View = System.Windows.Forms.View.Details;
+			this.listViewAnimationTrack.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.listViewAnimationTrack_ItemDrag);
+			this.listViewAnimationTrack.DragDrop += new System.Windows.Forms.DragEventHandler(this.listViewAnimationTrack_DragDrop);
+			this.listViewAnimationTrack.DragEnter += new System.Windows.Forms.DragEventHandler(this.listViewAnimationTrack_DragEnter);
+			this.listViewAnimationTrack.DragOver += new System.Windows.Forms.DragEventHandler(this.listViewAnimationTrack_DragOver);
 			// 
 			// columnHeader3
 			// 

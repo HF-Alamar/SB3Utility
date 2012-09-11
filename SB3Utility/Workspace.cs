@@ -135,4 +135,47 @@ namespace SB3Utility
 			throw new Exception("Morph keyframe not found");
 		}
 	}
+
+	public class WorkspaceAnimation : ImportedAnimation
+	{
+		protected class AdditionalTrackOptions
+		{
+			public bool Enabled = true;
+		}
+		protected Dictionary<ImportedAnimationTrack, AdditionalTrackOptions> TrackOptions { get; set; }
+
+		public WorkspaceAnimation(ImportedAnimation importedAnimation) :
+			base()
+		{
+			this.TrackList = importedAnimation.TrackList;
+
+			this.TrackOptions = new Dictionary<ImportedAnimationTrack, AdditionalTrackOptions>(importedAnimation.TrackList.Count);
+			foreach (ImportedAnimationTrack track in importedAnimation.TrackList)
+			{
+				AdditionalTrackOptions options = new AdditionalTrackOptions();
+				this.TrackOptions.Add(track, options);
+			}
+		}
+
+		public bool isTrackEnabled(ImportedAnimationTrack track)
+		{
+			AdditionalTrackOptions options;
+			if (this.TrackOptions.TryGetValue(track, out options))
+			{
+				return options.Enabled;
+			}
+			throw new Exception("Track not found");
+		}
+
+		public void setTrackEnabled(ImportedAnimationTrack track, bool enabled)
+		{
+			AdditionalTrackOptions options;
+			if (this.TrackOptions.TryGetValue(track, out options))
+			{
+				options.Enabled = enabled;
+				return;
+			}
+			throw new Exception("Track not found");
+		}
+	}
 }

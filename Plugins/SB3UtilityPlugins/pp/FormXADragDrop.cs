@@ -10,12 +10,22 @@ namespace SB3Utility
 {
 	public partial class FormXADragDrop : Form
 	{
+		public ReplaceAnimationMethod ReplaceMethod { get; protected set; }
+
 		private xaEditor editor;
 
-		public FormXADragDrop(xaEditor destEditor)
+		public FormXADragDrop(xaEditor destEditor, bool morphOrAnimation)
 		{
 			InitializeComponent();
 			editor = destEditor;
+
+			if (morphOrAnimation)
+				panelMorphList.BringToFront();
+			else
+			{
+				panelAnimation.BringToFront();
+				comboBoxMethod.Items.AddRange(Enum.GetNames(typeof(ReplaceAnimationMethod)));
+			}
 		}
 	}
 }
