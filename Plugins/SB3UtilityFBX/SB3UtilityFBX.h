@@ -20,6 +20,7 @@ namespace SB3Utility {
 	public:
 		static Vector3 QuaternionToEuler(Quaternion q);
 		static Quaternion EulerToQuaternion(Vector3 v);
+		static void InterpolateKeyframes(List<Tuple<ImportedAnimationTrack^, array<xaAnimationKeyframe^>^>^>^ extendedTrackList, int resampleCount);
 
 		ref class Importer : IImported
 		{

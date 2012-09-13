@@ -167,214 +167,7 @@ namespace SB3Utility
 			}
 		}
 
-		public static void ReplaceAnimation(WorkspaceAnimation wsAnimation, xaParser parser, int resampleCount, ReplaceAnimationMethod replaceMethod, int insertPos)
-		{
-			if (parser.AnimationSection == null)
-			{
-				Report.ReportLog("The .xa file doesn't have an animation section. Skipping this animation");
-				return;
-			}
-
-			Report.ReportLog("Replacing animation ...");
-			List<KeyValuePair<string, xaAnimationKeyframe[]>> newTrackList = new List<KeyValuePair<string, xaAnimationKeyframe[]>>(wsAnimation.TrackList.Count);
-			foreach (var wsTrack in wsAnimation.TrackList)
-			{
-				if (!wsAnimation.isTrackEnabled(wsTrack))
-					continue;
-				xaAnimationKeyframe[] newKeyframes = new xaAnimationKeyframe[resampleCount];
-				if (wsTrack.Keyframes.Length == resampleCount)
-				{
-					for (int i = 0; i < wsTrack.Keyframes.Length; i++)
-					{
-						ImportedAnimationKeyframe keyframe = wsTrack.Keyframes[i];
-						newKeyframes[i] = new xaAnimationKeyframe();
-						newKeyframes[i].Index = i;
-						newKeyframes[i].Rotation = keyframe.Rotation;
-						CreateUnknowns(newKeyframes[i]);
-						newKeyframes[i].Translation = keyframe.Translation;
-						newKeyframes[i].Scaling = keyframe.Scaling;
-					}
-				}
-				else
-				{
-					if (wsTrack.Keyframes.Length < 1)
-					{
-						xaAnimationKeyframe keyframe = new xaAnimationKeyframe();
-						keyframe.Rotation = Quaternion.Identity;
-						keyframe.Scaling = new Vector3(1, 1, 1);
-						keyframe.Translation = new Vector3(0, 0, 0);
-						CreateUnknowns(keyframe);
-
-						for (int i = 0; i < newKeyframes.Length; i++)
-						{
-							keyframe.Index = i;
-							newKeyframes[i] = keyframe;
-						}
-					}
-					else if ((wsTrack.Keyframes.Length == 1) || (resampleCount == 1))
-					{
-						ImportedAnimationKeyframe keyframe = wsTrack.Keyframes[0];
-						for (int i = 0; i < newKeyframes.Length; i++)
-						{
-							newKeyframes[i] = new xaAnimationKeyframe();
-							newKeyframes[i].Index = i;
-							newKeyframes[i].Rotation = keyframe.Rotation;
-							CreateUnknowns(newKeyframes[i]);
-							newKeyframes[i].Translation = keyframe.Translation;
-							newKeyframes[i].Scaling = keyframe.Scaling;
-						}
-					}
-					else
-					{
-/*						float animationLen = (float)(resampleCount - 1);
-						Animation animation = new Animation("tempWorkspaceAnimation", animationLen);
-						NodeAnimationTrack nodeTrack = animation.CreateNodeTrack(0);
-						NodeAnimationTrack interpolatedTrack = animation.CreateNodeTrack(1);
-						for (int i = 0; i < wsTrack.Keyframes.Length; i++)
-						{
-							float timePos = i * animationLen / (wsTrack.Keyframes.Length - 1);
-							TransformKeyFrame ogreKeyframe = nodeTrack.CreateNodeKeyFrame(timePos);
-							ImportedAnimationKeyframe wsKeyframe = wsTrack.Keyframes[i];
-							ogreKeyframe.Translate = wsKeyframe.Translation;
-							ogreKeyframe.Rotation = wsKeyframe.Rotation;
-							ogreKeyframe.Scale = wsKeyframe.Scaling;
-						}
-						for (int i = 0; i < newKeyframes.Length; i++)
-						{
-							TransformKeyFrame ogreKeyframe = interpolatedTrack.CreateNodeKeyFrame((float)i);
-							nodeTrack.GetInterpolatedKeyFrame(new TimeIndex((float)i), ogreKeyframe);
-							newKeyframes[i] = new xaAnimationKeyframe();
-							newKeyframes[i].Index = i;
-							newKeyframes[i].Rotation = ogreKeyframe.Rotation;
-							newKeyframes[i].Scaling = ogreKeyframe.Scale;
-							newKeyframes[i].Translation = ogreKeyframe.Translate;
-							CreateUnknowns(newKeyframes[i]);
-						}
-						animation.DestroyAllTracks();
-						animation.Dispose();*/
-						Report.ReportLog("Interpolation of animation keyframes is not implemented.");
-						return;
-					}
-				}
-
-				newTrackList.Add(new KeyValuePair<string, xaAnimationKeyframe[]>(wsTrack.Name, newKeyframes));
-			}
-
-			List<xaAnimationTrack> animationNodeList = parser.AnimationSection.TrackList;
-			Dictionary<string, xaAnimationTrack> animationNodeDic = null;
-			if (replaceMethod != ReplaceAnimationMethod.Replace)
-			{
-				animationNodeDic = new Dictionary<string, xaAnimationTrack>();
-				foreach (xaAnimationTrack animationNode in animationNodeList)
-				{
-					animationNodeDic.Add(animationNode.Name, animationNode);
-				}
-			}
-
-			if (replaceMethod == ReplaceAnimationMethod.Replace)
-			{
-				animationNodeList.Clear();
-				foreach (var newTrack in newTrackList)
-				{
-					xaAnimationTrack animationNode = new xaAnimationTrack();
-					animationNodeList.Add(animationNode);
-					animationNode.KeyframeList = new List<xaAnimationKeyframe>(newTrack.Value);
-					animationNode.Name = newTrack.Key;
-					CreateUnknowns(animationNode);
-				}
-			}
-			else if (replaceMethod == ReplaceAnimationMethod.Merge)
-			{
-				foreach (var newTrack in newTrackList)
-				{
-					xaAnimationTrack animationNode;
-					xaAnimationKeyframe[] origKeyframes = animationGetOriginalKeyframes(animationNodeDic, newTrack.Key, animationNodeList, out animationNode);
-					xaAnimationKeyframe[] destKeyframes;
-					int newEnd = insertPos + newTrack.Value.Length;
-					if (origKeyframes.Length < insertPos)
-					{
-						destKeyframes = new xaAnimationKeyframe[newEnd];
-						animationCopyKeyframeTransformArray(origKeyframes, 0, destKeyframes, 0, origKeyframes.Length);
-						animationNormalizeTrack(origKeyframes, destKeyframes, insertPos);
-					}
-					else
-					{
-						if (origKeyframes.Length < newEnd)
-						{
-							destKeyframes = new xaAnimationKeyframe[newEnd];
-						}
-						else
-						{
-							destKeyframes = new xaAnimationKeyframe[origKeyframes.Length];
-							animationCopyKeyframeTransformArray(origKeyframes, newEnd, destKeyframes, newEnd, origKeyframes.Length - newEnd);
-						}
-						animationCopyKeyframeTransformArray(origKeyframes, 0, destKeyframes, 0, insertPos);
-					}
-
-					animationCopyKeyframeTransformArray(newTrack.Value, 0, destKeyframes, insertPos, newTrack.Value.Length);
-					animationNode.KeyframeList = new List<xaAnimationKeyframe>(destKeyframes);
-				}
-			}
-			else if (replaceMethod == ReplaceAnimationMethod.Insert)
-			{
-				foreach (var newTrack in newTrackList)
-				{
-					xaAnimationTrack animationNode;
-					xaAnimationKeyframe[] origKeyframes = animationGetOriginalKeyframes(animationNodeDic, newTrack.Key, animationNodeList, out animationNode); ;
-					xaAnimationKeyframe[] destKeyframes;
-					int newEnd = insertPos + newTrack.Value.Length;
-					if (origKeyframes.Length < insertPos)
-					{
-						destKeyframes = new xaAnimationKeyframe[newEnd];
-						animationCopyKeyframeTransformArray(origKeyframes, 0, destKeyframes, 0, origKeyframes.Length);
-						animationNormalizeTrack(origKeyframes, destKeyframes, insertPos);
-					}
-					else
-					{
-						destKeyframes = new xaAnimationKeyframe[origKeyframes.Length + newTrack.Value.Length];
-						animationCopyKeyframeTransformArray(origKeyframes, 0, destKeyframes, 0, insertPos);
-						animationCopyKeyframeTransformArray(origKeyframes, insertPos, destKeyframes, newEnd, origKeyframes.Length - insertPos);
-					}
-
-					animationCopyKeyframeTransformArray(newTrack.Value, 0, destKeyframes, insertPos, newTrack.Value.Length);
-					animationNode.KeyframeList = new List<xaAnimationKeyframe>(destKeyframes);
-				}
-			}
-			else if (replaceMethod == ReplaceAnimationMethod.Append)
-			{
-				int maxKeyframes = 0;
-				foreach (xaAnimationTrack animationNode in animationNodeList)
-				{
-					int numKeyframes = animationNode.KeyframeList.Count;
-					if (numKeyframes > maxKeyframes)
-					{
-						maxKeyframes = numKeyframes;
-					}
-				}
-
-				foreach (var newTrack in newTrackList)
-				{
-					xaAnimationTrack animationNode;
-					xaAnimationKeyframe[] origKeyframes = animationGetOriginalKeyframes(animationNodeDic, newTrack.Key, animationNodeList, out animationNode);
-					xaAnimationKeyframe[] destKeyframes = new xaAnimationKeyframe[maxKeyframes + newTrack.Value.Length];
-					animationCopyKeyframeTransformArray(origKeyframes, 0, destKeyframes, 0, origKeyframes.Length);
-					if (origKeyframes.Length < maxKeyframes)
-					{
-						animationNormalizeTrack(origKeyframes, destKeyframes, maxKeyframes);
-					}
-
-					animationCopyKeyframeTransformArray(newTrack.Value, 0, destKeyframes, maxKeyframes, newTrack.Value.Length);
-					animationNode.KeyframeList = new List<xaAnimationKeyframe>(destKeyframes);
-				}
-			}
-			else
-			{
-				Report.ReportLog("Error: Unexpected animation replace method " + replaceMethod + ". Skipping this animation");
-				return;
-			}
-		}
-
-		private static void animationNormalizeTrack(xaAnimationKeyframe[] origKeyframes, xaAnimationKeyframe[] destKeyframes, int count)
+		public static void animationNormalizeTrack(xaAnimationKeyframe[] origKeyframes, xaAnimationKeyframe[] destKeyframes, int count)
 		{
 			xaAnimationKeyframe keyframeCopy;
 			if (origKeyframes.Length > 0)
@@ -406,7 +199,7 @@ namespace SB3Utility
 			track.Unknown1 = new byte[4];
 		}
 
-		private static void animationCopyKeyframeTransformArray(xaAnimationKeyframe[] src, int srcIdx, xaAnimationKeyframe[] dest, int destIdx, int count)
+		public static void animationCopyKeyframeTransformArray(xaAnimationKeyframe[] src, int srcIdx, xaAnimationKeyframe[] dest, int destIdx, int count)
 		{
 			for (int i = 0; i < count; i++)
 			{
@@ -416,7 +209,7 @@ namespace SB3Utility
 			}
 		}
 
-		private static xaAnimationKeyframe[] animationGetOriginalKeyframes(Dictionary<string, xaAnimationTrack> animationNodeDic, string trackName, List<xaAnimationTrack> animationNodeList, out xaAnimationTrack animationNode)
+		public static xaAnimationKeyframe[] animationGetOriginalKeyframes(Dictionary<string, xaAnimationTrack> animationNodeDic, string trackName, List<xaAnimationTrack> animationNodeList, out xaAnimationTrack animationNode)
 		{
 			xaAnimationKeyframe[] origKeyframes;
 			if (animationNodeDic.TryGetValue(trackName, out animationNode))
