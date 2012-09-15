@@ -493,7 +493,8 @@ namespace SB3Utility
 				return new ppFormat[] {
 					ppFormat.Array[(int)ppFormatIdx.Wakeari],
 					ppFormat.Array[(int)ppFormatIdx.LoveGirl],
-					ppFormat.Array[(int)ppFormatIdx.Hero]
+					ppFormat.Array[(int)ppFormatIdx.Hero],
+					ppFormat.Array[(int)ppFormatIdx.HETTrial]
 				};
 			}
 		}
