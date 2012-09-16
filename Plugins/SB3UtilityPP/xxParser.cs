@@ -190,6 +190,15 @@ namespace SB3Utility
 						if (Format >= 8)
 						{
 							submesh.Unknown5 = reader.ReadBytes(21); // 1 + 4 + 12 + 4
+							if (submesh.Unknown5[0] == 0x01)
+							{
+								// Unknown5: 0x01 length InvertedShiftJis filled with 0x00
+								byte[] format1 = reader.ReadBytes(70 * submesh.VertexList.Count + 14);
+								byte[] oldUnkown5 = submesh.Unknown5;
+								submesh.Unknown5 = new byte[oldUnkown5.Length + format1.Length];
+								oldUnkown5.CopyTo(submesh.Unknown5, 0);
+								format1.CopyTo(submesh.Unknown5, oldUnkown5.Length);
+							}
 						}
 					}
 					else
