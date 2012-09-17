@@ -281,9 +281,6 @@ namespace SB3Utility
 			{
 				if (columnIdx == 2)
 				{
-					byte[] bytes = Utility.StringToBytes(data);
-					int len = bytes.Length;
-
 					if (parser.Format >= 7)
 					{
 						valid = ValidateCell(data, 32);
@@ -387,7 +384,9 @@ namespace SB3Utility
 				{
 					if (parser.Format >= 8)
 					{
-						valid = ValidateCell(data, 21);
+						byte[] bytes = Utility.StringToBytes(data);
+						int nameLength = BitConverter.ToInt32(bytes, 1);
+						valid = ValidateCell(data, 1 + 4 + nameLength + 12 + 4);
 					}
 					else if (parser.Format >= 5)
 					{
