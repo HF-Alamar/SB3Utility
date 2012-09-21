@@ -1,4 +1,27 @@
-﻿[rev]
+﻿[0.4.42.7]
+  Fixes:
+  - fbx import: missing texture file raised uncaught exception
+  - pp format: autodection for .LST files
+  - workspace: creation of empty workspace from menu
+  - xa files: failed when opened (casted to xxParser)
+  - invalid material indices couldn't be set to valid indices
+  - export of textures landed in parent folder with wrong name
+  Changes:
+  - pp files: created an AddSubfile with replace argument. Works now like in the old SB3U.
+  - external textures are not fixed by setting material's references to null. A button in the material view allow editing external texuture names. Added by request.
+  - pp files: dialog for exporting of subfiles starts folder of pp file
+  - Interface IRenderer exposes ResetPose - required for ODF/ODA animation, since rewinding time to 0.0 doesn't lead to the rest pose
+
+[SB3Ur442p133]
+  - fix for exporting Textures
+
+[SB3Ur442p131]
+  - fix for Happy End Trigger Trial.
+
+[SB3Ur442p128]
+  - support for Happy End Trigger Trial
+
+[rev]
 SB3Utility:
   - Removed Utility.Convert() for a single object since it's just a cast. The array version is kept
 
