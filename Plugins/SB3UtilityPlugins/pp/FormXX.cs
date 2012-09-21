@@ -209,6 +209,7 @@ namespace SB3Utility
 			{
 				matTexNameCombo[i].Tag = i;
 				matTexNameCombo[i].SelectedIndexChanged += new EventHandler(matTexNameCombo_SelectedIndexChanged);
+				matTexNameCombo[i].TextChanged += new EventHandler(matTexNameCombo_TextChanged);
 			}
 
 			MeshExportFormat[] values = Enum.GetValues(typeof(MeshExportFormat)) as MeshExportFormat[];
@@ -263,7 +264,8 @@ namespace SB3Utility
 				}
 
 				int comboValue = (int)combo.SelectedValue;
-				if (comboValue != (int)dataGridViewMesh.CurrentCell.Value)
+				int cellValue = dataGridViewMesh.CurrentCell.Value != null ? (int)dataGridViewMesh.CurrentCell.Value : -1;
+				if (comboValue != cellValue)
 				{
 					dataGridViewMesh.CommitEdit(DataGridViewDataErrorContexts.Commit);
 
@@ -324,6 +326,31 @@ namespace SB3Utility
 				ComboBox combo = (ComboBox)sender;
 				int matTexIdx = (int)combo.Tag;
 				string name = (combo.SelectedIndex == 0) ? String.Empty : (string)combo.Items[combo.SelectedIndex];
+
+				Gui.Scripting.RunScript(EditorVar + ".SetMaterialTexture(id=" + loadedMaterial + ", index=" + matTexIdx + ", name=\"" + name + "\")");
+
+				RecreateRenderObjects();
+				RecreateCrossRefs();
+				LoadMaterial(loadedMaterial);
+			}
+			catch (Exception ex)
+			{
+				Utility.ReportException(ex);
+			}
+		}
+
+		void matTexNameCombo_TextChanged(object sender, EventArgs e)
+		{
+			try
+			{
+				if (loadedMaterial < 0)
+				{
+					return;
+				}
+
+				ComboBox combo = (ComboBox)sender;
+				int matTexIdx = (int)combo.Tag;
+				string name = combo.Text;
 
 				Gui.Scripting.RunScript(EditorVar + ".SetMaterialTexture(id=" + loadedMaterial + ", index=" + matTexIdx + ", name=\"" + name + "\")");
 
@@ -842,9 +869,13 @@ namespace SB3Utility
 					{
 						matTexNameCombo[i].SelectedIndex = 0;
 					}
-					else
+					else if (matTexNameCombo[i].DropDownStyle == ComboBoxStyle.DropDownList)
 					{
 						matTexNameCombo[i].SelectedIndex = matTexNameCombo[i].FindStringExact(matTexName);
+					}
+					else
+					{
+						matTexNameCombo[i].Text = matTexName;
 					}
 				}
 
@@ -962,6 +993,7 @@ namespace SB3Utility
 				crossRefMaterialTexturesCount.Add(i, 0);
 			}
 
+			Dictionary<string, List<string>> missingTextures = new Dictionary<string, List<string>>();
 			for (int i = 0; i < materials.Count; i++)
 			{
 				xxMaterial mat = materials[i];
@@ -985,8 +1017,17 @@ namespace SB3Utility
 						}
 						if (!foundMatTex)
 						{
-							matTex.Name = String.Empty;
-							Report.ReportLog("Warning: Couldn't find texture " + matTexName + " for material " + mat.Name + ". Setting it to (none)");
+							List<string> matNames = null;
+							if (!missingTextures.TryGetValue(matTexName, out matNames))
+							{
+								matNames = new List<string>(1);
+								matNames.Add(mat.Name);
+								missingTextures.Add(matTexName, matNames);
+							}
+							else if (!matNames.Contains(mat.Name))
+							{
+								matNames.Add(mat.Name);
+							}
 						}
 					}
 				}
@@ -1024,8 +1065,17 @@ namespace SB3Utility
 								}
 								if (!foundMatTex)
 								{
-									matTex.Name = String.Empty;
-									Report.ReportLog("Warning: Couldn't find texture " + matTexName + " for material " + mat.Name + ". Setting it to (none)");
+									List<string> matNames = null;
+									if (!missingTextures.TryGetValue(matTexName, out matNames))
+									{
+										matNames = new List<string>(1);
+										matNames.Add(mat.Name);
+										missingTextures.Add(matTexName, matNames);
+									}
+									else if (!matNames.Contains(mat.Name))
+									{
+										matNames.Add(mat.Name);
+									}
 								}
 							}
 						}
@@ -1036,6 +1086,19 @@ namespace SB3Utility
 						Report.ReportLog("Warning: Mesh " + meshParent.Name + " Object " + j + " has an invalid material index");
 					}
 				}
+			}
+			if (missingTextures.Count > 0)
+			{
+				foreach (var missing in missingTextures)
+				{
+					string mats = String.Empty;
+					foreach (string mat in missing.Value)
+					{
+						mats += (mats == String.Empty ? " " : ", ") + mat;
+					}
+					Report.ReportLog("Warning: Couldn't find texture " + missing.Key + " for material(s)" + mats);
+				}
+				Report.ReportLog("Those materials have NOT been set to (none)! Use 'External' when editing such materials.");
 			}
 
 			CrossRefsSet();
@@ -2524,6 +2587,27 @@ namespace SB3Utility
 			}
 		}
 
+		private void buttonTextureExternal_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				ComboBoxStyle newStyle = comboBoxMatTex1.DropDownStyle == ComboBoxStyle.DropDown ? ComboBoxStyle.DropDownList : ComboBoxStyle.DropDown;
+				comboBoxMatTex1.DropDownStyle = newStyle;
+				comboBoxMatTex2.DropDownStyle = newStyle;
+				comboBoxMatTex3.DropDownStyle = newStyle;
+				comboBoxMatTex4.DropDownStyle = newStyle;
+
+				if (loadedMaterial >= 0)
+				{
+					LoadMaterial(loadedMaterial);
+				}
+			}
+			catch (Exception ex)
+			{
+				Utility.ReportException(ex);
+			}
+		}
+
 		private void buttonTextureExport_Click(object sender, EventArgs e)
 		{
 			try
@@ -2533,7 +2617,7 @@ namespace SB3Utility
 					int id = (int)item.Tag;
 					xxTexture tex = Editor.Parser.TextureList[id];
 					ImportedTexture importedTex = xx.ImportedTexture(tex);
-					string path = exportDir + importedTex.Name;
+					string path = exportDir + @"\" + importedTex.Name;
 					Gui.Scripting.RunScript(EditorVar + ".ExportTexture(id=" + id + ", path=\"" + path + "\")");
 				}
 			}

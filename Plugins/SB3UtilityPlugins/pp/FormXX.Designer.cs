@@ -197,6 +197,7 @@
 			this.textBoxMatDiffuseR = new SB3Utility.EditTextBox();
 			this.textBoxMatName = new SB3Utility.EditTextBox();
 			this.tabPageTextureView = new System.Windows.Forms.TabPage();
+			this.buttonTextureExternal = new System.Windows.Forms.Button();
 			this.buttonTextureAdd = new System.Windows.Forms.Button();
 			this.panelTexturePic = new System.Windows.Forms.Panel();
 			this.pictureBoxTexture = new System.Windows.Forms.PictureBox();
@@ -347,9 +348,9 @@
 			// 
 			// tabControlLists
 			// 
-			this.tabControlLists.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.tabControlLists.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.tabControlLists.Controls.Add(this.tabPageObject);
 			this.tabControlLists.Controls.Add(this.tabPageMesh);
 			this.tabControlLists.Controls.Add(this.tabPageMaterial);
@@ -800,9 +801,9 @@
 			// 
 			// tabControlViews
 			// 
-			this.tabControlViews.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.tabControlViews.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.tabControlViews.Controls.Add(this.tabPageFrameView);
 			this.tabControlViews.Controls.Add(this.tabPageBoneView);
 			this.tabControlViews.Controls.Add(this.tabPageMeshView);
@@ -1776,8 +1777,8 @@
 			// 
 			// groupBox1
 			// 
-			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)));
+			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
 			this.groupBox1.Controls.Add(this.dataGridViewMesh);
 			this.groupBox1.Controls.Add(this.buttonSubmeshEdit);
 			this.groupBox1.Controls.Add(this.buttonSubmeshRemove);
@@ -1793,9 +1794,9 @@
 			this.dataGridViewMesh.AllowUserToAddRows = false;
 			this.dataGridViewMesh.AllowUserToDeleteRows = false;
 			this.dataGridViewMesh.AllowUserToResizeRows = false;
-			this.dataGridViewMesh.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.dataGridViewMesh.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.dataGridViewMesh.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridViewMesh.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ColumnSubmeshVerts,
@@ -1872,6 +1873,7 @@
 			// 
 			// tabPageMaterialView
 			// 
+			this.tabPageMaterialView.Controls.Add(this.buttonTextureExternal);
 			this.tabPageMaterialView.Controls.Add(this.comboBoxMatTex4);
 			this.tabPageMaterialView.Controls.Add(this.comboBoxMatTex3);
 			this.tabPageMaterialView.Controls.Add(this.comboBoxMatTex2);
@@ -2236,6 +2238,17 @@
 			this.tabPageTextureView.Text = "Texture";
 			this.tabPageTextureView.UseVisualStyleBackColor = true;
 			// 
+			// buttonTextureExternal
+			// 
+			this.buttonTextureExternal.Location = new System.Drawing.Point(178, 310);
+			this.buttonTextureExternal.Name = "buttonTextureExternal";
+			this.buttonTextureExternal.Size = new System.Drawing.Size(75, 22);
+			this.buttonTextureExternal.TabIndex = 40;
+			this.buttonTextureExternal.TabStop = false;
+			this.buttonTextureExternal.Text = "External";
+			this.buttonTextureExternal.UseVisualStyleBackColor = true;
+			this.buttonTextureExternal.Click += new System.EventHandler(this.buttonTextureExternal_Click);
+			// 
 			// buttonTextureAdd
 			// 
 			this.buttonTextureAdd.Location = new System.Drawing.Point(2, 70);
@@ -2249,9 +2262,9 @@
 			// 
 			// panelTexturePic
 			// 
-			this.panelTexturePic.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.panelTexturePic.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.panelTexturePic.Controls.Add(this.pictureBoxTexture);
 			this.panelTexturePic.Location = new System.Drawing.Point(0, 109);
 			this.panelTexturePic.Name = "panelTexturePic";
@@ -2260,9 +2273,9 @@
 			// 
 			// pictureBoxTexture
 			// 
-			this.pictureBoxTexture.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.pictureBoxTexture.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.pictureBoxTexture.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.pictureBoxTexture.Location = new System.Drawing.Point(0, 0);
 			this.pictureBoxTexture.Name = "pictureBoxTexture";
@@ -2325,8 +2338,8 @@
 			// 
 			// textBoxTexName
 			// 
-			this.textBoxTexName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.textBoxTexName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.textBoxTexName.Location = new System.Drawing.Point(40, 6);
 			this.textBoxTexName.Name = "textBoxTexName";
 			this.textBoxTexName.Size = new System.Drawing.Size(148, 20);
@@ -2611,5 +2624,6 @@
 		private System.Windows.Forms.Button buttonFrameEditHex;
 		private System.Windows.Forms.Button buttonMeshEditHex;
 		private System.Windows.Forms.Button buttonMeshNormals;
+		private System.Windows.Forms.Button buttonTextureExternal;
 	}
 }

@@ -14,14 +14,26 @@ namespace SB3Utility
 	[PluginTool("Workspace")]
 	public partial class FormWorkspace : DockContent
 	{
-		public FormWorkspace(string path, IImported importer, string editorVar, ImportedEditor editor)
+		public FormWorkspace()
 		{
 			try
 			{
 				InitializeComponent();
-				InitWorkspace(path, importer, editorVar, editor);
 
 				Gui.Docking.ShowDockContent(this, Gui.Docking.DockFiles);
+			}
+			catch (Exception ex)
+			{
+				Utility.ReportException(ex);
+			}
+		}
+
+		public FormWorkspace(string path, IImported importer, string editorVar, ImportedEditor editor)
+			: this()
+		{
+			try
+			{
+				InitWorkspace(path, importer, editorVar, editor);
 			}
 			catch (Exception ex)
 			{

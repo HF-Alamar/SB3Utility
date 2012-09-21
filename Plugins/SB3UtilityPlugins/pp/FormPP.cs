@@ -478,7 +478,7 @@ namespace SB3Utility
 				{
 					foreach (string path in openFileDialog1.FileNames)
 					{
-						Gui.Scripting.RunScript(EditorVar + ".AddSubfile(path=\"" + path + "\")");
+						Gui.Scripting.RunScript(EditorVar + ".AddSubfile(path=\"" + path + "\", replace=True)");
 					}
 
 					InitSubfileLists();
@@ -664,6 +664,8 @@ namespace SB3Utility
 		{
 			try
 			{
+				folderBrowserDialog1.SelectedPath = Path.GetDirectoryName(this.Editor.Parser.FilePath);
+				folderBrowserDialog1.RootFolder = Environment.SpecialFolder.MyComputer;
 				if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
 				{
 					Gui.Scripting.RunScript("ExportPP(parser=" + ParserVar + ", path=\"" + folderBrowserDialog1.SelectedPath + "\")");

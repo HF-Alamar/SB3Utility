@@ -56,6 +56,19 @@ namespace SB3Utility
 		}
 
 		[Plugin]
+		public void AddSubfile(string path, bool replace)
+		{
+			int index = FindSubfile(Path.GetFileName(path));
+			if (!replace || index < 0)
+			{
+				AddSubfile(path);
+				return;
+			}
+			Parser.Subfiles.RemoveAt(index);
+			Parser.Subfiles.Insert(index, new RawFile(path));
+		}
+
+		[Plugin]
 		public void RemoveSubfile(string name)
 		{
 			int index = FindSubfile(name);

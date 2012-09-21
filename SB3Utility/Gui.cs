@@ -10,7 +10,7 @@ namespace SB3Utility
 {
 	public static class Gui
 	{
-		public static string Version = "r442p131";
+		public static string Version = "0.4.42.7";
 
 		public static IScripting Scripting { get; set; }
 		public static IDocking Docking { get; set; }
@@ -64,6 +64,7 @@ namespace SB3Utility
 
 		int AddRenderObject(IRenderObject renderObj);
 		void RemoveRenderObject(int id);
+		void ResetPose();
 
 		int AddAnimationSet(AnimationSet animSet);
 		void RemoveAnimationSet(int id);

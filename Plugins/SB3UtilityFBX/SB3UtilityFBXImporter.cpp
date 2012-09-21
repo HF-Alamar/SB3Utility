@@ -581,10 +581,14 @@ namespace SB3Utility
 				pTextures->Add(pTexture);
 
 				String^ texPath = Path::GetDirectoryName(gcnew String(cPath)) + Path::DirectorySeparatorChar + texName;
-				ImportedTexture^ tex = gcnew ImportedTexture(texPath);
-				if (tex != nullptr)
+				try
 				{
+					ImportedTexture^ tex = gcnew ImportedTexture(texPath);
 					TextureList->Add(tex);
+				}
+				catch (Exception^)
+				{
+					Report::ReportLog("Import of texture " + texPath + " failed.");
 				}
 			}
 		}

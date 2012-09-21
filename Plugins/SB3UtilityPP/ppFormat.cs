@@ -176,6 +176,10 @@ namespace SB3Utility
 			{
 				tryFunc = new Func<ppSubfile, bool>(TryFileImage);
 			}
+			else if (ext == ".lst")
+			{
+				tryFunc = new Func<ppSubfile, bool>(TryFileLst);
+			}
 
 			if (tryFunc != null)
 			{
@@ -277,6 +281,68 @@ namespace SB3Utility
 				{
 					byte[] data = reader.ReadToEnd();
 					var imgInfo = ImageInformation.FromMemory(data);
+				}
+			}
+			catch
+			{
+				return false;
+			}
+
+			return true;
+		}
+
+		private static bool TryFileLst(ppSubfile subfile)
+		{
+			try
+			{
+				using (BinaryReader reader = new BinaryReader(subfile.CreateReadStream()))
+				{
+					byte[] buf = reader.ReadBytes(128);
+					string ascii = Utility.EncodingShiftJIS.GetString(buf);
+
+					int i = 0, numbersInLine = 0, stringsInLine = 0;
+					while (i < buf.Length)
+					{
+						int startPos = i;
+						while (i < ascii.Length && char.IsDigit(ascii[i]))
+							i++;
+						if (i > startPos)
+							numbersInLine++;
+						if (ascii[i] == '\t')
+						{
+							i++;
+							continue;
+						}
+						else if (ascii[i] == '\r')
+						{
+							return (numbersInLine > 0 || stringsInLine > 0) && ascii[++i] == '\n';
+						}
+						else
+						{
+							startPos = i;
+							while (i < ascii.Length)
+							{
+								if (ascii[i] == 't')
+								{
+									i++;
+									break;
+								}
+								if (ascii[i] == '\r')
+								{
+									if (ascii[++i] == '\n')
+										break;
+									return false;
+								}
+								if (char.IsControl(ascii[i]) || (byte)ascii[i] >= (byte)'\xe0')
+									return false;
+								i++;
+							}
+							if (i > startPos)
+								stringsInLine++;
+						}
+					}
+					if (numbersInLine == 0 && stringsInLine == 0)
+						return false;
 				}
 			}
 			catch

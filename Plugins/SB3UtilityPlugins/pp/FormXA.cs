@@ -48,7 +48,7 @@ namespace SB3Utility
 
 			ParserVar = Gui.Scripting.GetNextVariable("xaParser");
 			string parserCommand = ParserVar + " = OpenXA(path=\"" + path + "\")";
-			xxParser parser = (xxParser)Gui.Scripting.RunScript(parserCommand);
+			xaParser parser = (xaParser)Gui.Scripting.RunScript(parserCommand);
 
 			EditorVar = Gui.Scripting.GetNextVariable("xaEditor");
 			string editorCommand = EditorVar + " = xaEditor(parser=" + ParserVar + ")";
