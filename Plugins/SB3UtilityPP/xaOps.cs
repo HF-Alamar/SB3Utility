@@ -152,7 +152,7 @@ namespace SB3Utility
 					for (int i = 0; i < morphSection.ClipList.Count; i++)
 					{
 						xaMorphClip clip = morphSection.ClipList[i];
-						if (clip.Name == wsMorphList.Name)
+						if (clip.Name == destMorphName)
 						{
 							clip.Name = newMorphName;
 							break;

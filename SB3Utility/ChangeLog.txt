@@ -1,4 +1,10 @@
-﻿[0.4.42.7]
+﻿[0.4.42.8]
+  Fix:
+  - replacing xa morphs: new name of morph clip assigned only when destination was unchanged
+  Change:
+  - added HF logo
+
+[0.4.42.7]
   Fixes:
   - fbx import: missing texture file raised uncaught exception
   - pp format: autodection for .LST files

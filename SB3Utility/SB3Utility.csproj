@@ -52,6 +52,7 @@
     <ErrorReport>prompt</ErrorReport>
     <DocumentationFile>
     </DocumentationFile>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Jolt, Version=0.4.3627.40535, Culture=neutral, PublicKeyToken=f6adcb4232d754f0, processorArchitecture=MSIL">
@@ -124,7 +125,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ChangeLog.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

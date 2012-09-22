@@ -43,6 +43,7 @@
 			WeifenLuo.WinFormsUI.Docking.DockPanelGradient dockPanelGradient3 = new WeifenLuo.WinFormsUI.Docking.DockPanelGradient();
 			WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient6 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
 			WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient7 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MDIParent));
 			this.menuStrip = new System.Windows.Forms.MenuStrip();
 			this.fileMenu = new System.Windows.Forms.ToolStripMenuItem();
 			this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -318,6 +319,7 @@
 			this.Controls.Add(this.statusStrip);
 			this.Controls.Add(this.dockPanel);
 			this.Controls.Add(this.menuStrip);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.IsMdiContainer = true;
 			this.MainMenuStrip = this.menuStrip;
 			this.Name = "MDIParent";
