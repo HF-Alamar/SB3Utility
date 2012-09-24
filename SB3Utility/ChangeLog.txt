@@ -1,4 +1,13 @@
-﻿[0.4.42.8]
+﻿[0.4.42.9]
+  Fixes:
+  - Frame and bone matrices can be edited on SRT and Matrix; updating the corresponding matrix after each input of a cell
+  - CopyNormalsNear, CopyBonesNear didn't find Normals/Bones for destination vertices exceeding source vertices
+  - Replace mesh couldn't compute matrix transform for world coordinates option
+  - Changes in frame's and bone's SRTs not applied : dataGridViews for SRT and Matrix update each other after CellValueChanged
+  - Names in cross references abbreviated after renaming (ended with '...')
+  - Removing a material didn't clear the editor
+
+[0.4.42.8] - showing 0.4.42.7 in the title
   Fix:
   - replacing xa morphs: new name of morph clip assigned only when destination was unchanged
   Change:

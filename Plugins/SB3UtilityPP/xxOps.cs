@@ -953,8 +953,7 @@ namespace SB3Utility
 
 		public static void CopyNormalsNear(List<xxVertex> src, List<xxVertex> dest)
 		{
-			int len = (src.Count < dest.Count) ? src.Count : dest.Count;
-			for (int i = 0; i < len; i++)
+			for (int i = 0; i < dest.Count; i++)
 			{
 				var destVert = dest[i];
 				var destPos = destVert.Position;
@@ -988,8 +987,7 @@ namespace SB3Utility
 
 		public static void CopyBonesNear(List<xxVertex> src, List<xxVertex> dest)
 		{
-			int len = (src.Count < dest.Count) ? src.Count : dest.Count;
-			for (int i = 0; i < len; i++)
+			for (int i = 0; i < dest.Count; i++)
 			{
 				var destVert = dest[i];
 				var destPos = destVert.Position;

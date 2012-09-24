@@ -182,10 +182,10 @@ namespace SB3Utility
 			matMatrixText[3] = new EditTextBox[4] { textBoxMatEmissiveR, textBoxMatEmissiveG, textBoxMatEmissiveB, textBoxMatEmissiveA };
 			matMatrixText[4] = new EditTextBox[1] { textBoxMatSpecularPower };
 
-			InitDataGridViewSRT(dataGridViewFrameSRT);
-			InitDataGridViewMatrix(dataGridViewFrameMatrix);
-			InitDataGridViewSRT(dataGridViewBoneSRT);
-			InitDataGridViewMatrix(dataGridViewBoneMatrix);
+			InitDataGridViewSRT(dataGridViewFrameSRT, dataGridViewFrameMatrix);
+			InitDataGridViewMatrix(dataGridViewFrameMatrix, dataGridViewFrameSRT);
+			InitDataGridViewSRT(dataGridViewBoneSRT, dataGridViewBoneMatrix);
+			InitDataGridViewMatrix(dataGridViewBoneMatrix, dataGridViewBoneSRT);
 
 			textBoxFrameName.AfterEditTextChanged += new EventHandler(textBoxFrameName_AfterEditTextChanged);
 			textBoxFrameName2.AfterEditTextChanged += new EventHandler(textBoxFrameName2_AfterEditTextChanged);
@@ -425,7 +425,7 @@ namespace SB3Utility
 			}
 		}
 
-		void InitDataGridViewSRT(DataGridViewEditor view)
+		void InitDataGridViewSRT(DataGridViewEditor viewSRT, DataGridViewEditor viewMatrix)
 		{
 			DataTable tableSRT = new DataTable();
 			tableSRT.Columns.Add(" ", typeof(string));
@@ -436,17 +436,34 @@ namespace SB3Utility
 			tableSRT.Rows.Add(new object[] { "Translate", 0f, 0f, 0f });
 			tableSRT.Rows.Add(new object[] { "Rotate", 0f, 0f, 0f });
 			tableSRT.Rows.Add(new object[] { "Scale", 1f, 1f, 1f });
-			view.Initialize(tableSRT, new DataGridViewEditor.ValidateCellDelegate(ValidateCellSRT), 3);
-			view.Scroll += new ScrollEventHandler(dataGridViewEditor_Scroll);
+			viewSRT.Initialize(tableSRT, new DataGridViewEditor.ValidateCellDelegate(ValidateCellSRT), 3);
+			viewSRT.Scroll += new ScrollEventHandler(dataGridViewEditor_Scroll);
 
-			view.Columns[0].DefaultCellStyle = view.ColumnHeadersDefaultCellStyle;
-			for (int i = 0; i < view.Columns.Count; i++)
+			viewSRT.Columns[0].DefaultCellStyle = viewSRT.ColumnHeadersDefaultCellStyle;
+			for (int i = 0; i < viewSRT.Columns.Count; i++)
 			{
-				view.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+				viewSRT.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
 			}
+
+			viewSRT.Tag = viewMatrix;
 		}
 
-		void InitDataGridViewMatrix(DataGridViewEditor view)
+		private void dataGridViewSRT_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+		{
+			DataGridView viewSRT = (DataGridView)sender;
+			Vector3[] srt = GetSRT(viewSRT);
+			Matrix mat = FbxUtility.SRTToMatrix(srt[0], srt[1], srt[2]);
+			LoadMatrix(mat, null, (DataGridView)viewSRT.Tag);
+		}
+
+		private void dataGridViewMatrix_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+		{
+			DataGridView viewMatrix = (DataGridView)sender;
+			Matrix mat = GetMatrix(viewMatrix);
+			LoadMatrix(mat, (DataGridView)viewMatrix.Tag, null);
+		}
+
+		void InitDataGridViewMatrix(DataGridViewEditor viewMatrix, DataGridViewEditor viewSRT)
 		{
 			DataTable tableMatrix = new DataTable();
 			tableMatrix.Columns.Add("1", typeof(float));
@@ -457,13 +474,15 @@ namespace SB3Utility
 			tableMatrix.Rows.Add(new object[] { 0f, 1f, 0f, 0f });
 			tableMatrix.Rows.Add(new object[] { 0f, 0f, 1f, 0f });
 			tableMatrix.Rows.Add(new object[] { 0f, 0f, 0f, 1f });
-			view.Initialize(tableMatrix, new DataGridViewEditor.ValidateCellDelegate(ValidateCellSingle), 4);
-			view.Scroll += new ScrollEventHandler(dataGridViewEditor_Scroll);
+			viewMatrix.Initialize(tableMatrix, new DataGridViewEditor.ValidateCellDelegate(ValidateCellSingle), 4);
+			viewMatrix.Scroll += new ScrollEventHandler(dataGridViewEditor_Scroll);
 
-			for (int i = 0; i < view.Columns.Count; i++)
+			for (int i = 0; i < viewMatrix.Columns.Count; i++)
 			{
-				view.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+				viewMatrix.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
 			}
+
+			viewMatrix.Tag = viewSRT;
 		}
 
 		void dataGridViewEditor_Scroll(object sender, ScrollEventArgs e)
@@ -560,6 +579,7 @@ namespace SB3Utility
 					break;
 				}
 			}
+			listView.Columns[0].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
 		}
 
 		void textBoxFrameName2_AfterEditTextChanged(object sender, EventArgs e)
@@ -770,21 +790,27 @@ namespace SB3Utility
 
 		void LoadMatrix(Matrix matrix, DataGridView viewSRT, DataGridView viewMatrix)
 		{
-			Vector3[] srt = FbxUtility.MatrixToSRT(matrix);
-			DataTable tableSRT = (DataTable)viewSRT.DataSource;
-			for (int i = 0; i < 3; i++)
+			if (viewSRT != null)
 			{
-				tableSRT.Rows[0][i + 1] = srt[2][i];
-				tableSRT.Rows[1][i + 1] = srt[1][i];
-				tableSRT.Rows[2][i + 1] = srt[0][i];
+				Vector3[] srt = FbxUtility.MatrixToSRT(matrix);
+				DataTable tableSRT = (DataTable)viewSRT.DataSource;
+				for (int i = 0; i < 3; i++)
+				{
+					tableSRT.Rows[0][i + 1] = srt[2][i];
+					tableSRT.Rows[1][i + 1] = srt[1][i];
+					tableSRT.Rows[2][i + 1] = srt[0][i];
+				}
 			}
 
-			DataTable tableMatrix = (DataTable)viewMatrix.DataSource;
-			for (int i = 0; i < 4; i++)
+			if (viewMatrix != null)
 			{
-				for (int j = 0; j < 4; j++)
+				DataTable tableMatrix = (DataTable)viewMatrix.DataSource;
+				for (int i = 0; i < 4; i++)
 				{
-					tableMatrix.Rows[i][j] = matrix[i, j];
+					for (int j = 0; j < 4; j++)
+					{
+						tableMatrix.Rows[i][j] = matrix[i, j];
+					}
 				}
 			}
 		}
@@ -2559,6 +2585,7 @@ namespace SB3Utility
 				InitMaterials();
 				RecreateCrossRefs();
 				LoadMesh(loadedMesh);
+				LoadMaterial(-1);
 			}
 			catch (Exception ex)
 			{

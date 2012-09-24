@@ -147,7 +147,7 @@ namespace SB3Utility
 		public static void ReplaceMesh(xxFrame frame, xxParser parser, WorkspaceMesh mesh, bool merge, CopyMeshMethod normalsMethod, CopyMeshMethod bonesMethod)
 		{
 			Matrix transform = Matrix.Identity;
-			xxFrame transformFrame = parser.Frame;
+			xxFrame transformFrame = frame;
 			while (transformFrame != null)
 			{
 				transform = transformFrame.Matrix * transform;
