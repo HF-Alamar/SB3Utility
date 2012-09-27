@@ -46,12 +46,14 @@
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.exportPPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
 			this.reopenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.saveppToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.saveppAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-			this.exportPPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+			this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.subfilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exportSubfilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -65,8 +67,6 @@
 			this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-			this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
 			this.tabControlSubfiles.SuspendLayout();
 			this.tabPageXXSubfiles.SuspendLayout();
 			this.tabPageXASubfiles.SuspendLayout();
@@ -78,9 +78,9 @@
 			// 
 			// tabControlSubfiles
 			// 
-			this.tabControlSubfiles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.tabControlSubfiles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.tabControlSubfiles.Controls.Add(this.tabPageXXSubfiles);
 			this.tabControlSubfiles.Controls.Add(this.tabPageXASubfiles);
 			this.tabControlSubfiles.Controls.Add(this.tabPageImageSubfiles);
@@ -224,8 +224,8 @@
 			// 
 			// comboBoxFormat
 			// 
-			this.comboBoxFormat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.comboBoxFormat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.comboBoxFormat.DropDownHeight = 300;
 			this.comboBoxFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxFormat.IntegralHeight = false;
@@ -281,45 +281,58 @@
             this.closeToolStripMenuItem});
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
 			this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
-			this.fileToolStripMenuItem.Text = "File";
+			this.fileToolStripMenuItem.Text = "&File";
+			// 
+			// exportPPToolStripMenuItem
+			// 
+			this.exportPPToolStripMenuItem.Name = "exportPPToolStripMenuItem";
+			this.exportPPToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+			this.exportPPToolStripMenuItem.Text = "&Export...";
+			this.exportPPToolStripMenuItem.Click += new System.EventHandler(this.exportPPToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator5
+			// 
+			this.toolStripSeparator5.Name = "toolStripSeparator5";
+			this.toolStripSeparator5.Size = new System.Drawing.Size(166, 6);
 			// 
 			// reopenToolStripMenuItem
 			// 
 			this.reopenToolStripMenuItem.Name = "reopenToolStripMenuItem";
-			this.reopenToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.reopenToolStripMenuItem.Text = "Reopen .pp";
+			this.reopenToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
+			this.reopenToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+			this.reopenToolStripMenuItem.Text = "&Reopen .pp";
 			this.reopenToolStripMenuItem.Click += new System.EventHandler(this.reopenToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(166, 6);
 			// 
 			// saveppToolStripMenuItem
 			// 
 			this.saveppToolStripMenuItem.Name = "saveppToolStripMenuItem";
-			this.saveppToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.saveppToolStripMenuItem.Text = "Save .pp";
+			this.saveppToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+			this.saveppToolStripMenuItem.Text = "&Save .pp";
 			this.saveppToolStripMenuItem.Click += new System.EventHandler(this.saveppToolStripMenuItem_Click);
 			// 
 			// saveppAsToolStripMenuItem
 			// 
 			this.saveppAsToolStripMenuItem.Name = "saveppAsToolStripMenuItem";
-			this.saveppAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.saveppAsToolStripMenuItem.Text = "Save .pp As...";
+			this.saveppAsToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+			this.saveppAsToolStripMenuItem.Text = "Save .pp &As...";
 			this.saveppAsToolStripMenuItem.Click += new System.EventHandler(this.saveppAsToolStripMenuItem_Click);
 			// 
-			// toolStripSeparator5
+			// toolStripSeparator6
 			// 
-			this.toolStripSeparator5.Name = "toolStripSeparator5";
-			this.toolStripSeparator5.Size = new System.Drawing.Size(149, 6);
+			this.toolStripSeparator6.Name = "toolStripSeparator6";
+			this.toolStripSeparator6.Size = new System.Drawing.Size(166, 6);
 			// 
-			// exportPPToolStripMenuItem
+			// closeToolStripMenuItem
 			// 
-			this.exportPPToolStripMenuItem.Name = "exportPPToolStripMenuItem";
-			this.exportPPToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.exportPPToolStripMenuItem.Text = "Export...";
-			this.exportPPToolStripMenuItem.Click += new System.EventHandler(this.exportPPToolStripMenuItem_Click);
+			this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+			this.closeToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+			this.closeToolStripMenuItem.Text = "&Close";
+			this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
 			// 
 			// subfilesToolStripMenuItem
 			// 
@@ -333,13 +346,13 @@
             this.renameToolStripMenuItem});
 			this.subfilesToolStripMenuItem.Name = "subfilesToolStripMenuItem";
 			this.subfilesToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
-			this.subfilesToolStripMenuItem.Text = "Subfiles";
+			this.subfilesToolStripMenuItem.Text = "&Subfiles";
 			// 
 			// exportSubfilesToolStripMenuItem
 			// 
 			this.exportSubfilesToolStripMenuItem.Name = "exportSubfilesToolStripMenuItem";
 			this.exportSubfilesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.exportSubfilesToolStripMenuItem.Text = "Export...";
+			this.exportSubfilesToolStripMenuItem.Text = "&Export...";
 			this.exportSubfilesToolStripMenuItem.Click += new System.EventHandler(this.exportSubfilesToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator4
@@ -351,7 +364,7 @@
 			// 
 			this.addFilesToolStripMenuItem.Name = "addFilesToolStripMenuItem";
 			this.addFilesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.addFilesToolStripMenuItem.Text = "Add Files...";
+			this.addFilesToolStripMenuItem.Text = "&Add Files...";
 			this.addFilesToolStripMenuItem.Click += new System.EventHandler(this.addFilesToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator2
@@ -363,7 +376,7 @@
 			// 
 			this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
 			this.removeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.removeToolStripMenuItem.Text = "Remove";
+			this.removeToolStripMenuItem.Text = "Re&move";
 			this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator3
@@ -375,7 +388,7 @@
 			// 
 			this.renameToolStripMenuItem.Name = "renameToolStripMenuItem";
 			this.renameToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.renameToolStripMenuItem.Text = "Rename";
+			this.renameToolStripMenuItem.Text = "Re&name";
 			this.renameToolStripMenuItem.Click += new System.EventHandler(this.renameToolStripMenuItem_Click);
 			// 
 			// optionsToolStripMenuItem
@@ -384,7 +397,7 @@
             this.keepBackupToolStripMenuItem});
 			this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
 			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
-			this.optionsToolStripMenuItem.Text = "Options";
+			this.optionsToolStripMenuItem.Text = "&Options";
 			// 
 			// keepBackupToolStripMenuItem
 			// 
@@ -392,8 +405,8 @@
 			this.keepBackupToolStripMenuItem.CheckOnClick = true;
 			this.keepBackupToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.keepBackupToolStripMenuItem.Name = "keepBackupToolStripMenuItem";
-			this.keepBackupToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
-			this.keepBackupToolStripMenuItem.Text = "Keep Backup";
+			this.keepBackupToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.keepBackupToolStripMenuItem.Text = "Keep &Backup";
 			// 
 			// saveFileDialog1
 			// 
@@ -403,18 +416,6 @@
 			// 
 			this.openFileDialog1.Multiselect = true;
 			this.openFileDialog1.RestoreDirectory = true;
-			// 
-			// closeToolStripMenuItem
-			// 
-			this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-			this.closeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.closeToolStripMenuItem.Text = "Close";
-			this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
-			// 
-			// toolStripSeparator6
-			// 
-			this.toolStripSeparator6.Name = "toolStripSeparator6";
-			this.toolStripSeparator6.Size = new System.Drawing.Size(149, 6);
 			// 
 			// FormPP
 			// 

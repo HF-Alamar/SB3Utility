@@ -90,22 +90,17 @@ namespace SB3Utility
 			try
 			{
 				InitializeComponent();
+				saveFileDialog1.Filter = ".xx Files (*.xx)|*.xx|All Files (*.*)|*.*";
 
 				this.ShowHint = DockState.Document;
 				this.Text = Path.GetFileName(path);
 				this.ToolTipText = path;
 				this.exportDir = Path.GetDirectoryName(path) + @"\" + Path.GetFileNameWithoutExtension(path);
 
-				ParserVar = Gui.Scripting.GetNextVariable("xxParser");
-				string parserCommand = ParserVar + " = OpenXX(path=\"" + path + "\")";
-				xxParser parser = (xxParser)Gui.Scripting.RunScript(parserCommand);
-
-				EditorVar = Gui.Scripting.GetNextVariable("xxEditor");
-				string editorCommand = EditorVar + " = xxEditor(parser=" + ParserVar + ")";
-				Editor = (xxEditor)Gui.Scripting.RunScript(editorCommand);
-
 				Init();
-				LoadXX();
+				ParserVar = Gui.Scripting.GetNextVariable("xxParser");
+				EditorVar = Gui.Scripting.GetNextVariable("xxEditor");
+				ReopenXX();
 			}
 			catch (Exception ex)
 			{
@@ -113,11 +108,24 @@ namespace SB3Utility
 			}
 		}
 
+		private void ReopenXX()
+		{
+			string path = this.ToolTipText;
+			string parserCommand = ParserVar + " = OpenXX(path=\"" + path + "\")";
+			xxParser parser = (xxParser)Gui.Scripting.RunScript(parserCommand);
+
+			string editorCommand = EditorVar + " = xxEditor(parser=" + ParserVar + ")";
+			Editor = (xxEditor)Gui.Scripting.RunScript(editorCommand);
+
+			LoadXX();
+		}
+
 		public FormXX(ppParser ppParser, string xxParserVar)
 		{
 			try
 			{
 				InitializeComponent();
+				this.Controls.Remove(this.menuStrip1);
 
 				xxParser parser = (xxParser)Gui.Scripting.Variables[xxParserVar];
 
@@ -751,11 +759,14 @@ namespace SB3Utility
 			texturelistHeader.AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
 
 			TreeNode texturesNode = new TreeNode("Textures");
+			TreeNode currentTexture = null;
 			for (int i = 0; i < Editor.Parser.TextureList.Count; i++)
 			{
 				TreeNode texNode = new TreeNode(Editor.Parser.TextureList[i].Name);
 				texNode.Tag = new DragSource(EditorVar, typeof(xxTexture), i);
 				texturesNode.Nodes.Add(texNode);
+				if (loadedTexture == i)
+					currentTexture = texNode;
 			}
 
 			if (treeViewObjectTree.Nodes.Count > 2)
@@ -763,6 +774,8 @@ namespace SB3Utility
 				treeViewObjectTree.Nodes.RemoveAt(2);
 			}
 			treeViewObjectTree.Nodes.Insert(2, texturesNode);
+			if (currentTexture != null)
+				currentTexture.EnsureVisible();
 		}
 
 		void LoadFrame(int id)
@@ -2984,6 +2997,28 @@ namespace SB3Utility
 			{
 				Utility.ReportException(ex);
 			}
+		}
+
+		private void reopenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			CustomDispose();
+			ReopenXX();
+		}
+
+		private void savexxToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Gui.Scripting.RunScript(EditorVar + ".SaveXX(path=\"" + this.ToolTipText + "\", backup=" + keepBackupToolStripMenuItem.Checked + ")");
+		}
+
+		private void savexxAsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+				Gui.Scripting.RunScript(EditorVar + ".SaveXX(path=\"" + saveFileDialog1.FileName + "\", backup=" + keepBackupToolStripMenuItem.Checked + ")");
+		}
+
+		private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			this.Close();
 		}
 	}
 }

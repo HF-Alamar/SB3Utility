@@ -760,5 +760,11 @@ namespace SB3Utility
 
 			tex.Name = name;
 		}
+
+		[Plugin]
+		public void SaveXX(string path, bool backup)
+		{
+			xx.SaveXX(Parser, path, backup);
+		}
 	}
 }

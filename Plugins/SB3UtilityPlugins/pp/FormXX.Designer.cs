@@ -31,6 +31,7 @@
 		private void InitializeComponent()
 		{
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.textBoxFormat = new SB3Utility.EditTextBox();
 			this.buttonConvert = new System.Windows.Forms.Button();
 			this.buttonEditHex = new System.Windows.Forms.Button();
 			this.label26 = new System.Windows.Forms.Label();
@@ -90,13 +91,17 @@
 			this.buttonFrameMatrixInverse = new System.Windows.Forms.Button();
 			this.buttonFrameMatrixCombined = new System.Windows.Forms.Button();
 			this.label15 = new System.Windows.Forms.Label();
+			this.textBoxFrameName2 = new SB3Utility.EditTextBox();
 			this.tabControlFrameMatrix = new System.Windows.Forms.TabControl();
 			this.tabPageFrameSRT = new System.Windows.Forms.TabPage();
+			this.dataGridViewFrameSRT = new SB3Utility.DataGridViewEditor();
 			this.tabPageFrameMatrix = new System.Windows.Forms.TabPage();
+			this.dataGridViewFrameMatrix = new SB3Utility.DataGridViewEditor();
 			this.buttonFrameMoveUp = new System.Windows.Forms.Button();
 			this.buttonFrameRemove = new System.Windows.Forms.Button();
 			this.buttonFrameMoveDown = new System.Windows.Forms.Button();
 			this.label4 = new System.Windows.Forms.Label();
+			this.textBoxFrameName = new SB3Utility.EditTextBox();
 			this.tabPageBoneView = new System.Windows.Forms.TabPage();
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
 			this.buttonBoneMatrixApply = new System.Windows.Forms.Button();
@@ -112,11 +117,14 @@
 			this.buttonBoneMatrixInverse = new System.Windows.Forms.Button();
 			this.tabControlBoneMatrix = new System.Windows.Forms.TabControl();
 			this.tabPageBoneSRT = new System.Windows.Forms.TabPage();
+			this.dataGridViewBoneSRT = new SB3Utility.DataGridViewEditor();
 			this.tabPageBoneMatrix = new System.Windows.Forms.TabPage();
+			this.dataGridViewBoneMatrix = new SB3Utility.DataGridViewEditor();
 			this.buttonBoneRemove = new System.Windows.Forms.Button();
 			this.buttonBoneCopy = new System.Windows.Forms.Button();
 			this.buttonBoneGotoFrame = new System.Windows.Forms.Button();
 			this.label25 = new System.Windows.Forms.Label();
+			this.textBoxBoneName = new SB3Utility.EditTextBox();
 			this.tabPageMeshView = new System.Windows.Forms.TabPage();
 			this.buttonMeshNormals = new System.Windows.Forms.Button();
 			this.buttonMeshEditHex = new System.Windows.Forms.Button();
@@ -151,6 +159,7 @@
 			this.ColumnSubmeshMaterial = new System.Windows.Forms.DataGridViewComboBoxColumn();
 			this.buttonSubmeshEdit = new System.Windows.Forms.Button();
 			this.buttonSubmeshRemove = new System.Windows.Forms.Button();
+			this.textBoxMeshName = new SB3Utility.EditTextBox();
 			this.tabPageMaterialView = new System.Windows.Forms.TabPage();
 			this.buttonTextureExternal = new System.Windows.Forms.Button();
 			this.comboBoxMatTex4 = new System.Windows.Forms.ComboBox();
@@ -170,24 +179,6 @@
 			this.label20 = new System.Windows.Forms.Label();
 			this.label19 = new System.Windows.Forms.Label();
 			this.label18 = new System.Windows.Forms.Label();
-			this.tabPageTextureView = new System.Windows.Forms.TabPage();
-			this.buttonTextureAdd = new System.Windows.Forms.Button();
-			this.panelTexturePic = new System.Windows.Forms.Panel();
-			this.pictureBoxTexture = new System.Windows.Forms.PictureBox();
-			this.label3 = new System.Windows.Forms.Label();
-			this.buttonTextureExport = new System.Windows.Forms.Button();
-			this.buttonTextureReplace = new System.Windows.Forms.Button();
-			this.buttonTextureRemove = new System.Windows.Forms.Button();
-			this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-			this.textBoxFormat = new SB3Utility.EditTextBox();
-			this.textBoxFrameName2 = new SB3Utility.EditTextBox();
-			this.dataGridViewFrameSRT = new SB3Utility.DataGridViewEditor();
-			this.dataGridViewFrameMatrix = new SB3Utility.DataGridViewEditor();
-			this.textBoxFrameName = new SB3Utility.EditTextBox();
-			this.dataGridViewBoneSRT = new SB3Utility.DataGridViewEditor();
-			this.dataGridViewBoneMatrix = new SB3Utility.DataGridViewEditor();
-			this.textBoxBoneName = new SB3Utility.EditTextBox();
-			this.textBoxMeshName = new SB3Utility.EditTextBox();
 			this.textBoxMatSpecularPower = new SB3Utility.EditTextBox();
 			this.textBoxMatEmissiveA = new SB3Utility.EditTextBox();
 			this.textBoxMatEmissiveB = new SB3Utility.EditTextBox();
@@ -206,8 +197,27 @@
 			this.textBoxMatDiffuseG = new SB3Utility.EditTextBox();
 			this.textBoxMatDiffuseR = new SB3Utility.EditTextBox();
 			this.textBoxMatName = new SB3Utility.EditTextBox();
+			this.tabPageTextureView = new System.Windows.Forms.TabPage();
+			this.buttonTextureAdd = new System.Windows.Forms.Button();
+			this.panelTexturePic = new System.Windows.Forms.Panel();
+			this.pictureBoxTexture = new System.Windows.Forms.PictureBox();
+			this.label3 = new System.Windows.Forms.Label();
+			this.buttonTextureExport = new System.Windows.Forms.Button();
+			this.buttonTextureReplace = new System.Windows.Forms.Button();
+			this.buttonTextureRemove = new System.Windows.Forms.Button();
 			this.textBoxTexSize = new SB3Utility.EditTextBox();
 			this.textBoxTexName = new SB3Utility.EditTextBox();
+			this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.reopenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.savexxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.savexxAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+			this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.keepBackupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -249,14 +259,18 @@
 			((System.ComponentModel.ISupportInitialize)(this.numericFrameMatrixNumber)).BeginInit();
 			this.tabControlFrameMatrix.SuspendLayout();
 			this.tabPageFrameSRT.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.dataGridViewFrameSRT)).BeginInit();
 			this.tabPageFrameMatrix.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.dataGridViewFrameMatrix)).BeginInit();
 			this.tabPageBoneView.SuspendLayout();
 			this.groupBox4.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericBoneMatrixRatio)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericBoneMatrixNumber)).BeginInit();
 			this.tabControlBoneMatrix.SuspendLayout();
 			this.tabPageBoneSRT.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.dataGridViewBoneSRT)).BeginInit();
 			this.tabPageBoneMatrix.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.dataGridViewBoneMatrix)).BeginInit();
 			this.tabPageMeshView.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.panelMeshExportOptionsDirectX.SuspendLayout();
@@ -271,10 +285,7 @@
 			this.tabPageTextureView.SuspendLayout();
 			this.panelTexturePic.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxTexture)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.dataGridViewFrameSRT)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.dataGridViewFrameMatrix)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.dataGridViewBoneSRT)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.dataGridViewBoneMatrix)).BeginInit();
+			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// splitContainer1
@@ -282,7 +293,7 @@
 			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
 			this.splitContainer1.IsSplitterFixed = true;
-			this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+			this.splitContainer1.Location = new System.Drawing.Point(0, 18);
 			this.splitContainer1.Name = "splitContainer1";
 			// 
 			// splitContainer1.Panel1
@@ -296,15 +307,26 @@
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.tabControlViews);
-			this.splitContainer1.Size = new System.Drawing.Size(524, 536);
+			this.splitContainer1.Size = new System.Drawing.Size(524, 518);
 			this.splitContainer1.SplitterDistance = 259;
 			this.splitContainer1.TabIndex = 116;
 			this.splitContainer1.TabStop = false;
 			// 
+			// textBoxFormat
+			// 
+			this.textBoxFormat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.textBoxFormat.Location = new System.Drawing.Point(44, 494);
+			this.textBoxFormat.Name = "textBoxFormat";
+			this.textBoxFormat.ReadOnly = true;
+			this.textBoxFormat.Size = new System.Drawing.Size(24, 20);
+			this.textBoxFormat.TabIndex = 121;
+			this.textBoxFormat.TabStop = false;
+			this.textBoxFormat.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
 			// buttonConvert
 			// 
 			this.buttonConvert.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.buttonConvert.Location = new System.Drawing.Point(81, 511);
+			this.buttonConvert.Location = new System.Drawing.Point(81, 493);
 			this.buttonConvert.Name = "buttonConvert";
 			this.buttonConvert.Size = new System.Drawing.Size(75, 23);
 			this.buttonConvert.TabIndex = 123;
@@ -316,7 +338,7 @@
 			// buttonEditHex
 			// 
 			this.buttonEditHex.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.buttonEditHex.Location = new System.Drawing.Point(183, 511);
+			this.buttonEditHex.Location = new System.Drawing.Point(183, 493);
 			this.buttonEditHex.Name = "buttonEditHex";
 			this.buttonEditHex.Size = new System.Drawing.Size(75, 23);
 			this.buttonEditHex.TabIndex = 122;
@@ -329,7 +351,7 @@
 			// 
 			this.label26.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label26.AutoSize = true;
-			this.label26.Location = new System.Drawing.Point(3, 515);
+			this.label26.Location = new System.Drawing.Point(3, 497);
 			this.label26.Name = "label26";
 			this.label26.Size = new System.Drawing.Size(39, 13);
 			this.label26.TabIndex = 120;
@@ -347,7 +369,7 @@
 			this.tabControlLists.Location = new System.Drawing.Point(0, 0);
 			this.tabControlLists.Name = "tabControlLists";
 			this.tabControlLists.SelectedIndex = 0;
-			this.tabControlLists.Size = new System.Drawing.Size(259, 508);
+			this.tabControlLists.Size = new System.Drawing.Size(259, 490);
 			this.tabControlLists.TabIndex = 119;
 			this.tabControlLists.TabStop = false;
 			// 
@@ -357,7 +379,7 @@
 			this.tabPageObject.Controls.Add(this.panelObjectTreeBottom);
 			this.tabPageObject.Location = new System.Drawing.Point(4, 22);
 			this.tabPageObject.Name = "tabPageObject";
-			this.tabPageObject.Size = new System.Drawing.Size(251, 482);
+			this.tabPageObject.Size = new System.Drawing.Size(251, 464);
 			this.tabPageObject.TabIndex = 2;
 			this.tabPageObject.Text = "Object Tree";
 			this.tabPageObject.UseVisualStyleBackColor = true;
@@ -369,7 +391,7 @@
 			this.treeViewObjectTree.HideSelection = false;
 			this.treeViewObjectTree.Location = new System.Drawing.Point(0, 0);
 			this.treeViewObjectTree.Name = "treeViewObjectTree";
-			this.treeViewObjectTree.Size = new System.Drawing.Size(251, 453);
+			this.treeViewObjectTree.Size = new System.Drawing.Size(251, 435);
 			this.treeViewObjectTree.TabIndex = 36;
 			this.treeViewObjectTree.TabStop = false;
 			this.treeViewObjectTree.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeViewObjectTree_ItemDrag);
@@ -384,7 +406,7 @@
 			this.panelObjectTreeBottom.Controls.Add(this.buttonObjectTreeCollapse);
 			this.panelObjectTreeBottom.Controls.Add(this.buttonObjectTreeExpand);
 			this.panelObjectTreeBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.panelObjectTreeBottom.Location = new System.Drawing.Point(0, 453);
+			this.panelObjectTreeBottom.Location = new System.Drawing.Point(0, 435);
 			this.panelObjectTreeBottom.Name = "panelObjectTreeBottom";
 			this.panelObjectTreeBottom.Size = new System.Drawing.Size(251, 29);
 			this.panelObjectTreeBottom.TabIndex = 37;
@@ -418,7 +440,7 @@
 			this.tabPageMesh.Controls.Add(this.splitContainerMesh);
 			this.tabPageMesh.Location = new System.Drawing.Point(4, 22);
 			this.tabPageMesh.Name = "tabPageMesh";
-			this.tabPageMesh.Size = new System.Drawing.Size(251, 482);
+			this.tabPageMesh.Size = new System.Drawing.Size(251, 464);
 			this.tabPageMesh.TabIndex = 0;
 			this.tabPageMesh.Text = "Mesh";
 			this.tabPageMesh.UseVisualStyleBackColor = true;
@@ -437,8 +459,8 @@
 			// splitContainerMesh.Panel2
 			// 
 			this.splitContainerMesh.Panel2.Controls.Add(this.splitContainerMeshCrossRef);
-			this.splitContainerMesh.Size = new System.Drawing.Size(251, 482);
-			this.splitContainerMesh.SplitterDistance = 275;
+			this.splitContainerMesh.Size = new System.Drawing.Size(251, 464);
+			this.splitContainerMesh.SplitterDistance = 264;
 			this.splitContainerMesh.TabIndex = 3;
 			// 
 			// listViewMesh
@@ -452,7 +474,7 @@
 			this.listViewMesh.LabelWrap = false;
 			this.listViewMesh.Location = new System.Drawing.Point(0, 0);
 			this.listViewMesh.Name = "listViewMesh";
-			this.listViewMesh.Size = new System.Drawing.Size(251, 275);
+			this.listViewMesh.Size = new System.Drawing.Size(251, 264);
 			this.listViewMesh.Sorting = System.Windows.Forms.SortOrder.Ascending;
 			this.listViewMesh.TabIndex = 1;
 			this.listViewMesh.TabStop = false;
@@ -476,8 +498,8 @@
 			// 
 			this.splitContainerMeshCrossRef.Panel2.Controls.Add(this.listViewMeshTexture);
 			this.splitContainerMeshCrossRef.Panel2.Controls.Add(this.label70);
-			this.splitContainerMeshCrossRef.Size = new System.Drawing.Size(251, 203);
-			this.splitContainerMeshCrossRef.SplitterDistance = 99;
+			this.splitContainerMeshCrossRef.Size = new System.Drawing.Size(251, 196);
+			this.splitContainerMeshCrossRef.SplitterDistance = 95;
 			this.splitContainerMeshCrossRef.TabIndex = 2;
 			// 
 			// listViewMeshMaterial
@@ -491,7 +513,7 @@
 			this.listViewMeshMaterial.LabelWrap = false;
 			this.listViewMeshMaterial.Location = new System.Drawing.Point(0, 13);
 			this.listViewMeshMaterial.Name = "listViewMeshMaterial";
-			this.listViewMeshMaterial.Size = new System.Drawing.Size(251, 86);
+			this.listViewMeshMaterial.Size = new System.Drawing.Size(251, 82);
 			this.listViewMeshMaterial.Sorting = System.Windows.Forms.SortOrder.Ascending;
 			this.listViewMeshMaterial.TabIndex = 2;
 			this.listViewMeshMaterial.TabStop = false;
@@ -520,7 +542,7 @@
 			this.listViewMeshTexture.LabelWrap = false;
 			this.listViewMeshTexture.Location = new System.Drawing.Point(0, 13);
 			this.listViewMeshTexture.Name = "listViewMeshTexture";
-			this.listViewMeshTexture.Size = new System.Drawing.Size(251, 87);
+			this.listViewMeshTexture.Size = new System.Drawing.Size(251, 84);
 			this.listViewMeshTexture.Sorting = System.Windows.Forms.SortOrder.Ascending;
 			this.listViewMeshTexture.TabIndex = 2;
 			this.listViewMeshTexture.TabStop = false;
@@ -543,7 +565,7 @@
 			this.tabPageMaterial.Controls.Add(this.splitContainerMaterial);
 			this.tabPageMaterial.Location = new System.Drawing.Point(4, 22);
 			this.tabPageMaterial.Name = "tabPageMaterial";
-			this.tabPageMaterial.Size = new System.Drawing.Size(251, 482);
+			this.tabPageMaterial.Size = new System.Drawing.Size(251, 464);
 			this.tabPageMaterial.TabIndex = 1;
 			this.tabPageMaterial.Text = "Material";
 			this.tabPageMaterial.UseVisualStyleBackColor = true;
@@ -562,8 +584,8 @@
 			// splitContainerMaterial.Panel2
 			// 
 			this.splitContainerMaterial.Panel2.Controls.Add(this.splitContainerMaterialCrossRef);
-			this.splitContainerMaterial.Size = new System.Drawing.Size(251, 482);
-			this.splitContainerMaterial.SplitterDistance = 275;
+			this.splitContainerMaterial.Size = new System.Drawing.Size(251, 464);
+			this.splitContainerMaterial.SplitterDistance = 264;
 			this.splitContainerMaterial.TabIndex = 4;
 			// 
 			// listViewMaterial
@@ -577,7 +599,7 @@
 			this.listViewMaterial.LabelWrap = false;
 			this.listViewMaterial.Location = new System.Drawing.Point(0, 0);
 			this.listViewMaterial.Name = "listViewMaterial";
-			this.listViewMaterial.Size = new System.Drawing.Size(251, 275);
+			this.listViewMaterial.Size = new System.Drawing.Size(251, 264);
 			this.listViewMaterial.Sorting = System.Windows.Forms.SortOrder.Ascending;
 			this.listViewMaterial.TabIndex = 0;
 			this.listViewMaterial.TabStop = false;
@@ -601,8 +623,8 @@
 			// 
 			this.splitContainerMaterialCrossRef.Panel2.Controls.Add(this.listViewMaterialTexture);
 			this.splitContainerMaterialCrossRef.Panel2.Controls.Add(this.label72);
-			this.splitContainerMaterialCrossRef.Size = new System.Drawing.Size(251, 203);
-			this.splitContainerMaterialCrossRef.SplitterDistance = 99;
+			this.splitContainerMaterialCrossRef.Size = new System.Drawing.Size(251, 196);
+			this.splitContainerMaterialCrossRef.SplitterDistance = 95;
 			this.splitContainerMaterialCrossRef.TabIndex = 2;
 			// 
 			// listViewMaterialMesh
@@ -616,7 +638,7 @@
 			this.listViewMaterialMesh.LabelWrap = false;
 			this.listViewMaterialMesh.Location = new System.Drawing.Point(0, 13);
 			this.listViewMaterialMesh.Name = "listViewMaterialMesh";
-			this.listViewMaterialMesh.Size = new System.Drawing.Size(251, 86);
+			this.listViewMaterialMesh.Size = new System.Drawing.Size(251, 82);
 			this.listViewMaterialMesh.Sorting = System.Windows.Forms.SortOrder.Ascending;
 			this.listViewMaterialMesh.TabIndex = 3;
 			this.listViewMaterialMesh.TabStop = false;
@@ -645,7 +667,7 @@
 			this.listViewMaterialTexture.LabelWrap = false;
 			this.listViewMaterialTexture.Location = new System.Drawing.Point(0, 13);
 			this.listViewMaterialTexture.Name = "listViewMaterialTexture";
-			this.listViewMaterialTexture.Size = new System.Drawing.Size(251, 87);
+			this.listViewMaterialTexture.Size = new System.Drawing.Size(251, 84);
 			this.listViewMaterialTexture.Sorting = System.Windows.Forms.SortOrder.Ascending;
 			this.listViewMaterialTexture.TabIndex = 3;
 			this.listViewMaterialTexture.TabStop = false;
@@ -668,7 +690,7 @@
 			this.tabPageTexture.Controls.Add(this.splitContainerTexture);
 			this.tabPageTexture.Location = new System.Drawing.Point(4, 22);
 			this.tabPageTexture.Name = "tabPageTexture";
-			this.tabPageTexture.Size = new System.Drawing.Size(251, 482);
+			this.tabPageTexture.Size = new System.Drawing.Size(251, 464);
 			this.tabPageTexture.TabIndex = 3;
 			this.tabPageTexture.Text = "Texture";
 			this.tabPageTexture.UseVisualStyleBackColor = true;
@@ -687,8 +709,8 @@
 			// splitContainerTexture.Panel2
 			// 
 			this.splitContainerTexture.Panel2.Controls.Add(this.splitContainerTextureCrossRef);
-			this.splitContainerTexture.Size = new System.Drawing.Size(251, 482);
-			this.splitContainerTexture.SplitterDistance = 275;
+			this.splitContainerTexture.Size = new System.Drawing.Size(251, 464);
+			this.splitContainerTexture.SplitterDistance = 264;
 			this.splitContainerTexture.TabIndex = 3;
 			// 
 			// listViewTexture
@@ -702,7 +724,7 @@
 			this.listViewTexture.LabelWrap = false;
 			this.listViewTexture.Location = new System.Drawing.Point(0, 0);
 			this.listViewTexture.Name = "listViewTexture";
-			this.listViewTexture.Size = new System.Drawing.Size(251, 275);
+			this.listViewTexture.Size = new System.Drawing.Size(251, 264);
 			this.listViewTexture.Sorting = System.Windows.Forms.SortOrder.Ascending;
 			this.listViewTexture.TabIndex = 1;
 			this.listViewTexture.TabStop = false;
@@ -726,8 +748,8 @@
 			// 
 			this.splitContainerTextureCrossRef.Panel2.Controls.Add(this.listViewTextureMaterial);
 			this.splitContainerTextureCrossRef.Panel2.Controls.Add(this.label74);
-			this.splitContainerTextureCrossRef.Size = new System.Drawing.Size(251, 203);
-			this.splitContainerTextureCrossRef.SplitterDistance = 99;
+			this.splitContainerTextureCrossRef.Size = new System.Drawing.Size(251, 196);
+			this.splitContainerTextureCrossRef.SplitterDistance = 95;
 			this.splitContainerTextureCrossRef.TabIndex = 2;
 			// 
 			// listViewTextureMesh
@@ -741,7 +763,7 @@
 			this.listViewTextureMesh.LabelWrap = false;
 			this.listViewTextureMesh.Location = new System.Drawing.Point(0, 13);
 			this.listViewTextureMesh.Name = "listViewTextureMesh";
-			this.listViewTextureMesh.Size = new System.Drawing.Size(251, 86);
+			this.listViewTextureMesh.Size = new System.Drawing.Size(251, 82);
 			this.listViewTextureMesh.Sorting = System.Windows.Forms.SortOrder.Ascending;
 			this.listViewTextureMesh.TabIndex = 4;
 			this.listViewTextureMesh.TabStop = false;
@@ -770,7 +792,7 @@
 			this.listViewTextureMaterial.LabelWrap = false;
 			this.listViewTextureMaterial.Location = new System.Drawing.Point(0, 13);
 			this.listViewTextureMaterial.Name = "listViewTextureMaterial";
-			this.listViewTextureMaterial.Size = new System.Drawing.Size(251, 87);
+			this.listViewTextureMaterial.Size = new System.Drawing.Size(251, 84);
 			this.listViewTextureMaterial.Sorting = System.Windows.Forms.SortOrder.Ascending;
 			this.listViewTextureMaterial.TabIndex = 4;
 			this.listViewTextureMaterial.TabStop = false;
@@ -801,7 +823,7 @@
 			this.tabControlViews.Location = new System.Drawing.Point(0, 0);
 			this.tabControlViews.Name = "tabControlViews";
 			this.tabControlViews.SelectedIndex = 0;
-			this.tabControlViews.Size = new System.Drawing.Size(261, 536);
+			this.tabControlViews.Size = new System.Drawing.Size(261, 518);
 			this.tabControlViews.TabIndex = 133;
 			this.tabControlViews.TabStop = false;
 			// 
@@ -819,7 +841,7 @@
 			this.tabPageFrameView.Controls.Add(this.textBoxFrameName);
 			this.tabPageFrameView.Location = new System.Drawing.Point(4, 22);
 			this.tabPageFrameView.Name = "tabPageFrameView";
-			this.tabPageFrameView.Size = new System.Drawing.Size(253, 510);
+			this.tabPageFrameView.Size = new System.Drawing.Size(253, 492);
 			this.tabPageFrameView.TabIndex = 2;
 			this.tabPageFrameView.Text = "Frame";
 			this.tabPageFrameView.UseVisualStyleBackColor = true;
@@ -1013,6 +1035,14 @@
 			this.label15.TabIndex = 157;
 			this.label15.Text = "Name2";
 			// 
+			// textBoxFrameName2
+			// 
+			this.textBoxFrameName2.Location = new System.Drawing.Point(43, 32);
+			this.textBoxFrameName2.Name = "textBoxFrameName2";
+			this.textBoxFrameName2.Size = new System.Drawing.Size(207, 20);
+			this.textBoxFrameName2.TabIndex = 156;
+			this.textBoxFrameName2.TabStop = false;
+			// 
 			// tabControlFrameMatrix
 			// 
 			this.tabControlFrameMatrix.Controls.Add(this.tabPageFrameSRT);
@@ -1035,6 +1065,29 @@
 			this.tabPageFrameSRT.Text = "SRT";
 			this.tabPageFrameSRT.UseVisualStyleBackColor = true;
 			// 
+			// dataGridViewFrameSRT
+			// 
+			this.dataGridViewFrameSRT.AllowUserToAddRows = false;
+			this.dataGridViewFrameSRT.AllowUserToDeleteRows = false;
+			this.dataGridViewFrameSRT.AllowUserToResizeColumns = false;
+			this.dataGridViewFrameSRT.AllowUserToResizeRows = false;
+			this.dataGridViewFrameSRT.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+			this.dataGridViewFrameSRT.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+			this.dataGridViewFrameSRT.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
+			this.dataGridViewFrameSRT.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+			this.dataGridViewFrameSRT.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.dataGridViewFrameSRT.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.dataGridViewFrameSRT.Location = new System.Drawing.Point(3, 3);
+			this.dataGridViewFrameSRT.Name = "dataGridViewFrameSRT";
+			this.dataGridViewFrameSRT.RowHeadersVisible = false;
+			this.dataGridViewFrameSRT.ScrollBars = System.Windows.Forms.ScrollBars.None;
+			this.dataGridViewFrameSRT.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+			this.dataGridViewFrameSRT.ShowRowIndex = false;
+			this.dataGridViewFrameSRT.Size = new System.Drawing.Size(239, 80);
+			this.dataGridViewFrameSRT.TabIndex = 144;
+			this.dataGridViewFrameSRT.TabStop = false;
+			this.dataGridViewFrameSRT.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewSRT_CellValueChanged);
+			// 
 			// tabPageFrameMatrix
 			// 
 			this.tabPageFrameMatrix.Controls.Add(this.dataGridViewFrameMatrix);
@@ -1045,6 +1098,30 @@
 			this.tabPageFrameMatrix.TabIndex = 0;
 			this.tabPageFrameMatrix.Text = "Matrix";
 			this.tabPageFrameMatrix.UseVisualStyleBackColor = true;
+			// 
+			// dataGridViewFrameMatrix
+			// 
+			this.dataGridViewFrameMatrix.AllowUserToAddRows = false;
+			this.dataGridViewFrameMatrix.AllowUserToDeleteRows = false;
+			this.dataGridViewFrameMatrix.AllowUserToResizeColumns = false;
+			this.dataGridViewFrameMatrix.AllowUserToResizeRows = false;
+			this.dataGridViewFrameMatrix.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+			this.dataGridViewFrameMatrix.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+			this.dataGridViewFrameMatrix.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
+			this.dataGridViewFrameMatrix.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+			this.dataGridViewFrameMatrix.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.dataGridViewFrameMatrix.ColumnHeadersVisible = false;
+			this.dataGridViewFrameMatrix.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.dataGridViewFrameMatrix.Location = new System.Drawing.Point(3, 3);
+			this.dataGridViewFrameMatrix.Name = "dataGridViewFrameMatrix";
+			this.dataGridViewFrameMatrix.RowHeadersVisible = false;
+			this.dataGridViewFrameMatrix.ScrollBars = System.Windows.Forms.ScrollBars.None;
+			this.dataGridViewFrameMatrix.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+			this.dataGridViewFrameMatrix.ShowRowIndex = false;
+			this.dataGridViewFrameMatrix.Size = new System.Drawing.Size(239, 80);
+			this.dataGridViewFrameMatrix.TabIndex = 145;
+			this.dataGridViewFrameMatrix.TabStop = false;
+			this.dataGridViewFrameMatrix.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewMatrix_CellValueChanged);
 			// 
 			// buttonFrameMoveUp
 			// 
@@ -1088,6 +1165,14 @@
 			this.label4.TabIndex = 85;
 			this.label4.Text = "Name";
 			// 
+			// textBoxFrameName
+			// 
+			this.textBoxFrameName.Location = new System.Drawing.Point(43, 6);
+			this.textBoxFrameName.Name = "textBoxFrameName";
+			this.textBoxFrameName.Size = new System.Drawing.Size(207, 20);
+			this.textBoxFrameName.TabIndex = 66;
+			this.textBoxFrameName.TabStop = false;
+			// 
 			// tabPageBoneView
 			// 
 			this.tabPageBoneView.Controls.Add(this.groupBox4);
@@ -1099,7 +1184,7 @@
 			this.tabPageBoneView.Controls.Add(this.textBoxBoneName);
 			this.tabPageBoneView.Location = new System.Drawing.Point(4, 22);
 			this.tabPageBoneView.Name = "tabPageBoneView";
-			this.tabPageBoneView.Size = new System.Drawing.Size(253, 510);
+			this.tabPageBoneView.Size = new System.Drawing.Size(253, 492);
 			this.tabPageBoneView.TabIndex = 8;
 			this.tabPageBoneView.Text = "Bone";
 			this.tabPageBoneView.UseVisualStyleBackColor = true;
@@ -1283,6 +1368,29 @@
 			this.tabPageBoneSRT.Text = "SRT";
 			this.tabPageBoneSRT.UseVisualStyleBackColor = true;
 			// 
+			// dataGridViewBoneSRT
+			// 
+			this.dataGridViewBoneSRT.AllowUserToAddRows = false;
+			this.dataGridViewBoneSRT.AllowUserToDeleteRows = false;
+			this.dataGridViewBoneSRT.AllowUserToResizeColumns = false;
+			this.dataGridViewBoneSRT.AllowUserToResizeRows = false;
+			this.dataGridViewBoneSRT.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+			this.dataGridViewBoneSRT.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+			this.dataGridViewBoneSRT.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
+			this.dataGridViewBoneSRT.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+			this.dataGridViewBoneSRT.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.dataGridViewBoneSRT.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.dataGridViewBoneSRT.Location = new System.Drawing.Point(3, 3);
+			this.dataGridViewBoneSRT.Name = "dataGridViewBoneSRT";
+			this.dataGridViewBoneSRT.RowHeadersVisible = false;
+			this.dataGridViewBoneSRT.ScrollBars = System.Windows.Forms.ScrollBars.None;
+			this.dataGridViewBoneSRT.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+			this.dataGridViewBoneSRT.ShowRowIndex = false;
+			this.dataGridViewBoneSRT.Size = new System.Drawing.Size(239, 80);
+			this.dataGridViewBoneSRT.TabIndex = 144;
+			this.dataGridViewBoneSRT.TabStop = false;
+			this.dataGridViewBoneSRT.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewSRT_CellValueChanged);
+			// 
 			// tabPageBoneMatrix
 			// 
 			this.tabPageBoneMatrix.Controls.Add(this.dataGridViewBoneMatrix);
@@ -1293,6 +1401,30 @@
 			this.tabPageBoneMatrix.TabIndex = 0;
 			this.tabPageBoneMatrix.Text = "Matrix";
 			this.tabPageBoneMatrix.UseVisualStyleBackColor = true;
+			// 
+			// dataGridViewBoneMatrix
+			// 
+			this.dataGridViewBoneMatrix.AllowUserToAddRows = false;
+			this.dataGridViewBoneMatrix.AllowUserToDeleteRows = false;
+			this.dataGridViewBoneMatrix.AllowUserToResizeColumns = false;
+			this.dataGridViewBoneMatrix.AllowUserToResizeRows = false;
+			this.dataGridViewBoneMatrix.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+			this.dataGridViewBoneMatrix.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+			this.dataGridViewBoneMatrix.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
+			this.dataGridViewBoneMatrix.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+			this.dataGridViewBoneMatrix.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.dataGridViewBoneMatrix.ColumnHeadersVisible = false;
+			this.dataGridViewBoneMatrix.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.dataGridViewBoneMatrix.Location = new System.Drawing.Point(3, 3);
+			this.dataGridViewBoneMatrix.Name = "dataGridViewBoneMatrix";
+			this.dataGridViewBoneMatrix.RowHeadersVisible = false;
+			this.dataGridViewBoneMatrix.ScrollBars = System.Windows.Forms.ScrollBars.None;
+			this.dataGridViewBoneMatrix.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+			this.dataGridViewBoneMatrix.ShowRowIndex = false;
+			this.dataGridViewBoneMatrix.Size = new System.Drawing.Size(239, 80);
+			this.dataGridViewBoneMatrix.TabIndex = 145;
+			this.dataGridViewBoneMatrix.TabStop = false;
+			this.dataGridViewBoneMatrix.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewMatrix_CellValueChanged);
 			// 
 			// buttonBoneRemove
 			// 
@@ -1336,6 +1468,14 @@
 			this.label25.TabIndex = 106;
 			this.label25.Text = "Name";
 			// 
+			// textBoxBoneName
+			// 
+			this.textBoxBoneName.Location = new System.Drawing.Point(35, 6);
+			this.textBoxBoneName.Name = "textBoxBoneName";
+			this.textBoxBoneName.Size = new System.Drawing.Size(215, 20);
+			this.textBoxBoneName.TabIndex = 87;
+			this.textBoxBoneName.TabStop = false;
+			// 
 			// tabPageMeshView
 			// 
 			this.tabPageMeshView.Controls.Add(this.buttonMeshNormals);
@@ -1351,7 +1491,7 @@
 			this.tabPageMeshView.Controls.Add(this.textBoxMeshName);
 			this.tabPageMeshView.Location = new System.Drawing.Point(4, 22);
 			this.tabPageMeshView.Name = "tabPageMeshView";
-			this.tabPageMeshView.Size = new System.Drawing.Size(253, 510);
+			this.tabPageMeshView.Size = new System.Drawing.Size(253, 492);
 			this.tabPageMeshView.TabIndex = 0;
 			this.tabPageMeshView.Text = "Mesh";
 			this.tabPageMeshView.UseVisualStyleBackColor = true;
@@ -1737,6 +1877,15 @@
 			this.buttonSubmeshRemove.UseVisualStyleBackColor = true;
 			this.buttonSubmeshRemove.Click += new System.EventHandler(this.buttonSubmeshRemove_Click);
 			// 
+			// textBoxMeshName
+			// 
+			this.textBoxMeshName.Location = new System.Drawing.Point(0, 19);
+			this.textBoxMeshName.Name = "textBoxMeshName";
+			this.textBoxMeshName.ReadOnly = true;
+			this.textBoxMeshName.Size = new System.Drawing.Size(200, 20);
+			this.textBoxMeshName.TabIndex = 124;
+			this.textBoxMeshName.TabStop = false;
+			// 
 			// tabPageMaterialView
 			// 
 			this.tabPageMaterialView.Controls.Add(this.buttonTextureExternal);
@@ -1777,7 +1926,7 @@
 			this.tabPageMaterialView.Controls.Add(this.textBoxMatName);
 			this.tabPageMaterialView.Location = new System.Drawing.Point(4, 22);
 			this.tabPageMaterialView.Name = "tabPageMaterialView";
-			this.tabPageMaterialView.Size = new System.Drawing.Size(253, 510);
+			this.tabPageMaterialView.Size = new System.Drawing.Size(253, 492);
 			this.tabPageMaterialView.TabIndex = 1;
 			this.tabPageMaterialView.Text = "Material";
 			this.tabPageMaterialView.UseVisualStyleBackColor = true;
@@ -1954,238 +2103,6 @@
 			this.label18.TabIndex = 13;
 			this.label18.Text = "Diffuse";
 			// 
-			// tabPageTextureView
-			// 
-			this.tabPageTextureView.Controls.Add(this.buttonTextureAdd);
-			this.tabPageTextureView.Controls.Add(this.panelTexturePic);
-			this.tabPageTextureView.Controls.Add(this.label3);
-			this.tabPageTextureView.Controls.Add(this.buttonTextureExport);
-			this.tabPageTextureView.Controls.Add(this.buttonTextureReplace);
-			this.tabPageTextureView.Controls.Add(this.buttonTextureRemove);
-			this.tabPageTextureView.Controls.Add(this.textBoxTexSize);
-			this.tabPageTextureView.Controls.Add(this.textBoxTexName);
-			this.tabPageTextureView.Location = new System.Drawing.Point(4, 22);
-			this.tabPageTextureView.Name = "tabPageTextureView";
-			this.tabPageTextureView.Size = new System.Drawing.Size(253, 510);
-			this.tabPageTextureView.TabIndex = 3;
-			this.tabPageTextureView.Text = "Texture";
-			this.tabPageTextureView.UseVisualStyleBackColor = true;
-			// 
-			// buttonTextureAdd
-			// 
-			this.buttonTextureAdd.Location = new System.Drawing.Point(2, 70);
-			this.buttonTextureAdd.Name = "buttonTextureAdd";
-			this.buttonTextureAdd.Size = new System.Drawing.Size(75, 23);
-			this.buttonTextureAdd.TabIndex = 39;
-			this.buttonTextureAdd.TabStop = false;
-			this.buttonTextureAdd.Text = "Add Image";
-			this.buttonTextureAdd.UseVisualStyleBackColor = true;
-			this.buttonTextureAdd.Click += new System.EventHandler(this.buttonTextureAdd_Click);
-			// 
-			// panelTexturePic
-			// 
-			this.panelTexturePic.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.panelTexturePic.Controls.Add(this.pictureBoxTexture);
-			this.panelTexturePic.Location = new System.Drawing.Point(0, 109);
-			this.panelTexturePic.Name = "panelTexturePic";
-			this.panelTexturePic.Size = new System.Drawing.Size(252, 401);
-			this.panelTexturePic.TabIndex = 38;
-			// 
-			// pictureBoxTexture
-			// 
-			this.pictureBoxTexture.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.pictureBoxTexture.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.pictureBoxTexture.Location = new System.Drawing.Point(0, 0);
-			this.pictureBoxTexture.Name = "pictureBoxTexture";
-			this.pictureBoxTexture.Size = new System.Drawing.Size(252, 221);
-			this.pictureBoxTexture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-			this.pictureBoxTexture.TabIndex = 1;
-			this.pictureBoxTexture.TabStop = false;
-			// 
-			// label3
-			// 
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(-3, 10);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(43, 13);
-			this.label3.TabIndex = 6;
-			this.label3.Text = "Texture";
-			// 
-			// buttonTextureExport
-			// 
-			this.buttonTextureExport.Location = new System.Drawing.Point(2, 36);
-			this.buttonTextureExport.Name = "buttonTextureExport";
-			this.buttonTextureExport.Size = new System.Drawing.Size(75, 22);
-			this.buttonTextureExport.TabIndex = 16;
-			this.buttonTextureExport.TabStop = false;
-			this.buttonTextureExport.Text = "Export";
-			this.buttonTextureExport.UseVisualStyleBackColor = true;
-			this.buttonTextureExport.Click += new System.EventHandler(this.buttonTextureExport_Click);
-			// 
-			// buttonTextureReplace
-			// 
-			this.buttonTextureReplace.Location = new System.Drawing.Point(89, 70);
-			this.buttonTextureReplace.Name = "buttonTextureReplace";
-			this.buttonTextureReplace.Size = new System.Drawing.Size(75, 23);
-			this.buttonTextureReplace.TabIndex = 36;
-			this.buttonTextureReplace.TabStop = false;
-			this.buttonTextureReplace.Text = "Replace";
-			this.buttonTextureReplace.UseVisualStyleBackColor = true;
-			this.buttonTextureReplace.Click += new System.EventHandler(this.buttonTextureReplace_Click);
-			// 
-			// buttonTextureRemove
-			// 
-			this.buttonTextureRemove.Location = new System.Drawing.Point(89, 36);
-			this.buttonTextureRemove.Name = "buttonTextureRemove";
-			this.buttonTextureRemove.Size = new System.Drawing.Size(75, 22);
-			this.buttonTextureRemove.TabIndex = 20;
-			this.buttonTextureRemove.TabStop = false;
-			this.buttonTextureRemove.Text = "Remove";
-			this.buttonTextureRemove.UseVisualStyleBackColor = true;
-			this.buttonTextureRemove.Click += new System.EventHandler(this.buttonTextureRemove_Click);
-			// 
-			// textBoxFormat
-			// 
-			this.textBoxFormat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textBoxFormat.Location = new System.Drawing.Point(44, 512);
-			this.textBoxFormat.Name = "textBoxFormat";
-			this.textBoxFormat.ReadOnly = true;
-			this.textBoxFormat.Size = new System.Drawing.Size(24, 20);
-			this.textBoxFormat.TabIndex = 121;
-			this.textBoxFormat.TabStop = false;
-			this.textBoxFormat.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			// 
-			// textBoxFrameName2
-			// 
-			this.textBoxFrameName2.Location = new System.Drawing.Point(43, 32);
-			this.textBoxFrameName2.Name = "textBoxFrameName2";
-			this.textBoxFrameName2.Size = new System.Drawing.Size(207, 20);
-			this.textBoxFrameName2.TabIndex = 156;
-			this.textBoxFrameName2.TabStop = false;
-			// 
-			// dataGridViewFrameSRT
-			// 
-			this.dataGridViewFrameSRT.AllowUserToAddRows = false;
-			this.dataGridViewFrameSRT.AllowUserToDeleteRows = false;
-			this.dataGridViewFrameSRT.AllowUserToResizeColumns = false;
-			this.dataGridViewFrameSRT.AllowUserToResizeRows = false;
-			this.dataGridViewFrameSRT.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-			this.dataGridViewFrameSRT.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-			this.dataGridViewFrameSRT.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
-			this.dataGridViewFrameSRT.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-			this.dataGridViewFrameSRT.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dataGridViewFrameSRT.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.dataGridViewFrameSRT.Location = new System.Drawing.Point(3, 3);
-			this.dataGridViewFrameSRT.Name = "dataGridViewFrameSRT";
-			this.dataGridViewFrameSRT.RowHeadersVisible = false;
-			this.dataGridViewFrameSRT.ScrollBars = System.Windows.Forms.ScrollBars.None;
-			this.dataGridViewFrameSRT.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-			this.dataGridViewFrameSRT.ShowRowIndex = false;
-			this.dataGridViewFrameSRT.Size = new System.Drawing.Size(239, 80);
-			this.dataGridViewFrameSRT.TabIndex = 144;
-			this.dataGridViewFrameSRT.TabStop = false;
-			this.dataGridViewFrameSRT.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewSRT_CellValueChanged);
-			// 
-			// dataGridViewFrameMatrix
-			// 
-			this.dataGridViewFrameMatrix.AllowUserToAddRows = false;
-			this.dataGridViewFrameMatrix.AllowUserToDeleteRows = false;
-			this.dataGridViewFrameMatrix.AllowUserToResizeColumns = false;
-			this.dataGridViewFrameMatrix.AllowUserToResizeRows = false;
-			this.dataGridViewFrameMatrix.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-			this.dataGridViewFrameMatrix.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-			this.dataGridViewFrameMatrix.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
-			this.dataGridViewFrameMatrix.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-			this.dataGridViewFrameMatrix.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dataGridViewFrameMatrix.ColumnHeadersVisible = false;
-			this.dataGridViewFrameMatrix.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.dataGridViewFrameMatrix.Location = new System.Drawing.Point(3, 3);
-			this.dataGridViewFrameMatrix.Name = "dataGridViewFrameMatrix";
-			this.dataGridViewFrameMatrix.RowHeadersVisible = false;
-			this.dataGridViewFrameMatrix.ScrollBars = System.Windows.Forms.ScrollBars.None;
-			this.dataGridViewFrameMatrix.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-			this.dataGridViewFrameMatrix.ShowRowIndex = false;
-			this.dataGridViewFrameMatrix.Size = new System.Drawing.Size(239, 80);
-			this.dataGridViewFrameMatrix.TabIndex = 145;
-			this.dataGridViewFrameMatrix.TabStop = false;
-			this.dataGridViewFrameMatrix.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewMatrix_CellValueChanged);
-			// 
-			// textBoxFrameName
-			// 
-			this.textBoxFrameName.Location = new System.Drawing.Point(43, 6);
-			this.textBoxFrameName.Name = "textBoxFrameName";
-			this.textBoxFrameName.Size = new System.Drawing.Size(207, 20);
-			this.textBoxFrameName.TabIndex = 66;
-			this.textBoxFrameName.TabStop = false;
-			// 
-			// dataGridViewBoneSRT
-			// 
-			this.dataGridViewBoneSRT.AllowUserToAddRows = false;
-			this.dataGridViewBoneSRT.AllowUserToDeleteRows = false;
-			this.dataGridViewBoneSRT.AllowUserToResizeColumns = false;
-			this.dataGridViewBoneSRT.AllowUserToResizeRows = false;
-			this.dataGridViewBoneSRT.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-			this.dataGridViewBoneSRT.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-			this.dataGridViewBoneSRT.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
-			this.dataGridViewBoneSRT.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-			this.dataGridViewBoneSRT.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dataGridViewBoneSRT.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.dataGridViewBoneSRT.Location = new System.Drawing.Point(3, 3);
-			this.dataGridViewBoneSRT.Name = "dataGridViewBoneSRT";
-			this.dataGridViewBoneSRT.RowHeadersVisible = false;
-			this.dataGridViewBoneSRT.ScrollBars = System.Windows.Forms.ScrollBars.None;
-			this.dataGridViewBoneSRT.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-			this.dataGridViewBoneSRT.ShowRowIndex = false;
-			this.dataGridViewBoneSRT.Size = new System.Drawing.Size(239, 80);
-			this.dataGridViewBoneSRT.TabIndex = 144;
-			this.dataGridViewBoneSRT.TabStop = false;
-			this.dataGridViewBoneSRT.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewSRT_CellValueChanged);
-			// 
-			// dataGridViewBoneMatrix
-			// 
-			this.dataGridViewBoneMatrix.AllowUserToAddRows = false;
-			this.dataGridViewBoneMatrix.AllowUserToDeleteRows = false;
-			this.dataGridViewBoneMatrix.AllowUserToResizeColumns = false;
-			this.dataGridViewBoneMatrix.AllowUserToResizeRows = false;
-			this.dataGridViewBoneMatrix.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-			this.dataGridViewBoneMatrix.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-			this.dataGridViewBoneMatrix.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
-			this.dataGridViewBoneMatrix.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-			this.dataGridViewBoneMatrix.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dataGridViewBoneMatrix.ColumnHeadersVisible = false;
-			this.dataGridViewBoneMatrix.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.dataGridViewBoneMatrix.Location = new System.Drawing.Point(3, 3);
-			this.dataGridViewBoneMatrix.Name = "dataGridViewBoneMatrix";
-			this.dataGridViewBoneMatrix.RowHeadersVisible = false;
-			this.dataGridViewBoneMatrix.ScrollBars = System.Windows.Forms.ScrollBars.None;
-			this.dataGridViewBoneMatrix.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-			this.dataGridViewBoneMatrix.ShowRowIndex = false;
-			this.dataGridViewBoneMatrix.Size = new System.Drawing.Size(239, 80);
-			this.dataGridViewBoneMatrix.TabIndex = 145;
-			this.dataGridViewBoneMatrix.TabStop = false;
-			this.dataGridViewBoneMatrix.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewMatrix_CellValueChanged);
-			// 
-			// textBoxBoneName
-			// 
-			this.textBoxBoneName.Location = new System.Drawing.Point(35, 6);
-			this.textBoxBoneName.Name = "textBoxBoneName";
-			this.textBoxBoneName.Size = new System.Drawing.Size(215, 20);
-			this.textBoxBoneName.TabIndex = 87;
-			this.textBoxBoneName.TabStop = false;
-			// 
-			// textBoxMeshName
-			// 
-			this.textBoxMeshName.Location = new System.Drawing.Point(0, 19);
-			this.textBoxMeshName.Name = "textBoxMeshName";
-			this.textBoxMeshName.ReadOnly = true;
-			this.textBoxMeshName.Size = new System.Drawing.Size(200, 20);
-			this.textBoxMeshName.TabIndex = 124;
-			this.textBoxMeshName.TabStop = false;
-			// 
 			// textBoxMatSpecularPower
 			// 
 			this.textBoxMatSpecularPower.Location = new System.Drawing.Point(51, 268);
@@ -2330,6 +2247,100 @@
 			this.textBoxMatName.TabIndex = 7;
 			this.textBoxMatName.TabStop = false;
 			// 
+			// tabPageTextureView
+			// 
+			this.tabPageTextureView.Controls.Add(this.buttonTextureAdd);
+			this.tabPageTextureView.Controls.Add(this.panelTexturePic);
+			this.tabPageTextureView.Controls.Add(this.label3);
+			this.tabPageTextureView.Controls.Add(this.buttonTextureExport);
+			this.tabPageTextureView.Controls.Add(this.buttonTextureReplace);
+			this.tabPageTextureView.Controls.Add(this.buttonTextureRemove);
+			this.tabPageTextureView.Controls.Add(this.textBoxTexSize);
+			this.tabPageTextureView.Controls.Add(this.textBoxTexName);
+			this.tabPageTextureView.Location = new System.Drawing.Point(4, 22);
+			this.tabPageTextureView.Name = "tabPageTextureView";
+			this.tabPageTextureView.Size = new System.Drawing.Size(253, 492);
+			this.tabPageTextureView.TabIndex = 3;
+			this.tabPageTextureView.Text = "Texture";
+			this.tabPageTextureView.UseVisualStyleBackColor = true;
+			// 
+			// buttonTextureAdd
+			// 
+			this.buttonTextureAdd.Location = new System.Drawing.Point(2, 70);
+			this.buttonTextureAdd.Name = "buttonTextureAdd";
+			this.buttonTextureAdd.Size = new System.Drawing.Size(75, 23);
+			this.buttonTextureAdd.TabIndex = 39;
+			this.buttonTextureAdd.TabStop = false;
+			this.buttonTextureAdd.Text = "Add Image";
+			this.buttonTextureAdd.UseVisualStyleBackColor = true;
+			this.buttonTextureAdd.Click += new System.EventHandler(this.buttonTextureAdd_Click);
+			// 
+			// panelTexturePic
+			// 
+			this.panelTexturePic.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.panelTexturePic.Controls.Add(this.pictureBoxTexture);
+			this.panelTexturePic.Location = new System.Drawing.Point(0, 109);
+			this.panelTexturePic.Name = "panelTexturePic";
+			this.panelTexturePic.Size = new System.Drawing.Size(252, 401);
+			this.panelTexturePic.TabIndex = 38;
+			// 
+			// pictureBoxTexture
+			// 
+			this.pictureBoxTexture.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.pictureBoxTexture.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.pictureBoxTexture.Location = new System.Drawing.Point(0, 0);
+			this.pictureBoxTexture.Name = "pictureBoxTexture";
+			this.pictureBoxTexture.Size = new System.Drawing.Size(252, 221);
+			this.pictureBoxTexture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.pictureBoxTexture.TabIndex = 1;
+			this.pictureBoxTexture.TabStop = false;
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(-3, 10);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(43, 13);
+			this.label3.TabIndex = 6;
+			this.label3.Text = "Texture";
+			// 
+			// buttonTextureExport
+			// 
+			this.buttonTextureExport.Location = new System.Drawing.Point(2, 36);
+			this.buttonTextureExport.Name = "buttonTextureExport";
+			this.buttonTextureExport.Size = new System.Drawing.Size(75, 22);
+			this.buttonTextureExport.TabIndex = 16;
+			this.buttonTextureExport.TabStop = false;
+			this.buttonTextureExport.Text = "Export";
+			this.buttonTextureExport.UseVisualStyleBackColor = true;
+			this.buttonTextureExport.Click += new System.EventHandler(this.buttonTextureExport_Click);
+			// 
+			// buttonTextureReplace
+			// 
+			this.buttonTextureReplace.Location = new System.Drawing.Point(89, 70);
+			this.buttonTextureReplace.Name = "buttonTextureReplace";
+			this.buttonTextureReplace.Size = new System.Drawing.Size(75, 23);
+			this.buttonTextureReplace.TabIndex = 36;
+			this.buttonTextureReplace.TabStop = false;
+			this.buttonTextureReplace.Text = "Replace";
+			this.buttonTextureReplace.UseVisualStyleBackColor = true;
+			this.buttonTextureReplace.Click += new System.EventHandler(this.buttonTextureReplace_Click);
+			// 
+			// buttonTextureRemove
+			// 
+			this.buttonTextureRemove.Location = new System.Drawing.Point(89, 36);
+			this.buttonTextureRemove.Name = "buttonTextureRemove";
+			this.buttonTextureRemove.Size = new System.Drawing.Size(75, 22);
+			this.buttonTextureRemove.TabIndex = 20;
+			this.buttonTextureRemove.TabStop = false;
+			this.buttonTextureRemove.Text = "Remove";
+			this.buttonTextureRemove.UseVisualStyleBackColor = true;
+			this.buttonTextureRemove.Click += new System.EventHandler(this.buttonTextureRemove_Click);
+			// 
 			// textBoxTexSize
 			// 
 			this.textBoxTexSize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -2350,13 +2361,101 @@
 			this.textBoxTexName.TabIndex = 5;
 			this.textBoxTexName.TabStop = false;
 			// 
+			// menuStrip1
+			// 
+			this.menuStrip1.AllowMerge = false;
+			this.menuStrip1.AutoSize = false;
+			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.optionsToolStripMenuItem});
+			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+			this.menuStrip1.Name = "menuStrip1";
+			this.menuStrip1.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
+			this.menuStrip1.Size = new System.Drawing.Size(524, 18);
+			this.menuStrip1.TabIndex = 117;
+			this.menuStrip1.Text = "menuStrip1";
+			// 
+			// fileToolStripMenuItem
+			// 
+			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.reopenToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.savexxToolStripMenuItem,
+            this.savexxAsToolStripMenuItem,
+            this.toolStripSeparator6,
+            this.closeToolStripMenuItem});
+			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+			this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 18);
+			this.fileToolStripMenuItem.Text = "&File";
+			// 
+			// reopenToolStripMenuItem
+			// 
+			this.reopenToolStripMenuItem.Name = "reopenToolStripMenuItem";
+			this.reopenToolStripMenuItem.ShortcutKeyDisplayString = "";
+			this.reopenToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
+			this.reopenToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+			this.reopenToolStripMenuItem.Text = "&Reopen .xx";
+			this.reopenToolStripMenuItem.Click += new System.EventHandler(this.reopenToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(166, 6);
+			// 
+			// savexxToolStripMenuItem
+			// 
+			this.savexxToolStripMenuItem.Name = "savexxToolStripMenuItem";
+			this.savexxToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+			this.savexxToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+			this.savexxToolStripMenuItem.Text = "&Save .xx";
+			this.savexxToolStripMenuItem.Click += new System.EventHandler(this.savexxToolStripMenuItem_Click);
+			// 
+			// savexxAsToolStripMenuItem
+			// 
+			this.savexxAsToolStripMenuItem.Name = "savexxAsToolStripMenuItem";
+			this.savexxAsToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+			this.savexxAsToolStripMenuItem.Text = "Save .xx &As...";
+			this.savexxAsToolStripMenuItem.Click += new System.EventHandler(this.savexxAsToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator6
+			// 
+			this.toolStripSeparator6.Name = "toolStripSeparator6";
+			this.toolStripSeparator6.Size = new System.Drawing.Size(166, 6);
+			// 
+			// closeToolStripMenuItem
+			// 
+			this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+			this.closeToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+F4";
+			this.closeToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+			this.closeToolStripMenuItem.Text = "&Close";
+			this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
+			// 
+			// optionsToolStripMenuItem
+			// 
+			this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.keepBackupToolStripMenuItem});
+			this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(56, 18);
+			this.optionsToolStripMenuItem.Text = "&Options";
+			// 
+			// keepBackupToolStripMenuItem
+			// 
+			this.keepBackupToolStripMenuItem.Checked = true;
+			this.keepBackupToolStripMenuItem.CheckOnClick = true;
+			this.keepBackupToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.keepBackupToolStripMenuItem.Name = "keepBackupToolStripMenuItem";
+			this.keepBackupToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+			this.keepBackupToolStripMenuItem.Text = "Keep &Backup";
+			// 
 			// FormXX
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(524, 536);
 			this.Controls.Add(this.splitContainer1);
+			this.Controls.Add(this.menuStrip1);
 			this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "FormXX";
 			this.Text = "FormXX";
 			this.splitContainer1.Panel1.ResumeLayout(false);
@@ -2409,7 +2508,9 @@
 			((System.ComponentModel.ISupportInitialize)(this.numericFrameMatrixNumber)).EndInit();
 			this.tabControlFrameMatrix.ResumeLayout(false);
 			this.tabPageFrameSRT.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.dataGridViewFrameSRT)).EndInit();
 			this.tabPageFrameMatrix.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.dataGridViewFrameMatrix)).EndInit();
 			this.tabPageBoneView.ResumeLayout(false);
 			this.tabPageBoneView.PerformLayout();
 			this.groupBox4.ResumeLayout(false);
@@ -2418,7 +2519,9 @@
 			((System.ComponentModel.ISupportInitialize)(this.numericBoneMatrixNumber)).EndInit();
 			this.tabControlBoneMatrix.ResumeLayout(false);
 			this.tabPageBoneSRT.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.dataGridViewBoneSRT)).EndInit();
 			this.tabPageBoneMatrix.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.dataGridViewBoneMatrix)).EndInit();
 			this.tabPageMeshView.ResumeLayout(false);
 			this.tabPageMeshView.PerformLayout();
 			this.groupBox2.ResumeLayout(false);
@@ -2441,10 +2544,8 @@
 			this.tabPageTextureView.PerformLayout();
 			this.panelTexturePic.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxTexture)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.dataGridViewFrameSRT)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.dataGridViewFrameMatrix)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.dataGridViewBoneSRT)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.dataGridViewBoneMatrix)).EndInit();
+			this.menuStrip1.ResumeLayout(false);
+			this.menuStrip1.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -2629,5 +2730,15 @@
 		private System.Windows.Forms.Button buttonMeshEditHex;
 		private System.Windows.Forms.Button buttonMeshNormals;
 		private System.Windows.Forms.Button buttonTextureExternal;
+		private System.Windows.Forms.MenuStrip menuStrip1;
+		private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem reopenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripMenuItem savexxToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem savexxAsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+		private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem keepBackupToolStripMenuItem;
 	}
 }

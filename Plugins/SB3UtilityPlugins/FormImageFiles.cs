@@ -99,30 +99,6 @@ namespace SB3Utility
 			}
 		}
 
-		private void listViewImages_KeyDown(object sender, KeyEventArgs e)
-		{
-			try
-			{
-				if (e.KeyData == Keys.Delete)
-				{
-					e.Handled = true;
-
-					while (listViewImages.SelectedItems.Count > 0)
-					{
-						ListViewItem item = listViewImages.SelectedItems[0];
-						PathVariable tag = (PathVariable)item.Tag;
-						files.Remove(tag.Path);
-						freeVariables.Add(tag.Variable);
-						item.Remove();
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				Utility.ReportException(ex);
-			}
-		}
-
 		[Plugin]
 		[PluginOpensFile(".bmp")]
 		[PluginOpensFile(".jpg")]
@@ -144,6 +120,38 @@ namespace SB3Utility
 				}
 
 				Singleton.AddImageFile(path);
+			}
+			catch (Exception ex)
+			{
+				Utility.ReportException(ex);
+			}
+		}
+
+		private void reopenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			ImportedTexture lastSelected = null;
+			foreach (ListViewItem item in listViewImages.SelectedItems)
+			{
+				PathVariable tag = (PathVariable)item.Tag;
+				AddImageFile(tag.Path);
+				string variable = tag.Variable;
+				lastSelected = (ImportedTexture)Gui.Scripting.Variables[variable];
+			}
+			Gui.ImageControl.Image = lastSelected;
+		}
+
+		private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				while (listViewImages.SelectedItems.Count > 0)
+				{
+					ListViewItem item = listViewImages.SelectedItems[0];
+					PathVariable tag = (PathVariable)item.Tag;
+					files.Remove(tag.Path);
+					freeVariables.Add(tag.Variable);
+					item.Remove();
+				}
 			}
 			catch (Exception ex)
 			{
