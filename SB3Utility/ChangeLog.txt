@@ -1,4 +1,9 @@
-﻿[0.4.42.9]
+﻿[0.4.42.10] - not yet released
+  Fixes:
+  - replacing/adding compressed tga images
+  - CTRL-V pasted twice in hex editor (COPY-C did the same)
+
+[0.4.42.9]
   Fixes:
   - Frame and bone matrices can be edited on SRT and Matrix; updating the corresponding matrix after each input of a cell
   - CopyNormalsNear, CopyBonesNear didn't find Normals/Bones for destination vertices exceeding source vertices

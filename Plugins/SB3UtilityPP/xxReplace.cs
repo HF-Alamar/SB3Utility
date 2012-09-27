@@ -425,6 +425,8 @@ namespace SB3Utility
 				byte[] tgaHeader = new byte[18];
 				Array.Copy(texture.Data, tgaHeader, tgaHeader.Length);
 				int imgdataLen = tgaHeader[16] / 8 * BitConverter.ToInt16(tgaHeader, 12) * BitConverter.ToInt16(tgaHeader, 14);
+				if (imgdataLen > texture.Data.Length - (tgaHeader.Length + tgaHeader[0]))
+					imgdataLen = texture.Data.Length - (tgaHeader.Length + tgaHeader[0]);
 				xxTex.ImageData = new byte[tgaHeader.Length + imgdataLen];
 				Array.Copy(texture.Data, xxTex.ImageData, tgaHeader.Length);
 				Array.Copy(texture.Data, tgaHeader.Length + tgaHeader[0], xxTex.ImageData, tgaHeader.Length, imgdataLen);
