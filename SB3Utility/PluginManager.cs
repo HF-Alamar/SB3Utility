@@ -357,7 +357,7 @@ namespace SB3Utility
 					if (toolAttribs.Length > 0)
 					{
 						var attrib = (PluginTool)toolAttribs[0];
-						Tools.Add(new string[] { type.Name, attrib.Name });
+						Tools.Add(new string[] { type.Name, attrib.Name, attrib.Shortcut });
 					}
 				}
 
@@ -405,7 +405,7 @@ namespace SB3Utility
 						if (toolAttribs.Length > 0)
 						{
 							var attrib = (PluginTool)toolAttribs[0];
-							Tools.Add(new string[] { method.Name, attrib.Name });
+							Tools.Add(new string[] { method.Name, attrib.Name, attrib.Shortcut });
 						}
 					}
 				}

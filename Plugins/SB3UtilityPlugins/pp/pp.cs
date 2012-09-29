@@ -67,6 +67,10 @@ namespace SB3Utility
 		[Plugin]
 		public static void ExportPP([DefaultVar]ppParser parser, string path)
 		{
+			if (path == String.Empty)
+			{
+				path = @".\";
+			}
 			DirectoryInfo dir = new DirectoryInfo(path);
 			if (!dir.Exists)
 			{

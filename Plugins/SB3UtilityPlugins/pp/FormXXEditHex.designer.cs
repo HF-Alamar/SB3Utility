@@ -271,7 +271,7 @@ namespace SB3Utility
             this.pasteToolStripMenuItem});
 			this.editToolStripMenuItem.Name = "editToolStripMenuItem";
 			this.editToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-			this.editToolStripMenuItem.Text = "Edit";
+			this.editToolStripMenuItem.Text = "&Edit";
 			// 
 			// copyToolStripMenuItem
 			// 
@@ -279,7 +279,7 @@ namespace SB3Utility
 			this.copyToolStripMenuItem.ShortcutKeyDisplayString = "";
 			this.copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
 			this.copyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.copyToolStripMenuItem.Text = "Copy";
+			this.copyToolStripMenuItem.Text = "&Copy";
 			this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
 			// 
 			// pasteToolStripMenuItem
@@ -288,7 +288,7 @@ namespace SB3Utility
 			this.pasteToolStripMenuItem.ShortcutKeyDisplayString = "";
 			this.pasteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
 			this.pasteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.pasteToolStripMenuItem.Text = "Paste";
+			this.pasteToolStripMenuItem.Text = "&Paste";
 			this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
 			// 
 			// FormXXEditHex

@@ -53,9 +53,9 @@
 			// 
 			// panel1
 			// 
-			this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.panel1.Location = new System.Drawing.Point(12, 39);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(320, 198);
@@ -134,35 +134,35 @@
             this.cullingToolStripMenuItem});
 			this.rendererToolStripMenuItem.Name = "rendererToolStripMenuItem";
 			this.rendererToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
-			this.rendererToolStripMenuItem.Text = "Render";
+			this.rendererToolStripMenuItem.Text = "&Render";
 			// 
 			// wireframeToolStripMenuItem
 			// 
 			this.wireframeToolStripMenuItem.CheckOnClick = true;
 			this.wireframeToolStripMenuItem.Name = "wireframeToolStripMenuItem";
 			this.wireframeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.wireframeToolStripMenuItem.Text = "Wireframe";
+			this.wireframeToolStripMenuItem.Text = "&Wireframe";
 			// 
 			// normalsToolStripMenuItem
 			// 
 			this.normalsToolStripMenuItem.CheckOnClick = true;
 			this.normalsToolStripMenuItem.Name = "normalsToolStripMenuItem";
 			this.normalsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.normalsToolStripMenuItem.Text = "Normals";
+			this.normalsToolStripMenuItem.Text = "&Normals";
 			// 
 			// bonesToolStripMenuItem
 			// 
 			this.bonesToolStripMenuItem.CheckOnClick = true;
 			this.bonesToolStripMenuItem.Name = "bonesToolStripMenuItem";
 			this.bonesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.bonesToolStripMenuItem.Text = "Bones";
+			this.bonesToolStripMenuItem.Text = "&Bones";
 			// 
 			// cullingToolStripMenuItem
 			// 
 			this.cullingToolStripMenuItem.CheckOnClick = true;
 			this.cullingToolStripMenuItem.Name = "cullingToolStripMenuItem";
 			this.cullingToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.cullingToolStripMenuItem.Text = "Culling";
+			this.cullingToolStripMenuItem.Text = "&Culling";
 			// 
 			// colorToolStripMenuItem
 			// 
@@ -173,34 +173,34 @@
             this.backgroundToolStripMenuItem});
 			this.colorToolStripMenuItem.Name = "colorToolStripMenuItem";
 			this.colorToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-			this.colorToolStripMenuItem.Text = "Color";
+			this.colorToolStripMenuItem.Text = "&Color";
 			// 
 			// diffuseToolStripMenuItem
 			// 
 			this.diffuseToolStripMenuItem.Name = "diffuseToolStripMenuItem";
 			this.diffuseToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.diffuseToolStripMenuItem.Text = "Diffuse...";
+			this.diffuseToolStripMenuItem.Text = "&Diffuse...";
 			this.diffuseToolStripMenuItem.Click += new System.EventHandler(this.diffuseToolStripMenuItem_Click);
 			// 
 			// ambientToolStripMenuItem
 			// 
 			this.ambientToolStripMenuItem.Name = "ambientToolStripMenuItem";
 			this.ambientToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.ambientToolStripMenuItem.Text = "Ambient...";
+			this.ambientToolStripMenuItem.Text = "&Ambient...";
 			this.ambientToolStripMenuItem.Click += new System.EventHandler(this.ambientToolStripMenuItem_Click);
 			// 
 			// specularToolStripMenuItem
 			// 
 			this.specularToolStripMenuItem.Name = "specularToolStripMenuItem";
 			this.specularToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.specularToolStripMenuItem.Text = "Specular...";
+			this.specularToolStripMenuItem.Text = "&Specular...";
 			this.specularToolStripMenuItem.Click += new System.EventHandler(this.specularToolStripMenuItem_Click);
 			// 
 			// backgroundToolStripMenuItem
 			// 
 			this.backgroundToolStripMenuItem.Name = "backgroundToolStripMenuItem";
 			this.backgroundToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.backgroundToolStripMenuItem.Text = "Background...";
+			this.backgroundToolStripMenuItem.Text = "&Background...";
 			this.backgroundToolStripMenuItem.Click += new System.EventHandler(this.backgroundToolStripMenuItem_Click);
 			// 
 			// FormRenderer

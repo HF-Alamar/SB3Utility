@@ -139,10 +139,12 @@ namespace SB3Utility
 				viewLogToolStripMenuItem.CheckedChanged += new EventHandler(viewLogToolStripMenuItem_CheckedChanged);
 				viewScriptToolStripMenuItem.CheckedChanged += new EventHandler(viewScriptToolStripMenuItem_CheckedChanged);
 
+				KeysConverter conv = new KeysConverter();
 				foreach (var tool in PluginManager.Tools)
 				{
 					ToolStripMenuItem item = new ToolStripMenuItem(tool[1], null, new EventHandler(OpenTool));
 					item.Tag = tool[0];
+					item.ShortcutKeys = (Keys)conv.ConvertFromString(tool[2]);
 					toolsToolStripMenuItem.DropDownItems.Add(item);
 				}
 #if DEBUG

@@ -46,32 +46,37 @@ namespace SB3Utility
 			BackgroundWorker worker = (BackgroundWorker)sender;
 			string backup = null;
 
-			try
+			string dirName = Path.GetDirectoryName(destPath);
+			if (dirName == String.Empty)
 			{
-				DirectoryInfo dir = new DirectoryInfo(Path.GetDirectoryName(destPath));
-				if (!dir.Exists)
-				{
-					dir.Create();
-				}
+				dirName = @".\";
+			}
+			DirectoryInfo dir = new DirectoryInfo(dirName);
+			if (!dir.Exists)
+			{
+				dir.Create();
+			}
 
-				if (File.Exists(destPath))
-				{
-					backup = Utility.GetDestFile(dir, Path.GetFileNameWithoutExtension(destPath) + ".bak", Path.GetExtension(destPath));
-					File.Move(destPath, backup);
+			if (File.Exists(destPath))
+			{
+				backup = Utility.GetDestFile(dir, Path.GetFileNameWithoutExtension(destPath) + ".bak", Path.GetExtension(destPath));
+				File.Move(destPath, backup);
 
-					if (destPath.Equals(this.FilePath, StringComparison.InvariantCultureIgnoreCase))
+				if (destPath.Equals(this.FilePath, StringComparison.InvariantCultureIgnoreCase))
+				{
+					for (int i = 0; i < Subfiles.Count; i++)
 					{
-						for (int i = 0; i < Subfiles.Count; i++)
+						ppSubfile subfile = Subfiles[i] as ppSubfile;
+						if ((subfile != null) && subfile.ppPath.Equals(this.FilePath, StringComparison.InvariantCultureIgnoreCase))
 						{
-							ppSubfile subfile = Subfiles[i] as ppSubfile;
-							if ((subfile != null) && subfile.ppPath.Equals(this.FilePath, StringComparison.InvariantCultureIgnoreCase))
-							{
-								subfile.ppPath = backup;
-							}
+							subfile.ppPath = backup;
 						}
 					}
 				}
+			}
 
+			try
+			{
 				using (BinaryWriter writer = new BinaryWriter(File.Create(destPath)))
 				{
 					writer.BaseStream.Seek(Format.ppHeader.HeaderSize(Subfiles.Count), SeekOrigin.Begin);
@@ -147,7 +152,7 @@ namespace SB3Utility
 
 		void RestoreBackup(string destPath, string backup)
 		{
-			if (File.Exists(destPath))
+			if (File.Exists(destPath) && File.Exists(backup))
 			{
 				File.Delete(destPath);
 

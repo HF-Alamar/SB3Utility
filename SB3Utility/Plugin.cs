@@ -29,10 +29,12 @@ namespace SB3Utility
 	public class PluginTool : Attribute
 	{
 		public string Name { get; protected set; }
+		public string Shortcut { get; protected set; }
 
-		public PluginTool(string name)
+		public PluginTool(string name, string shortcut)
 		{
 			this.Name = name;
+			this.Shortcut = shortcut;
 		}
 	}
 }

@@ -11,7 +11,7 @@ using System.IO;
 namespace SB3Utility
 {
 	[Plugin]
-	[PluginTool("Workspace")]
+	[PluginTool("&Workspace", "Ctrl+W")]
 	public partial class FormWorkspace : DockContent
 	{
 		public FormWorkspace()

@@ -63,13 +63,13 @@
             this.clearToolStripMenuItem});
 			this.logToolStripMenuItem.Name = "logToolStripMenuItem";
 			this.logToolStripMenuItem.Size = new System.Drawing.Size(36, 20);
-			this.logToolStripMenuItem.Text = "Log";
+			this.logToolStripMenuItem.Text = "&Log";
 			// 
 			// clearToolStripMenuItem
 			// 
 			this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-			this.clearToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
-			this.clearToolStripMenuItem.Text = "Clear";
+			this.clearToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.clearToolStripMenuItem.Text = "&Clear";
 			this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
 			// 
 			// FormLog

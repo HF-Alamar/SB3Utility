@@ -1,4 +1,15 @@
-﻿[0.4.42.10]
+﻿[0.4.42.11]
+  - added more hotkeys and shortcuts
+  - texture display was not refreshed after ReplaceTexture
+  - added quick save script / run quick saved
+  - ppEdtitor.SavePP() deleted the pp file in the current directory
+  - ExportPP() couldn't work in the current directory
+  - added shortcut key to attribute PluginTool
+  known issues:
+  - drag 'n drop doesn't work in the script window and log window
+  - shortcut keys dont work in the script window and log window
+
+[0.4.42.10]
   Fixes:
   - replacing/adding compressed tga images
   - CTRL-V pasted twice in hex editor (COPY-C did the same)

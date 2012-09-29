@@ -2732,6 +2732,14 @@ namespace SB3Utility
 				InitTextures();
 				RecreateCrossRefs();
 				LoadMaterial(loadedMaterial);
+				foreach (ListViewItem item in listViewTexture.Items)
+				{
+					if ((int)item.Tag == loadedTexture)
+					{
+						item.Selected = true;
+						break;
+					}
+				}
 			}
 			catch (Exception ex)
 			{

@@ -263,5 +263,24 @@ namespace SB3Utility
 				autosaveScriptWriter = null;
 			}
 		}
+
+		private void quickSaveSelectedToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			quickSavedToolStripMenuItem.ToolTipText = richTextBoxScript.SelectedText;
+			quickSavedToolStripMenuItem.Visible = quickSavedToolStripMenuItem.ToolTipText.Length > 0;
+		}
+
+		private void runQuickSavedToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				if (quickSavedToolStripMenuItem.ToolTipText != null && quickSavedToolStripMenuItem.ToolTipText.Length > 0)
+					RunScript(quickSavedToolStripMenuItem.ToolTipText);
+			}
+			catch (Exception ex)
+			{
+				Utility.ReportException(ex);
+			}
+		}
 	}
 }
