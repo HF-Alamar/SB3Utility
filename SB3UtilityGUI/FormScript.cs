@@ -78,7 +78,7 @@ namespace SB3Utility
 			{
 				richTextBoxScript.SuspendLayout();
 				Color color = (show) ? Color.Empty : SystemColors.GrayText;
-				AppendText(command + Environment.NewLine, color);
+				AppendText(command + (show ? "" : " // GUI only") + Environment.NewLine, color);
 				richTextBoxScript.SelectionStart = richTextBoxScript.Text.Length;
 				richTextBoxScript.ScrollToCaret();
 				richTextBoxScript.ResumeLayout();

@@ -15,6 +15,7 @@ namespace SB3Utility
 		private List<byte> readBuf;
 		private bool hasReadHeader;
 		private byte compressByte;
+		private int copyPos;
 		private int fileSize;
 		private int totalRead;
 
@@ -339,7 +340,7 @@ namespace SB3Utility
 				count = fileSize - totalRead;
 			}
 
-			while (readBuf.Count < count)
+			while (readBuf.Count - copyPos < count)
 			{
 				byte b = reader.ReadByte();
 				if (b == compressByte)
@@ -372,8 +373,14 @@ namespace SB3Utility
 				}
 			}
 
-			readBuf.CopyTo(0, buffer, offset, count);
-			readBuf.RemoveRange(0, count);
+			readBuf.CopyTo(copyPos, buffer, offset, count);
+			copyPos += count;
+			if (copyPos > 255)
+			{
+				int remove = copyPos - 255;
+				readBuf.RemoveRange(0, remove);
+				copyPos -= remove;
+			}
 
 			totalRead += count;
 			return count;

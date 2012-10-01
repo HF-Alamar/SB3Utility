@@ -136,6 +136,12 @@ namespace SB3Utility
 			writer.Write(nameBuf);
 		}
 
+		public static void WriteNameWithoutLength(this BinaryWriter writer, string name, int length)
+		{
+			byte[] nameBuf = Utility.EncryptName(name, length);
+			writer.Write(nameBuf);
+		}
+
 		public static Matrix ReadMatrix(this BinaryReader reader)
 		{
 			Matrix m = new Matrix();

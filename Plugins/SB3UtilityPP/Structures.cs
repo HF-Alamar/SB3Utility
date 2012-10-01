@@ -668,6 +668,8 @@ namespace SB3Utility
 		{
 			BinaryWriter writer = new BinaryWriter(stream);
 
+			writer.Write(Unknown1);
+
 			writer.Write(MeshIndices.Length);
 			for (int i = 0; i < MeshIndices.Length; i++)
 			{
@@ -790,7 +792,6 @@ namespace SB3Utility
 		{
 			BinaryWriter writer = new BinaryWriter(stream);
 
-			writer.Write(ClipList.Count);
 			for (int i = 0; i < ClipList.Count; i++)
 			{
 				ClipList[i].WriteTo(stream);
@@ -822,7 +823,7 @@ namespace SB3Utility
 		public void WriteTo(Stream stream)
 		{
 			BinaryWriter writer = new BinaryWriter(stream);
-			writer.WriteName(Name, 64);
+			writer.WriteNameWithoutLength(Name, 64);
 			writer.Write(Speed);
 			writer.Write(Unknown1);
 			writer.Write(Start);
