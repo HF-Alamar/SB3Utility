@@ -1,4 +1,7 @@
-﻿[0.4.42.12]
+﻿[0.4.42.13a]
+  - reopening image didn't update internal variable (GUItexture).
+
+[0.4.42.12]
   - JCH animation files for AA couldn't be opened
   - saving pp files after opening an XA (having morphs or animations) corrupted the XA
   - script commands only executable in the GUI are marked with a comment

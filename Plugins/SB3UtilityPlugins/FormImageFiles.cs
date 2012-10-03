@@ -129,15 +129,18 @@ namespace SB3Utility
 
 		private void reopenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			ImportedTexture lastSelected = null;
+			ListViewItem lastSelected = null;
 			foreach (ListViewItem item in listViewImages.SelectedItems)
 			{
 				PathVariable tag = (PathVariable)item.Tag;
 				AddImageFile(tag.Path);
-				string variable = tag.Variable;
-				lastSelected = (ImportedTexture)Gui.Scripting.Variables[variable];
+				lastSelected = item;
 			}
-			Gui.ImageControl.Image = lastSelected;
+			if (lastSelected != null)
+			{
+				lastSelected.Selected = false;
+				lastSelected.Selected = true;
+			}
 		}
 
 		private void closeToolStripMenuItem_Click(object sender, EventArgs e)
