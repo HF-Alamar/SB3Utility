@@ -67,6 +67,8 @@ namespace SB3Utility
 
 				Gui.Scripting.Variables.Add(MainVar, this);
 				PluginManager.RegisterFunctions(Assembly.GetExecutingAssembly());
+
+				Gui.Config = Properties.Settings.Default;
 			}
 			catch (Exception ex)
 			{

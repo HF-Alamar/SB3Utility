@@ -7,6 +7,8 @@ using System.Text;
 using System.IO;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
+using System.Configuration;
+using System.Reflection;
 
 namespace SB3Utility
 {
@@ -23,6 +25,9 @@ namespace SB3Utility
 
 		Dictionary<string, string> ChildParserVars = new Dictionary<string, string>();
 		Dictionary<string, DockContent> ChildForms = new Dictionary<string, DockContent>();
+
+		private Assembly irrKlangAssembly;
+		private object engine;
 
 		public FormPP(string path, string variable)
 		{
@@ -47,6 +52,7 @@ namespace SB3Utility
 				subfileListViews.Add(xxSubfilesList);
 				subfileListViews.Add(xaSubfilesList);
 				subfileListViews.Add(imageSubfilesList);
+				subfileListViews.Add(soundSubfilesList);
 				subfileListViews.Add(otherSubfilesList);
 
 				InitSubfileLists();
@@ -79,6 +85,29 @@ namespace SB3Utility
 						}
 					}
 				}
+
+				if (soundSubfilesList.Items.Count > 0)
+				{
+					if ((bool)Gui.Config["LoadIrrKlang"])
+					{
+						Gui.Config["LoadIrrKlang"] = false;
+						try
+						{
+							irrKlangAssembly = Assembly.LoadFrom("irrKlang.NET4.dll");
+							Type type = irrKlangAssembly.GetType("IrrKlang.ISoundEngine");
+							engine = Activator.CreateInstance(type);
+							Gui.Config["LoadIrrKlang"] = true;
+						}
+						catch
+						{
+							Report.ReportLog("Couldn't load the sound library.");
+						}
+					}
+					else
+					{
+						Report.ReportLog("Loading of the sound library is disabled. Set LoadIrrKlang to True in the settings file to reenable loading the library.");
+					}
+				}
 			}
 			catch (Exception ex)
 			{
@@ -90,6 +119,11 @@ namespace SB3Utility
 		{
 			try
 			{
+				foreach (ListViewItem item in soundSubfilesList.SelectedItems)
+				{
+					item.Selected = false;
+				}
+
 				foreach (var pair in ChildForms)
 				{
 					if (pair.Value.IsHidden)
@@ -112,12 +146,14 @@ namespace SB3Utility
 			xxSubfilesList.Items.Clear();
 			xaSubfilesList.Items.Clear();
 			imageSubfilesList.Items.Clear();
+			soundSubfilesList.Items.Clear();
 			otherSubfilesList.Items.Clear();
 
 			adjustSubfileListsEnabled(false);
 			List<ListViewItem> xxFiles = new List<ListViewItem>(Editor.Parser.Subfiles.Count);
 			List<ListViewItem> xaFiles = new List<ListViewItem>(Editor.Parser.Subfiles.Count);
 			List<ListViewItem> imageFiles = new List<ListViewItem>(Editor.Parser.Subfiles.Count);
+			List<ListViewItem> soundFiles = new List<ListViewItem>(Editor.Parser.Subfiles.Count);
 			List<ListViewItem> otherFiles = new List<ListViewItem>(Editor.Parser.Subfiles.Count);
 			for (int i = 0; i < Editor.Parser.Subfiles.Count; i++)
 			{
@@ -138,6 +174,10 @@ namespace SB3Utility
 				{
 					imageFiles.Add(item);
 				}
+				else if (ext.Equals(".ogg") || ext.Equals(".wav"))
+				{
+					soundFiles.Add(item);
+				}
 				else
 				{
 					otherFiles.Add(item);
@@ -146,6 +186,7 @@ namespace SB3Utility
 			xxSubfilesList.Items.AddRange(xxFiles.ToArray());
 			xaSubfilesList.Items.AddRange(xaFiles.ToArray());
 			imageSubfilesList.Items.AddRange(imageFiles.ToArray());
+			soundSubfilesList.Items.AddRange(soundFiles.ToArray());
 			otherSubfilesList.Items.AddRange(otherFiles.ToArray());
 			adjustSubfileLists();
 			adjustSubfileListsEnabled(true);
@@ -390,6 +431,55 @@ namespace SB3Utility
 					}
 
 					Gui.ImageControl.Image = image;
+				}
+			}
+			catch (Exception ex)
+			{
+				Utility.ReportException(ex);
+			}
+		}
+
+		private void soundSubfilesList_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+		{
+			try
+			{
+				if (irrKlangAssembly == null)
+					return;
+				if (e.IsSelected)
+				{
+					IReadFile subfile = (IReadFile)e.Item.Tag;
+					Stream stream = (Stream)Gui.Scripting.RunScript(EditorVar + ".ReadSubfile(name=\"" + subfile.Name + "\")");
+					byte[] soundBuf;
+					using (BinaryReader reader = new BinaryReader(stream))
+					{
+						soundBuf = reader.ReadToEnd();
+					}
+
+					Type engineType = engine.GetType();
+					object source =
+							engineType.GetMethod("AddSoundSourceFromMemory").Invoke(engine, new object[] {
+								(object)soundBuf, (object)e.Item.Text
+							});
+					MethodInfo[] methods = engineType.GetMethods();
+					foreach (MethodInfo method in methods)
+					{
+						if (method.Name == "Play2D")
+						{
+							ParameterInfo[] parameters = method.GetParameters();
+							if (parameters[0].ParameterType.Name == "ISoundSource")
+							{
+								method.Invoke(engine, new object[] {
+										(object)source, (object)false, (object)false, (object)false
+									});
+								break;
+							}
+						}
+					}
+				}
+				else
+				{
+					Type engineType = engine.GetType();
+					engineType.GetMethod("RemoveSoundSource").Invoke(engine, new object[] { (object)e.Item.Text });
 				}
 			}
 			catch (Exception ex)

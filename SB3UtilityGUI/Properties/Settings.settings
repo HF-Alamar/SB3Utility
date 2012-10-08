@@ -3,7 +3,10 @@
   <Profiles />
   <Settings>
     <Setting Name="PluginsDoNotLoad" Provider="PortableSettingsProvider" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">fbxsdk-2012.2.dll;SB3UtilityFBX.dll</Value>
+      <Value Profile="(Default)">fbxsdk-2012.2.dll;SB3UtilityFBX.dll;SB3UtilityPP.dll</Value>
+    </Setting>
+    <Setting Name="LoadIrrKlang" Provider="PortableSettingsProvider" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

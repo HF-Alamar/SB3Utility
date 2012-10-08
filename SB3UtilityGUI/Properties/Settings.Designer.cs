@@ -26,10 +26,20 @@ namespace SB3Utility.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("fbxsdk-2012.2.dll;SB3UtilityFBX.dll")]
+        [global::System.Configuration.DefaultSettingValueAttribute("fbxsdk-2012.2.dll;SB3UtilityFBX.dll;SB3UtilityPP.dll")]
         public string PluginsDoNotLoad {
             get {
                 return ((string)(this["PluginsDoNotLoad"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool LoadIrrKlang {
+            get {
+                return ((bool)(this["LoadIrrKlang"]));
             }
         }
     }

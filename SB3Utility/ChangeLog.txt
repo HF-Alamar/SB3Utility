@@ -1,4 +1,11 @@
-﻿[0.4.42.13a]
+﻿[0.4.42.15]
+  - format of pp files entirely made up of sounds wasn't correctly detected
+  - playing sounds via irrKlang library
+
+[0.4.42.14]
+  - Copy->New bones crashed the Renderer.
+
+[0.4.42.13a]
   - reopening image didn't update internal variable (GUItexture).
 
 [0.4.42.12]

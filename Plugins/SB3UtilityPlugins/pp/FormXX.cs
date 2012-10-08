@@ -2421,6 +2421,7 @@ namespace SB3Utility
 				Gui.Scripting.RunScript(EditorVar + ".CopyBone(meshId=" + loadedBone[0] + ", boneId=" + loadedBone[1] + ")");
 
 				InitFrames();
+				RecreateRenderObjects();
 			}
 			catch (Exception ex)
 			{

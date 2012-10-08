@@ -180,6 +180,10 @@ namespace SB3Utility
 			{
 				tryFunc = new Func<ppSubfile, bool>(TryFileLst);
 			}
+			else if (ext == ".wav" || ext == ".ogg")
+			{
+				tryFunc = new Func<ppSubfile, bool>(TryFileSound);
+			}
 
 			if (tryFunc != null)
 			{
@@ -351,6 +355,21 @@ namespace SB3Utility
 			}
 
 			return true;
+		}
+
+		public static bool TryFileSound(ppSubfile subfile)
+		{
+			using (BinaryReader reader = new BinaryReader(subfile.CreateReadStream()))
+			{
+				byte[] buf = reader.ReadBytes(4);
+				if (buf[0] == 'O' && buf[1] == 'g' && buf[2] == 'g' && buf[3] == 'S' ||
+					buf[0] == 'R' && buf[1] == 'I' && buf[2] == 'F' && buf[3] == 'F')
+				{
+					return true;
+				}
+			}
+
+			return false;
 		}
 		#endregion
 	}

@@ -503,7 +503,12 @@ namespace SB3Utility
 		{
 			xxFrame frame = Meshes[meshId];
 			List<xxBone> boneList = frame.Mesh.BoneList;
-			boneList.Add(boneList[boneId].Clone());
+			xxBone root = xx.FindBone(boneList, Frames[0].Name);
+			if (root != null)
+				throw new Exception("One bone already targets the root frame.");
+			xxBone copy = boneList[boneId].Clone();
+			copy.Name = Frames[0].Name;
+			boneList.Add(copy);
 		}
 
 		[Plugin]

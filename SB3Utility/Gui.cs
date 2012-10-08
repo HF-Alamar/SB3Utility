@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
+using System.Configuration;
 using WeifenLuo.WinFormsUI.Docking;
 using SlimDX;
 using SlimDX.Direct3D9;
@@ -10,12 +11,13 @@ namespace SB3Utility
 {
 	public static class Gui
 	{
-		public static string Version = "0.4.42.13a";
+		public static string Version = "0.4.42.15";
 
 		public static IScripting Scripting { get; set; }
 		public static IDocking Docking { get; set; }
 		public static IImageControl ImageControl { get; set; }
 		public static IRenderer Renderer { get; set; }
+		public static System.Configuration.ApplicationSettingsBase Config;
 	}
 
 	public interface IScripting

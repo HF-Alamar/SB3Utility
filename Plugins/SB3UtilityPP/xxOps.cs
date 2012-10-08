@@ -291,6 +291,17 @@ namespace SB3Utility
 			}
 		}
 
+		public static xxBone FindBone(List<xxBone> boneList, string name)
+		{
+			foreach (xxBone bone in boneList)
+			{
+				if (bone.Name == name)
+					return bone;
+			}
+
+			return null;
+		}
+
 		public static void SetBoundingBox(xxFrame frame)
 		{
 			if (frame.Mesh == null)

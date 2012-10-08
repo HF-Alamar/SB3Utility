@@ -38,6 +38,9 @@
 			this.tabPageImageSubfiles = new System.Windows.Forms.TabPage();
 			this.imageSubfilesList = new System.Windows.Forms.ListView();
 			this.imageSubfilesListHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.tabPageSoundFiles = new System.Windows.Forms.TabPage();
+			this.soundSubfilesList = new System.Windows.Forms.ListView();
+			this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.tabPageOtherSubfiles = new System.Windows.Forms.TabPage();
 			this.otherSubfilesList = new System.Windows.Forms.ListView();
 			this.otherSubfilesListHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -71,6 +74,7 @@
 			this.tabPageXXSubfiles.SuspendLayout();
 			this.tabPageXASubfiles.SuspendLayout();
 			this.tabPageImageSubfiles.SuspendLayout();
+			this.tabPageSoundFiles.SuspendLayout();
 			this.tabPageOtherSubfiles.SuspendLayout();
 			this.panel1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
@@ -84,6 +88,7 @@
 			this.tabControlSubfiles.Controls.Add(this.tabPageXXSubfiles);
 			this.tabControlSubfiles.Controls.Add(this.tabPageXASubfiles);
 			this.tabControlSubfiles.Controls.Add(this.tabPageImageSubfiles);
+			this.tabControlSubfiles.Controls.Add(this.tabPageSoundFiles);
 			this.tabControlSubfiles.Controls.Add(this.tabPageOtherSubfiles);
 			this.tabControlSubfiles.Location = new System.Drawing.Point(0, 29);
 			this.tabControlSubfiles.Multiline = true;
@@ -190,6 +195,38 @@
 			this.imageSubfilesList.UseCompatibleStateImageBehavior = false;
 			this.imageSubfilesList.View = System.Windows.Forms.View.Details;
 			this.imageSubfilesList.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.imageSubfilesList_ItemSelectionChanged);
+			// 
+			// tabPageSoundFiles
+			// 
+			this.tabPageSoundFiles.Controls.Add(this.soundSubfilesList);
+			this.tabPageSoundFiles.Location = new System.Drawing.Point(4, 22);
+			this.tabPageSoundFiles.Name = "tabPageSoundFiles";
+			this.tabPageSoundFiles.Size = new System.Drawing.Size(272, 336);
+			this.tabPageSoundFiles.TabIndex = 4;
+			this.tabPageSoundFiles.Text = "Snd";
+			this.tabPageSoundFiles.UseVisualStyleBackColor = true;
+			// 
+			// soundSubfilesList
+			// 
+			this.soundSubfilesList.AutoArrange = false;
+			this.soundSubfilesList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1});
+			this.soundSubfilesList.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.soundSubfilesList.FullRowSelect = true;
+			this.soundSubfilesList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+			this.soundSubfilesList.HideSelection = false;
+			this.soundSubfilesList.LabelWrap = false;
+			this.soundSubfilesList.Location = new System.Drawing.Point(0, 0);
+			this.soundSubfilesList.Name = "soundSubfilesList";
+			this.soundSubfilesList.ShowGroups = false;
+			this.soundSubfilesList.ShowItemToolTips = true;
+			this.soundSubfilesList.Size = new System.Drawing.Size(272, 336);
+			this.soundSubfilesList.Sorting = System.Windows.Forms.SortOrder.Ascending;
+			this.soundSubfilesList.TabIndex = 7;
+			this.soundSubfilesList.TabStop = false;
+			this.soundSubfilesList.UseCompatibleStateImageBehavior = false;
+			this.soundSubfilesList.View = System.Windows.Forms.View.Details;
+			this.soundSubfilesList.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.soundSubfilesList_ItemSelectionChanged);
 			// 
 			// tabPageOtherSubfiles
 			// 
@@ -434,6 +471,7 @@
 			this.tabPageXXSubfiles.ResumeLayout(false);
 			this.tabPageXASubfiles.ResumeLayout(false);
 			this.tabPageImageSubfiles.ResumeLayout(false);
+			this.tabPageSoundFiles.ResumeLayout(false);
 			this.tabPageOtherSubfiles.ResumeLayout(false);
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
@@ -485,6 +523,9 @@
 		private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
 		private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
+		private System.Windows.Forms.TabPage tabPageSoundFiles;
+		private System.Windows.Forms.ListView soundSubfilesList;
+		private System.Windows.Forms.ColumnHeader columnHeader1;
 
 	}
 }
