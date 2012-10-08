@@ -1,4 +1,7 @@
-﻿[0.4.42.15]
+﻿[0.4.42.16]
+  - sound tab wasn't considered by menu actions
+
+[0.4.42.15]
   - format of pp files entirely made up of sounds wasn't correctly detected
   - playing sounds via irrKlang library
 

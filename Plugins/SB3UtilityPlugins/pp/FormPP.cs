@@ -635,6 +635,16 @@ namespace SB3Utility
 						removed = true;
 					}
 				}
+				else if (tabControlSubfiles.SelectedTab == tabPageSoundFiles)
+				{
+					foreach (ListViewItem item in soundSubfilesList.SelectedItems)
+					{
+						item.Selected = false;
+						IWriteFile writeFile = (IWriteFile)item.Tag;
+						Gui.Scripting.RunScript(EditorVar + ".RemoveSubfile(name=\"" + writeFile.Name + "\")");
+						removed = true;
+					}
+				}
 				else if (tabControlSubfiles.SelectedTab == tabPageOtherSubfiles)
 				{
 					foreach (ListViewItem item in otherSubfilesList.SelectedItems)
@@ -680,6 +690,13 @@ namespace SB3Utility
 					if (imageSubfilesList.SelectedItems.Count > 0)
 					{
 						item = imageSubfilesList.SelectedItems[0];
+					}
+				}
+				else if (tabControlSubfiles.SelectedTab == tabPageSoundFiles)
+				{
+					if (soundSubfilesList.SelectedItems.Count > 0)
+					{
+						item = soundSubfilesList.SelectedItems[0];
 					}
 				}
 				else if (tabControlSubfiles.SelectedTab == tabPageOtherSubfiles)
@@ -771,35 +788,34 @@ namespace SB3Utility
 		{
 			try
 			{
+				folderBrowserDialog1.SelectedPath = Path.GetDirectoryName(this.Editor.Parser.FilePath);
+				folderBrowserDialog1.RootFolder = Environment.SpecialFolder.MyComputer;
 				if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
 				{
+					ListView subfilesList = null;
 					if (tabControlSubfiles.SelectedTab == tabPageXXSubfiles)
 					{
-						foreach (ListViewItem item in xxSubfilesList.SelectedItems)
-						{
-							IWriteFile subfile = (IWriteFile)item.Tag;
-							Gui.Scripting.RunScript("ExportSubfile(parser=" + ParserVar + ", name=\"" + subfile.Name + "\", path=\"" + folderBrowserDialog1.SelectedPath + @"\" + subfile.Name + "\")");
-						}
+						subfilesList = xxSubfilesList;
 					}
 					else if (tabControlSubfiles.SelectedTab == tabPageXASubfiles)
 					{
-						foreach (ListViewItem item in xaSubfilesList.SelectedItems)
-						{
-							IWriteFile subfile = (IWriteFile)item.Tag;
-							Gui.Scripting.RunScript("ExportSubfile(parser=" + ParserVar + ", name=\"" + subfile.Name + "\", path=\"" + folderBrowserDialog1.SelectedPath + @"\" + subfile.Name + "\")");
-						}
+						subfilesList = xaSubfilesList;
 					}
 					else if (tabControlSubfiles.SelectedTab == tabPageImageSubfiles)
 					{
-						foreach (ListViewItem item in imageSubfilesList.SelectedItems)
-						{
-							IWriteFile subfile = (IWriteFile)item.Tag;
-							Gui.Scripting.RunScript("ExportSubfile(parser=" + ParserVar + ", name=\"" + subfile.Name + "\", path=\"" + folderBrowserDialog1.SelectedPath + @"\" + subfile.Name + "\")");
-						}
+						subfilesList = imageSubfilesList;
+					}
+					else if (tabControlSubfiles.SelectedTab == tabPageSoundFiles)
+					{
+						subfilesList = soundSubfilesList;
 					}
 					else if (tabControlSubfiles.SelectedTab == tabPageOtherSubfiles)
 					{
-						foreach (ListViewItem item in otherSubfilesList.SelectedItems)
+						subfilesList = otherSubfilesList;
+					}
+					if (subfilesList != null)
+					{
+						foreach (ListViewItem item in subfilesList.SelectedItems)
 						{
 							IWriteFile subfile = (IWriteFile)item.Tag;
 							Gui.Scripting.RunScript("ExportSubfile(parser=" + ParserVar + ", name=\"" + subfile.Name + "\", path=\"" + folderBrowserDialog1.SelectedPath + @"\" + subfile.Name + "\")");
