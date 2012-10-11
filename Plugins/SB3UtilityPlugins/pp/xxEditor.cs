@@ -8,7 +8,7 @@ using SlimDX;
 namespace SB3Utility
 {
 	[Plugin]
-	public class xxEditor
+	public class xxEditor : IDisposable
 	{
 		public List<xxFrame> Frames { get; protected set; }
 		public List<xxFrame> Meshes { get; protected set; }
@@ -37,6 +37,13 @@ namespace SB3Utility
 			{
 				InitFrames(frame[i]);
 			}
+		}
+
+		public void Dispose()
+		{
+			Frames.Clear();
+			Meshes.Clear();
+			Parser = null;
 		}
 
 		[Plugin]

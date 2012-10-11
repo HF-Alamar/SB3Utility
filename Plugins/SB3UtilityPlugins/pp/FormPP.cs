@@ -7,8 +7,6 @@ using System.Text;
 using System.IO;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
-using System.Configuration;
-using System.Reflection;
 
 namespace SB3Utility
 {
@@ -26,8 +24,7 @@ namespace SB3Utility
 		Dictionary<string, string> ChildParserVars = new Dictionary<string, string>();
 		Dictionary<string, DockContent> ChildForms = new Dictionary<string, DockContent>();
 
-		private Assembly irrKlangAssembly;
-		private object engine;
+		private Utility.SoundLib soundLib;
 
 		public FormPP(string path, string variable)
 		{
@@ -85,29 +82,6 @@ namespace SB3Utility
 						}
 					}
 				}
-
-				if (soundSubfilesList.Items.Count > 0)
-				{
-					if ((bool)Gui.Config["LoadIrrKlang"])
-					{
-						Gui.Config["LoadIrrKlang"] = false;
-						try
-						{
-							irrKlangAssembly = Assembly.LoadFrom("irrKlang.NET4.dll");
-							Type type = irrKlangAssembly.GetType("IrrKlang.ISoundEngine");
-							engine = Activator.CreateInstance(type);
-							Gui.Config["LoadIrrKlang"] = true;
-						}
-						catch
-						{
-							Report.ReportLog("Couldn't load the sound library.");
-						}
-					}
-					else
-					{
-						Report.ReportLog("Loading of the sound library is disabled. Set LoadIrrKlang to True in the settings file to reenable loading the library.");
-					}
-				}
 			}
 			catch (Exception ex)
 			{
@@ -134,6 +108,15 @@ namespace SB3Utility
 					pair.Value.FormClosing -= new FormClosingEventHandler(ChildForms_FormClosing);
 					pair.Value.Close();
 				}
+				ChildForms.Clear();
+				foreach (var parserVar in ChildParserVars.Values)
+				{
+					Gui.Scripting.Variables.Remove(parserVar);
+				}
+				ChildParserVars.Clear();
+				Gui.Scripting.Variables.Remove(FormVariable);
+				Gui.Scripting.Variables.Remove(EditorVar);
+				Gui.Scripting.Variables.Remove(ParserVar);
 			}
 			catch (Exception ex)
 			{
@@ -190,6 +173,11 @@ namespace SB3Utility
 			otherSubfilesList.Items.AddRange(otherFiles.ToArray());
 			adjustSubfileLists();
 			adjustSubfileListsEnabled(true);
+
+			if (soundSubfilesList.Items.Count > 0 && soundLib == null)
+			{
+				soundLib = new Utility.SoundLib();
+			}
 		}
 
 		private void adjustSubfileListsEnabled(bool enabled)
@@ -443,43 +431,22 @@ namespace SB3Utility
 		{
 			try
 			{
-				if (irrKlangAssembly == null)
+				if (!soundLib.isLoaded())
 					return;
 				if (e.IsSelected)
 				{
 					IReadFile subfile = (IReadFile)e.Item.Tag;
-					Stream stream = (Stream)Gui.Scripting.RunScript(EditorVar + ".ReadSubfile(name=\"" + subfile.Name + "\")");
+					Stream stream = (Stream)Gui.Scripting.RunScript(EditorVar + ".ReadSubfile(name=\"" + subfile.Name + "\")", false);
 					byte[] soundBuf;
 					using (BinaryReader reader = new BinaryReader(stream))
 					{
 						soundBuf = reader.ReadToEnd();
 					}
-
-					Type engineType = engine.GetType();
-					object source =
-							engineType.GetMethod("AddSoundSourceFromMemory").Invoke(engine, new object[] {
-								(object)soundBuf, (object)e.Item.Text
-							});
-					MethodInfo[] methods = engineType.GetMethods();
-					foreach (MethodInfo method in methods)
-					{
-						if (method.Name == "Play2D")
-						{
-							ParameterInfo[] parameters = method.GetParameters();
-							if (parameters[0].ParameterType.Name == "ISoundSource")
-							{
-								method.Invoke(engine, new object[] {
-										(object)source, (object)false, (object)false, (object)false
-									});
-								break;
-							}
-						}
-					}
+					soundLib.Play(e.Item.Text, soundBuf);
 				}
 				else
 				{
-					Type engineType = engine.GetType();
-					engineType.GetMethod("RemoveSoundSource").Invoke(engine, new object[] { (object)e.Item.Text });
+					soundLib.Stop(e.Item.Text);
 				}
 			}
 			catch (Exception ex)

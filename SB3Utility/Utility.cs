@@ -6,6 +6,8 @@ using System.IO;
 using System.Windows.Forms;
 using SlimDX;
 using SlimDX.Direct3D9;
+using System.Configuration;
+using System.Reflection;
 
 namespace SB3Utility
 {
@@ -173,6 +175,78 @@ namespace SB3Utility
 			}
 
 			return true;
+		}
+
+		public class SoundLib
+		{
+			private static Assembly irrKlangAssembly;
+			private object soundEngine;
+
+			public SoundLib()
+			{
+				if ((bool)Gui.Config["LoadIrrKlang"])
+				{
+					Gui.Config["LoadIrrKlang"] = false;
+					try
+					{
+						irrKlangAssembly = Assembly.Load("irrKlang.NET4, Version=1.0.4534.25937, Culture=neutral, PublicKeyToken=a854741bd80517c7");
+						Gui.Config["LoadIrrKlang"] = true;
+					}
+					catch (Exception ex)
+					{
+						Report.ReportLog(ex.Message);
+						return;
+					}
+					try
+					{
+						Type type = irrKlangAssembly.GetType("IrrKlang.ISoundEngine");
+						soundEngine = Activator.CreateInstance(type);
+					}
+					catch (Exception ex)
+					{
+						ReportException(ex);
+					}
+				}
+				else
+				{
+					Report.ReportLog("Loading of the sound library is disabled. Set LoadIrrKlang to True in the settings file to reenable loading the library.");
+				}
+			}
+
+			public bool isLoaded()
+			{
+				return irrKlangAssembly != null && soundEngine != null;
+			}
+
+			public void Play(string name, byte[] soundBuf)
+			{
+				Type engineType = soundEngine.GetType();
+				object source =
+							engineType.GetMethod("AddSoundSourceFromMemory").Invoke(soundEngine, new object[] {
+								(object)soundBuf, (object)name
+							});
+				MethodInfo[] methods = engineType.GetMethods();
+				foreach (MethodInfo method in methods)
+				{
+					if (method.Name == "Play2D")
+					{
+						ParameterInfo[] parameters = method.GetParameters();
+						if (parameters[0].ParameterType.Name == "ISoundSource")
+						{
+							method.Invoke(soundEngine, new object[] {
+										(object)source, (object)false, (object)false, (object)false
+									});
+							break;
+						}
+					}
+				}
+			}
+
+			public void Stop(string name)
+			{
+				Type engineType = soundEngine.GetType();
+				engineType.GetMethod("RemoveSoundSource").Invoke(soundEngine, new object[] { (object)name });
+			}
 		}
 	}
 }

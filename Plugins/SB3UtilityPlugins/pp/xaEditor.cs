@@ -6,13 +6,18 @@ using SlimDX;
 namespace SB3Utility
 {
 	[Plugin]
-	public class xaEditor
+	public class xaEditor : IDisposable
 	{
 		public xaParser Parser { get; protected set; }
 
 		public xaEditor(xaParser parser)
 		{
 			Parser = parser;
+		}
+
+		public void Dispose()
+		{
+			Parser = null;
 		}
 
 		[Plugin]

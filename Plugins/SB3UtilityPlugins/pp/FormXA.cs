@@ -16,10 +16,10 @@ namespace SB3Utility
 	[PluginOpensFile(".xa")]
 	public partial class FormXA : DockContent
 	{
-		private FormPP formPP;
 		public xaEditor Editor { get; protected set; }
 		public string EditorVar { get; protected set; }
 		public string ParserVar { get; protected set; }
+		public string FormVar { get; protected set; }
 
 		private TextBox[][] xaMaterialMatrixText = new TextBox[6][];
 		private TreeNode[] prevMorphKeyframeNodes = null;
@@ -54,8 +54,31 @@ namespace SB3Utility
 			string editorCommand = EditorVar + " = xaEditor(parser=" + ParserVar + ")";
 			Editor = (xaEditor)Gui.Scripting.RunScript(editorCommand);
 
+			FormVar = variable;
+
 			Init();
 			LoadXA();
+
+			List<DockContent> formXAList;
+			if (Gui.Docking.DockContents.TryGetValue(typeof(FormXA), out formXAList))
+			{
+				var listCopy = new List<FormXA>(formXAList.Count);
+				for (int i = 0; i < formXAList.Count; i++)
+				{
+					listCopy.Add((FormXA)formXAList[i]);
+				}
+
+				foreach (var form in listCopy)
+				{
+					if (form != this)
+					{
+						if (form.ToolTipText == this.ToolTipText)
+						{
+							form.Close();
+						}
+					}
+				}
+			}
 		}
 
 		public FormXA(ppParser ppParser, string xaParserVar)
@@ -81,20 +104,20 @@ namespace SB3Utility
 		{
 			try
 			{
-				if (Editor.Parser.AnimationSection != null)
-				{
-					if (animationSet != null)
-					{
-						Pause();
-						Gui.Renderer.RemoveAnimationSet(animationId);
-						animationSet.Dispose();
-					}
+				UnloadXA();
 
-					Gui.Renderer.RenderObjectAdded -= new EventHandler(Renderer_RenderObjectAdded);
+				if (FormVar != null)
+				{
+					Gui.Scripting.Variables.Remove(ParserVar);
+					Gui.Scripting.Variables.Remove(FormVar);
 				}
+				Gui.Scripting.Variables.Remove(EditorVar);
+				Editor.Dispose();
+				Editor = null;
 			}
-			catch
+			catch (Exception ex)
 			{
+				Utility.ReportException(ex);
 			}
 		}
 
@@ -241,7 +264,24 @@ namespace SB3Utility
 
 		private void UnloadXA()
 		{
-			CustomDispose();
+			try
+			{
+				if (Editor.Parser.AnimationSection != null)
+				{
+					if (animationSet != null)
+					{
+						Pause();
+						Gui.Renderer.RemoveAnimationSet(animationId);
+						animationSet.Dispose();
+					}
+
+					Gui.Renderer.RenderObjectAdded -= new EventHandler(Renderer_RenderObjectAdded);
+				}
+			}
+			catch (Exception ex)
+			{
+				Utility.ReportException(ex);
+			}
 		}
 
 		private void Renderer_RenderObjectAdded(object sender, EventArgs e)

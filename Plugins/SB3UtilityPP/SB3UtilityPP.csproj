@@ -70,6 +70,7 @@
     <ProjectReference Include="..\..\SB3Utility\SB3Utility.csproj">
       <Project>{A351DFAB-3235-4CEA-9916-1BAE973B65AE}</Project>
       <Name>SB3Utility</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

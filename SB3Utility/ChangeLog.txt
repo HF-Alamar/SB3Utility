@@ -1,4 +1,10 @@
-﻿[0.4.42.16]
+﻿[0.4.42.17]
+  - Some scripting variables weren't released and prevented GC to tidy up.
+  - Added help for GC in FormXX. Memory is faster released for external XX files.
+  - Opening/dropping the same XX/XA files again closes the previously opened editor.
+  - Sound handling moved into it's own class
+
+[0.4.42.16]
   - sound tab wasn't considered by menu actions
 
 [0.4.42.15]

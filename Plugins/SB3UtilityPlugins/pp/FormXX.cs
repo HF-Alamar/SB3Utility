@@ -52,6 +52,7 @@ namespace SB3Utility
 		public xxEditor Editor { get; protected set; }
 		public string EditorVar { get; protected set; }
 		public string ParserVar { get; protected set; }
+		public string FormVar { get; protected set; }
 
 		string exportDir;
 		EditTextBox[][] matMatrixText = new EditTextBox[5][];
@@ -100,7 +101,29 @@ namespace SB3Utility
 				Init();
 				ParserVar = Gui.Scripting.GetNextVariable("xxParser");
 				EditorVar = Gui.Scripting.GetNextVariable("xxEditor");
+				FormVar = variable;
 				ReopenXX();
+
+				List<DockContent> formXXList;
+				if (Gui.Docking.DockContents.TryGetValue(typeof(FormXX), out formXXList))
+				{
+					var listCopy = new List<FormXX>(formXXList.Count);
+					for (int i = 0; i < formXXList.Count; i++)
+					{
+						listCopy.Add((FormXX)formXXList[i]);
+					}
+
+					foreach (var form in listCopy)
+					{
+						if (form != this)
+						{
+							if (form.ToolTipText == this.ToolTipText)
+							{
+								form.Close();
+							}
+						}
+					}
+				}
 			}
 			catch (Exception ex)
 			{
@@ -152,12 +175,33 @@ namespace SB3Utility
 		{
 			try
 			{
-				DisposeRenderObjects();
+				if (FormVar != null)
+				{
+					Gui.Scripting.Variables.Remove(ParserVar);
+					Gui.Scripting.Variables.Remove(FormVar);
+				}
+				Gui.Scripting.Variables.Remove(EditorVar);
+
+				UnloadXX();
 			}
 			catch (Exception ex)
 			{
 				Utility.ReportException(ex);
 			}
+		}
+
+		private void UnloadXX()
+		{
+			Editor.Dispose();
+			Editor = null;
+			DisposeRenderObjects();
+			CrossRefsClear();
+			ClearKeyList<xxMaterial>(crossRefMeshMaterials);
+			ClearKeyList<xxTexture>(crossRefMeshTextures);
+			ClearKeyList<xxFrame>(crossRefMaterialMeshes);
+			ClearKeyList<xxTexture>(crossRefMaterialTextures);
+			ClearKeyList<xxFrame>(crossRefTextureMeshes);
+			ClearKeyList<xxMaterial>(crossRefTextureMaterials);
 		}
 
 		void DisposeRenderObjects()
@@ -174,6 +218,14 @@ namespace SB3Utility
 					renderObjectMeshes[i].Dispose();
 					renderObjectMeshes[i] = null;
 				}
+			}
+		}
+
+		void ClearKeyList<T>(Dictionary<int, List<KeyList<T>>> dic)
+		{
+			foreach (var pair in dic)
+			{
+				pair.Value.Clear();
 			}
 		}
 
@@ -3010,7 +3062,7 @@ namespace SB3Utility
 
 		private void reopenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			CustomDispose();
+			UnloadXX();
 			ReopenXX();
 		}
 
