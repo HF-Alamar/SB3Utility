@@ -30,6 +30,17 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.reopenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.savexxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.savexxAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+			this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.keepBackupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.textBoxFormat = new SB3Utility.EditTextBox();
 			this.buttonConvert = new System.Windows.Forms.Button();
@@ -132,6 +143,13 @@
 			this.MeshGotoFrame = new System.Windows.Forms.Button();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.label28 = new System.Windows.Forms.Label();
+			this.comboBoxMeshExportFormat = new System.Windows.Forms.ComboBox();
+			this.buttonMeshExport = new System.Windows.Forms.Button();
+			this.panelMeshExportOptionsFbx = new System.Windows.Forms.Panel();
+			this.label13 = new System.Windows.Forms.Label();
+			this.textBoxKeyframeRange = new SB3Utility.EditTextBox();
+			this.checkBoxMeshExportFbxSkins = new System.Windows.Forms.CheckBox();
+			this.checkBoxMeshExportFbxAllFrames = new System.Windows.Forms.CheckBox();
 			this.panelMeshExportOptionsDefault = new System.Windows.Forms.Panel();
 			this.panelMeshExportOptionsDirectX = new System.Windows.Forms.Panel();
 			this.numericMeshExportDirectXTicksPerSecond = new System.Windows.Forms.NumericUpDown();
@@ -143,11 +161,6 @@
 			this.panelMeshExportOptionsMqo = new System.Windows.Forms.Panel();
 			this.checkBoxMeshExportMqoSingleFile = new System.Windows.Forms.CheckBox();
 			this.checkBoxMeshExportMqoWorldCoords = new System.Windows.Forms.CheckBox();
-			this.panelMeshExportOptionsFbx = new System.Windows.Forms.Panel();
-			this.checkBoxMeshExportFbxSkins = new System.Windows.Forms.CheckBox();
-			this.checkBoxMeshExportFbxAllFrames = new System.Windows.Forms.CheckBox();
-			this.comboBoxMeshExportFormat = new System.Windows.Forms.ComboBox();
-			this.buttonMeshExport = new System.Windows.Forms.Button();
 			this.checkBoxMeshSkinned = new System.Windows.Forms.CheckBox();
 			this.label8 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
@@ -207,17 +220,7 @@
 			this.buttonTextureRemove = new System.Windows.Forms.Button();
 			this.textBoxTexSize = new SB3Utility.EditTextBox();
 			this.textBoxTexName = new SB3Utility.EditTextBox();
-			this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.reopenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.savexxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.savexxAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-			this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.keepBackupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -273,20 +276,105 @@
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewBoneMatrix)).BeginInit();
 			this.tabPageMeshView.SuspendLayout();
 			this.groupBox2.SuspendLayout();
+			this.panelMeshExportOptionsFbx.SuspendLayout();
 			this.panelMeshExportOptionsDirectX.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericMeshExportDirectXTicksPerSecond)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericMeshExportDirectXKeyframeLength)).BeginInit();
 			this.panelMeshExportOptionsCollada.SuspendLayout();
 			this.panelMeshExportOptionsMqo.SuspendLayout();
-			this.panelMeshExportOptionsFbx.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewMesh)).BeginInit();
 			this.tabPageMaterialView.SuspendLayout();
 			this.tabPageTextureView.SuspendLayout();
 			this.panelTexturePic.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxTexture)).BeginInit();
-			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
+			// 
+			// menuStrip1
+			// 
+			this.menuStrip1.AllowMerge = false;
+			this.menuStrip1.AutoSize = false;
+			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.optionsToolStripMenuItem});
+			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+			this.menuStrip1.Name = "menuStrip1";
+			this.menuStrip1.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
+			this.menuStrip1.Size = new System.Drawing.Size(524, 18);
+			this.menuStrip1.TabIndex = 117;
+			this.menuStrip1.Text = "menuStrip1";
+			// 
+			// fileToolStripMenuItem
+			// 
+			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.reopenToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.savexxToolStripMenuItem,
+            this.savexxAsToolStripMenuItem,
+            this.toolStripSeparator6,
+            this.closeToolStripMenuItem});
+			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+			this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 18);
+			this.fileToolStripMenuItem.Text = "&File";
+			// 
+			// reopenToolStripMenuItem
+			// 
+			this.reopenToolStripMenuItem.Name = "reopenToolStripMenuItem";
+			this.reopenToolStripMenuItem.ShortcutKeyDisplayString = "";
+			this.reopenToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
+			this.reopenToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+			this.reopenToolStripMenuItem.Text = "&Reopen .xx";
+			this.reopenToolStripMenuItem.Click += new System.EventHandler(this.reopenToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(166, 6);
+			// 
+			// savexxToolStripMenuItem
+			// 
+			this.savexxToolStripMenuItem.Name = "savexxToolStripMenuItem";
+			this.savexxToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+			this.savexxToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+			this.savexxToolStripMenuItem.Text = "&Save .xx";
+			this.savexxToolStripMenuItem.Click += new System.EventHandler(this.savexxToolStripMenuItem_Click);
+			// 
+			// savexxAsToolStripMenuItem
+			// 
+			this.savexxAsToolStripMenuItem.Name = "savexxAsToolStripMenuItem";
+			this.savexxAsToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+			this.savexxAsToolStripMenuItem.Text = "Save .xx &As...";
+			this.savexxAsToolStripMenuItem.Click += new System.EventHandler(this.savexxAsToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator6
+			// 
+			this.toolStripSeparator6.Name = "toolStripSeparator6";
+			this.toolStripSeparator6.Size = new System.Drawing.Size(166, 6);
+			// 
+			// closeToolStripMenuItem
+			// 
+			this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+			this.closeToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+F4";
+			this.closeToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+			this.closeToolStripMenuItem.Text = "&Close";
+			this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
+			// 
+			// optionsToolStripMenuItem
+			// 
+			this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.keepBackupToolStripMenuItem});
+			this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(56, 18);
+			this.optionsToolStripMenuItem.Text = "&Options";
+			// 
+			// keepBackupToolStripMenuItem
+			// 
+			this.keepBackupToolStripMenuItem.Checked = true;
+			this.keepBackupToolStripMenuItem.CheckOnClick = true;
+			this.keepBackupToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.keepBackupToolStripMenuItem.Name = "keepBackupToolStripMenuItem";
+			this.keepBackupToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+			this.keepBackupToolStripMenuItem.Text = "Keep &Backup";
 			// 
 			// splitContainer1
 			// 
@@ -462,6 +550,7 @@
 			this.splitContainerMesh.Size = new System.Drawing.Size(251, 464);
 			this.splitContainerMesh.SplitterDistance = 264;
 			this.splitContainerMesh.TabIndex = 3;
+			this.splitContainerMesh.TabStop = false;
 			// 
 			// listViewMesh
 			// 
@@ -499,8 +588,9 @@
 			this.splitContainerMeshCrossRef.Panel2.Controls.Add(this.listViewMeshTexture);
 			this.splitContainerMeshCrossRef.Panel2.Controls.Add(this.label70);
 			this.splitContainerMeshCrossRef.Size = new System.Drawing.Size(251, 196);
-			this.splitContainerMeshCrossRef.SplitterDistance = 95;
+			this.splitContainerMeshCrossRef.SplitterDistance = 94;
 			this.splitContainerMeshCrossRef.TabIndex = 2;
+			this.splitContainerMeshCrossRef.TabStop = false;
 			// 
 			// listViewMeshMaterial
 			// 
@@ -513,7 +603,7 @@
 			this.listViewMeshMaterial.LabelWrap = false;
 			this.listViewMeshMaterial.Location = new System.Drawing.Point(0, 13);
 			this.listViewMeshMaterial.Name = "listViewMeshMaterial";
-			this.listViewMeshMaterial.Size = new System.Drawing.Size(251, 82);
+			this.listViewMeshMaterial.Size = new System.Drawing.Size(251, 81);
 			this.listViewMeshMaterial.Sorting = System.Windows.Forms.SortOrder.Ascending;
 			this.listViewMeshMaterial.TabIndex = 2;
 			this.listViewMeshMaterial.TabStop = false;
@@ -542,7 +632,7 @@
 			this.listViewMeshTexture.LabelWrap = false;
 			this.listViewMeshTexture.Location = new System.Drawing.Point(0, 13);
 			this.listViewMeshTexture.Name = "listViewMeshTexture";
-			this.listViewMeshTexture.Size = new System.Drawing.Size(251, 84);
+			this.listViewMeshTexture.Size = new System.Drawing.Size(251, 85);
 			this.listViewMeshTexture.Sorting = System.Windows.Forms.SortOrder.Ascending;
 			this.listViewMeshTexture.TabIndex = 2;
 			this.listViewMeshTexture.TabStop = false;
@@ -587,6 +677,7 @@
 			this.splitContainerMaterial.Size = new System.Drawing.Size(251, 464);
 			this.splitContainerMaterial.SplitterDistance = 264;
 			this.splitContainerMaterial.TabIndex = 4;
+			this.splitContainerMaterial.TabStop = false;
 			// 
 			// listViewMaterial
 			// 
@@ -624,8 +715,9 @@
 			this.splitContainerMaterialCrossRef.Panel2.Controls.Add(this.listViewMaterialTexture);
 			this.splitContainerMaterialCrossRef.Panel2.Controls.Add(this.label72);
 			this.splitContainerMaterialCrossRef.Size = new System.Drawing.Size(251, 196);
-			this.splitContainerMaterialCrossRef.SplitterDistance = 95;
+			this.splitContainerMaterialCrossRef.SplitterDistance = 94;
 			this.splitContainerMaterialCrossRef.TabIndex = 2;
+			this.splitContainerMaterialCrossRef.TabStop = false;
 			// 
 			// listViewMaterialMesh
 			// 
@@ -638,7 +730,7 @@
 			this.listViewMaterialMesh.LabelWrap = false;
 			this.listViewMaterialMesh.Location = new System.Drawing.Point(0, 13);
 			this.listViewMaterialMesh.Name = "listViewMaterialMesh";
-			this.listViewMaterialMesh.Size = new System.Drawing.Size(251, 82);
+			this.listViewMaterialMesh.Size = new System.Drawing.Size(251, 81);
 			this.listViewMaterialMesh.Sorting = System.Windows.Forms.SortOrder.Ascending;
 			this.listViewMaterialMesh.TabIndex = 3;
 			this.listViewMaterialMesh.TabStop = false;
@@ -667,7 +759,7 @@
 			this.listViewMaterialTexture.LabelWrap = false;
 			this.listViewMaterialTexture.Location = new System.Drawing.Point(0, 13);
 			this.listViewMaterialTexture.Name = "listViewMaterialTexture";
-			this.listViewMaterialTexture.Size = new System.Drawing.Size(251, 84);
+			this.listViewMaterialTexture.Size = new System.Drawing.Size(251, 85);
 			this.listViewMaterialTexture.Sorting = System.Windows.Forms.SortOrder.Ascending;
 			this.listViewMaterialTexture.TabIndex = 3;
 			this.listViewMaterialTexture.TabStop = false;
@@ -712,6 +804,7 @@
 			this.splitContainerTexture.Size = new System.Drawing.Size(251, 464);
 			this.splitContainerTexture.SplitterDistance = 264;
 			this.splitContainerTexture.TabIndex = 3;
+			this.splitContainerTexture.TabStop = false;
 			// 
 			// listViewTexture
 			// 
@@ -749,8 +842,9 @@
 			this.splitContainerTextureCrossRef.Panel2.Controls.Add(this.listViewTextureMaterial);
 			this.splitContainerTextureCrossRef.Panel2.Controls.Add(this.label74);
 			this.splitContainerTextureCrossRef.Size = new System.Drawing.Size(251, 196);
-			this.splitContainerTextureCrossRef.SplitterDistance = 95;
+			this.splitContainerTextureCrossRef.SplitterDistance = 94;
 			this.splitContainerTextureCrossRef.TabIndex = 2;
+			this.splitContainerTextureCrossRef.TabStop = false;
 			// 
 			// listViewTextureMesh
 			// 
@@ -763,7 +857,7 @@
 			this.listViewTextureMesh.LabelWrap = false;
 			this.listViewTextureMesh.Location = new System.Drawing.Point(0, 13);
 			this.listViewTextureMesh.Name = "listViewTextureMesh";
-			this.listViewTextureMesh.Size = new System.Drawing.Size(251, 82);
+			this.listViewTextureMesh.Size = new System.Drawing.Size(251, 81);
 			this.listViewTextureMesh.Sorting = System.Windows.Forms.SortOrder.Ascending;
 			this.listViewTextureMesh.TabIndex = 4;
 			this.listViewTextureMesh.TabStop = false;
@@ -792,7 +886,7 @@
 			this.listViewTextureMaterial.LabelWrap = false;
 			this.listViewTextureMaterial.Location = new System.Drawing.Point(0, 13);
 			this.listViewTextureMaterial.Name = "listViewTextureMaterial";
-			this.listViewTextureMaterial.Size = new System.Drawing.Size(251, 84);
+			this.listViewTextureMaterial.Size = new System.Drawing.Size(251, 85);
 			this.listViewTextureMaterial.Sorting = System.Windows.Forms.SortOrder.Ascending;
 			this.listViewTextureMaterial.TabIndex = 4;
 			this.listViewTextureMaterial.TabStop = false;
@@ -825,7 +919,6 @@
 			this.tabControlViews.SelectedIndex = 0;
 			this.tabControlViews.Size = new System.Drawing.Size(261, 518);
 			this.tabControlViews.TabIndex = 133;
-			this.tabControlViews.TabStop = false;
 			// 
 			// tabPageFrameView
 			// 
@@ -851,8 +944,7 @@
 			this.buttonFrameEditHex.Location = new System.Drawing.Point(88, 67);
 			this.buttonFrameEditHex.Name = "buttonFrameEditHex";
 			this.buttonFrameEditHex.Size = new System.Drawing.Size(75, 23);
-			this.buttonFrameEditHex.TabIndex = 172;
-			this.buttonFrameEditHex.TabStop = false;
+			this.buttonFrameEditHex.TabIndex = 12;
 			this.buttonFrameEditHex.Text = "Edit Hex";
 			this.buttonFrameEditHex.UseVisualStyleBackColor = true;
 			this.buttonFrameEditHex.Click += new System.EventHandler(this.buttonFrameEditHex_Click);
@@ -874,7 +966,7 @@
 			this.groupBox3.Location = new System.Drawing.Point(0, 253);
 			this.groupBox3.Name = "groupBox3";
 			this.groupBox3.Size = new System.Drawing.Size(253, 149);
-			this.groupBox3.TabIndex = 171;
+			this.groupBox3.TabIndex = 60;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Matrix Operations";
 			// 
@@ -884,7 +976,7 @@
 			this.buttonFrameMatrixApply.Location = new System.Drawing.Point(67, 114);
 			this.buttonFrameMatrixApply.Name = "buttonFrameMatrixApply";
 			this.buttonFrameMatrixApply.Size = new System.Drawing.Size(112, 23);
-			this.buttonFrameMatrixApply.TabIndex = 179;
+			this.buttonFrameMatrixApply.TabIndex = 80;
 			this.buttonFrameMatrixApply.Text = "Apply Changes";
 			this.buttonFrameMatrixApply.UseVisualStyleBackColor = true;
 			this.buttonFrameMatrixApply.Click += new System.EventHandler(this.buttonFrameMatrixApply_Click);
@@ -900,8 +992,7 @@
 			this.numericFrameMatrixRatio.Location = new System.Drawing.Point(36, 52);
 			this.numericFrameMatrixRatio.Name = "numericFrameMatrixRatio";
 			this.numericFrameMatrixRatio.Size = new System.Drawing.Size(56, 20);
-			this.numericFrameMatrixRatio.TabIndex = 177;
-			this.numericFrameMatrixRatio.TabStop = false;
+			this.numericFrameMatrixRatio.TabIndex = 68;
 			this.numericFrameMatrixRatio.Value = new decimal(new int[] {
             1,
             0,
@@ -932,8 +1023,7 @@
             0});
 			this.numericFrameMatrixNumber.Name = "numericFrameMatrixNumber";
 			this.numericFrameMatrixNumber.Size = new System.Drawing.Size(42, 20);
-			this.numericFrameMatrixNumber.TabIndex = 175;
-			this.numericFrameMatrixNumber.TabStop = false;
+			this.numericFrameMatrixNumber.TabIndex = 74;
 			this.numericFrameMatrixNumber.Value = new decimal(new int[] {
             1,
             0,
@@ -954,8 +1044,7 @@
 			this.buttonFrameMatrixPaste.Location = new System.Drawing.Point(179, 81);
 			this.buttonFrameMatrixPaste.Name = "buttonFrameMatrixPaste";
 			this.buttonFrameMatrixPaste.Size = new System.Drawing.Size(66, 23);
-			this.buttonFrameMatrixPaste.TabIndex = 173;
-			this.buttonFrameMatrixPaste.TabStop = false;
+			this.buttonFrameMatrixPaste.TabIndex = 78;
 			this.buttonFrameMatrixPaste.Text = "Paste";
 			this.buttonFrameMatrixPaste.UseVisualStyleBackColor = true;
 			this.buttonFrameMatrixPaste.Click += new System.EventHandler(this.buttonFrameMatrixPaste_Click);
@@ -965,8 +1054,7 @@
 			this.buttonFrameMatrixCopy.Location = new System.Drawing.Point(102, 81);
 			this.buttonFrameMatrixCopy.Name = "buttonFrameMatrixCopy";
 			this.buttonFrameMatrixCopy.Size = new System.Drawing.Size(66, 23);
-			this.buttonFrameMatrixCopy.TabIndex = 172;
-			this.buttonFrameMatrixCopy.TabStop = false;
+			this.buttonFrameMatrixCopy.TabIndex = 76;
 			this.buttonFrameMatrixCopy.Text = "Copy";
 			this.buttonFrameMatrixCopy.UseVisualStyleBackColor = true;
 			this.buttonFrameMatrixCopy.Click += new System.EventHandler(this.buttonFrameMatrixCopy_Click);
@@ -976,8 +1064,7 @@
 			this.buttonFrameMatrixGrow.Location = new System.Drawing.Point(102, 51);
 			this.buttonFrameMatrixGrow.Name = "buttonFrameMatrixGrow";
 			this.buttonFrameMatrixGrow.Size = new System.Drawing.Size(66, 23);
-			this.buttonFrameMatrixGrow.TabIndex = 154;
-			this.buttonFrameMatrixGrow.TabStop = false;
+			this.buttonFrameMatrixGrow.TabIndex = 70;
 			this.buttonFrameMatrixGrow.Text = "Grow";
 			this.buttonFrameMatrixGrow.UseVisualStyleBackColor = true;
 			this.buttonFrameMatrixGrow.Click += new System.EventHandler(this.buttonFrameMatrixGrow_Click);
@@ -987,8 +1074,7 @@
 			this.buttonFrameMatrixShrink.Location = new System.Drawing.Point(179, 51);
 			this.buttonFrameMatrixShrink.Name = "buttonFrameMatrixShrink";
 			this.buttonFrameMatrixShrink.Size = new System.Drawing.Size(66, 23);
-			this.buttonFrameMatrixShrink.TabIndex = 155;
-			this.buttonFrameMatrixShrink.TabStop = false;
+			this.buttonFrameMatrixShrink.TabIndex = 72;
 			this.buttonFrameMatrixShrink.Text = "Shrink";
 			this.buttonFrameMatrixShrink.UseVisualStyleBackColor = true;
 			this.buttonFrameMatrixShrink.Click += new System.EventHandler(this.buttonFrameMatrixShrink_Click);
@@ -998,8 +1084,7 @@
 			this.buttonFrameMatrixIdentity.Location = new System.Drawing.Point(25, 19);
 			this.buttonFrameMatrixIdentity.Name = "buttonFrameMatrixIdentity";
 			this.buttonFrameMatrixIdentity.Size = new System.Drawing.Size(66, 23);
-			this.buttonFrameMatrixIdentity.TabIndex = 114;
-			this.buttonFrameMatrixIdentity.TabStop = false;
+			this.buttonFrameMatrixIdentity.TabIndex = 62;
 			this.buttonFrameMatrixIdentity.Text = "Identity";
 			this.buttonFrameMatrixIdentity.UseVisualStyleBackColor = true;
 			this.buttonFrameMatrixIdentity.Click += new System.EventHandler(this.buttonFrameMatrixIdentity_Click);
@@ -1009,8 +1094,7 @@
 			this.buttonFrameMatrixInverse.Location = new System.Drawing.Point(179, 19);
 			this.buttonFrameMatrixInverse.Name = "buttonFrameMatrixInverse";
 			this.buttonFrameMatrixInverse.Size = new System.Drawing.Size(66, 23);
-			this.buttonFrameMatrixInverse.TabIndex = 113;
-			this.buttonFrameMatrixInverse.TabStop = false;
+			this.buttonFrameMatrixInverse.TabIndex = 66;
 			this.buttonFrameMatrixInverse.Text = "Inverse";
 			this.buttonFrameMatrixInverse.UseVisualStyleBackColor = true;
 			this.buttonFrameMatrixInverse.Click += new System.EventHandler(this.buttonFrameMatrixInverse_Click);
@@ -1020,8 +1104,7 @@
 			this.buttonFrameMatrixCombined.Location = new System.Drawing.Point(102, 19);
 			this.buttonFrameMatrixCombined.Name = "buttonFrameMatrixCombined";
 			this.buttonFrameMatrixCombined.Size = new System.Drawing.Size(66, 23);
-			this.buttonFrameMatrixCombined.TabIndex = 112;
-			this.buttonFrameMatrixCombined.TabStop = false;
+			this.buttonFrameMatrixCombined.TabIndex = 64;
 			this.buttonFrameMatrixCombined.Text = "Combined";
 			this.buttonFrameMatrixCombined.UseVisualStyleBackColor = true;
 			this.buttonFrameMatrixCombined.Click += new System.EventHandler(this.buttonFrameMatrixCombined_Click);
@@ -1040,8 +1123,7 @@
 			this.textBoxFrameName2.Location = new System.Drawing.Point(43, 32);
 			this.textBoxFrameName2.Name = "textBoxFrameName2";
 			this.textBoxFrameName2.Size = new System.Drawing.Size(207, 20);
-			this.textBoxFrameName2.TabIndex = 156;
-			this.textBoxFrameName2.TabStop = false;
+			this.textBoxFrameName2.TabIndex = 3;
 			// 
 			// tabControlFrameMatrix
 			// 
@@ -1051,8 +1133,7 @@
 			this.tabControlFrameMatrix.Name = "tabControlFrameMatrix";
 			this.tabControlFrameMatrix.SelectedIndex = 0;
 			this.tabControlFrameMatrix.Size = new System.Drawing.Size(253, 112);
-			this.tabControlFrameMatrix.TabIndex = 152;
-			this.tabControlFrameMatrix.TabStop = false;
+			this.tabControlFrameMatrix.TabIndex = 40;
 			// 
 			// tabPageFrameSRT
 			// 
@@ -1128,8 +1209,7 @@
 			this.buttonFrameMoveUp.Location = new System.Drawing.Point(2, 67);
 			this.buttonFrameMoveUp.Name = "buttonFrameMoveUp";
 			this.buttonFrameMoveUp.Size = new System.Drawing.Size(75, 23);
-			this.buttonFrameMoveUp.TabIndex = 123;
-			this.buttonFrameMoveUp.TabStop = false;
+			this.buttonFrameMoveUp.TabIndex = 10;
 			this.buttonFrameMoveUp.Text = "Move Up";
 			this.buttonFrameMoveUp.UseVisualStyleBackColor = true;
 			this.buttonFrameMoveUp.Click += new System.EventHandler(this.buttonFrameMoveUp_Click);
@@ -1139,8 +1219,7 @@
 			this.buttonFrameRemove.Location = new System.Drawing.Point(175, 67);
 			this.buttonFrameRemove.Name = "buttonFrameRemove";
 			this.buttonFrameRemove.Size = new System.Drawing.Size(75, 23);
-			this.buttonFrameRemove.TabIndex = 122;
-			this.buttonFrameRemove.TabStop = false;
+			this.buttonFrameRemove.TabIndex = 14;
 			this.buttonFrameRemove.Text = "Remove";
 			this.buttonFrameRemove.UseVisualStyleBackColor = true;
 			this.buttonFrameRemove.Click += new System.EventHandler(this.buttonFrameRemove_Click);
@@ -1150,8 +1229,7 @@
 			this.buttonFrameMoveDown.Location = new System.Drawing.Point(2, 100);
 			this.buttonFrameMoveDown.Name = "buttonFrameMoveDown";
 			this.buttonFrameMoveDown.Size = new System.Drawing.Size(75, 23);
-			this.buttonFrameMoveDown.TabIndex = 121;
-			this.buttonFrameMoveDown.TabStop = false;
+			this.buttonFrameMoveDown.TabIndex = 16;
 			this.buttonFrameMoveDown.Text = "Move Down";
 			this.buttonFrameMoveDown.UseVisualStyleBackColor = true;
 			this.buttonFrameMoveDown.Click += new System.EventHandler(this.buttonFrameMoveDown_Click);
@@ -1170,8 +1248,7 @@
 			this.textBoxFrameName.Location = new System.Drawing.Point(43, 6);
 			this.textBoxFrameName.Name = "textBoxFrameName";
 			this.textBoxFrameName.Size = new System.Drawing.Size(207, 20);
-			this.textBoxFrameName.TabIndex = 66;
-			this.textBoxFrameName.TabStop = false;
+			this.textBoxFrameName.TabIndex = 1;
 			// 
 			// tabPageBoneView
 			// 
@@ -1205,7 +1282,7 @@
 			this.groupBox4.Location = new System.Drawing.Point(0, 196);
 			this.groupBox4.Name = "groupBox4";
 			this.groupBox4.Size = new System.Drawing.Size(253, 149);
-			this.groupBox4.TabIndex = 173;
+			this.groupBox4.TabIndex = 60;
 			this.groupBox4.TabStop = false;
 			this.groupBox4.Text = "Matrix Operations";
 			// 
@@ -1215,7 +1292,7 @@
 			this.buttonBoneMatrixApply.Location = new System.Drawing.Point(67, 114);
 			this.buttonBoneMatrixApply.Name = "buttonBoneMatrixApply";
 			this.buttonBoneMatrixApply.Size = new System.Drawing.Size(112, 23);
-			this.buttonBoneMatrixApply.TabIndex = 179;
+			this.buttonBoneMatrixApply.TabIndex = 78;
 			this.buttonBoneMatrixApply.Text = "Apply Changes";
 			this.buttonBoneMatrixApply.UseVisualStyleBackColor = true;
 			this.buttonBoneMatrixApply.Click += new System.EventHandler(this.buttonBoneMatrixApply_Click);
@@ -1231,8 +1308,7 @@
 			this.numericBoneMatrixRatio.Location = new System.Drawing.Point(36, 52);
 			this.numericBoneMatrixRatio.Name = "numericBoneMatrixRatio";
 			this.numericBoneMatrixRatio.Size = new System.Drawing.Size(56, 20);
-			this.numericBoneMatrixRatio.TabIndex = 177;
-			this.numericBoneMatrixRatio.TabStop = false;
+			this.numericBoneMatrixRatio.TabIndex = 66;
 			this.numericBoneMatrixRatio.Value = new decimal(new int[] {
             1,
             0,
@@ -1263,8 +1339,7 @@
             0});
 			this.numericBoneMatrixNumber.Name = "numericBoneMatrixNumber";
 			this.numericBoneMatrixNumber.Size = new System.Drawing.Size(42, 20);
-			this.numericBoneMatrixNumber.TabIndex = 175;
-			this.numericBoneMatrixNumber.TabStop = false;
+			this.numericBoneMatrixNumber.TabIndex = 72;
 			this.numericBoneMatrixNumber.Value = new decimal(new int[] {
             1,
             0,
@@ -1285,8 +1360,7 @@
 			this.buttonBoneMatrixPaste.Location = new System.Drawing.Point(179, 81);
 			this.buttonBoneMatrixPaste.Name = "buttonBoneMatrixPaste";
 			this.buttonBoneMatrixPaste.Size = new System.Drawing.Size(66, 23);
-			this.buttonBoneMatrixPaste.TabIndex = 173;
-			this.buttonBoneMatrixPaste.TabStop = false;
+			this.buttonBoneMatrixPaste.TabIndex = 76;
 			this.buttonBoneMatrixPaste.Text = "Paste";
 			this.buttonBoneMatrixPaste.UseVisualStyleBackColor = true;
 			this.buttonBoneMatrixPaste.Click += new System.EventHandler(this.buttonBoneMatrixPaste_Click);
@@ -1296,8 +1370,7 @@
 			this.buttonBoneMatrixCopy.Location = new System.Drawing.Point(102, 81);
 			this.buttonBoneMatrixCopy.Name = "buttonBoneMatrixCopy";
 			this.buttonBoneMatrixCopy.Size = new System.Drawing.Size(66, 23);
-			this.buttonBoneMatrixCopy.TabIndex = 172;
-			this.buttonBoneMatrixCopy.TabStop = false;
+			this.buttonBoneMatrixCopy.TabIndex = 74;
 			this.buttonBoneMatrixCopy.Text = "Copy";
 			this.buttonBoneMatrixCopy.UseVisualStyleBackColor = true;
 			this.buttonBoneMatrixCopy.Click += new System.EventHandler(this.buttonBoneMatrixCopy_Click);
@@ -1307,8 +1380,7 @@
 			this.buttonBoneMatrixGrow.Location = new System.Drawing.Point(102, 51);
 			this.buttonBoneMatrixGrow.Name = "buttonBoneMatrixGrow";
 			this.buttonBoneMatrixGrow.Size = new System.Drawing.Size(66, 23);
-			this.buttonBoneMatrixGrow.TabIndex = 154;
-			this.buttonBoneMatrixGrow.TabStop = false;
+			this.buttonBoneMatrixGrow.TabIndex = 68;
 			this.buttonBoneMatrixGrow.Text = "Grow";
 			this.buttonBoneMatrixGrow.UseVisualStyleBackColor = true;
 			this.buttonBoneMatrixGrow.Click += new System.EventHandler(this.buttonBoneMatrixGrow_Click);
@@ -1318,8 +1390,7 @@
 			this.buttonBoneMatrixShrink.Location = new System.Drawing.Point(179, 51);
 			this.buttonBoneMatrixShrink.Name = "buttonBoneMatrixShrink";
 			this.buttonBoneMatrixShrink.Size = new System.Drawing.Size(66, 23);
-			this.buttonBoneMatrixShrink.TabIndex = 155;
-			this.buttonBoneMatrixShrink.TabStop = false;
+			this.buttonBoneMatrixShrink.TabIndex = 70;
 			this.buttonBoneMatrixShrink.Text = "Shrink";
 			this.buttonBoneMatrixShrink.UseVisualStyleBackColor = true;
 			this.buttonBoneMatrixShrink.Click += new System.EventHandler(this.buttonBoneMatrixShrink_Click);
@@ -1329,8 +1400,7 @@
 			this.buttonBoneMatrixIdentity.Location = new System.Drawing.Point(102, 19);
 			this.buttonBoneMatrixIdentity.Name = "buttonBoneMatrixIdentity";
 			this.buttonBoneMatrixIdentity.Size = new System.Drawing.Size(66, 23);
-			this.buttonBoneMatrixIdentity.TabIndex = 114;
-			this.buttonBoneMatrixIdentity.TabStop = false;
+			this.buttonBoneMatrixIdentity.TabIndex = 62;
 			this.buttonBoneMatrixIdentity.Text = "Identity";
 			this.buttonBoneMatrixIdentity.UseVisualStyleBackColor = true;
 			this.buttonBoneMatrixIdentity.Click += new System.EventHandler(this.buttonBoneMatrixIdentity_Click);
@@ -1340,8 +1410,7 @@
 			this.buttonBoneMatrixInverse.Location = new System.Drawing.Point(179, 19);
 			this.buttonBoneMatrixInverse.Name = "buttonBoneMatrixInverse";
 			this.buttonBoneMatrixInverse.Size = new System.Drawing.Size(66, 23);
-			this.buttonBoneMatrixInverse.TabIndex = 113;
-			this.buttonBoneMatrixInverse.TabStop = false;
+			this.buttonBoneMatrixInverse.TabIndex = 64;
 			this.buttonBoneMatrixInverse.Text = "Inverse";
 			this.buttonBoneMatrixInverse.UseVisualStyleBackColor = true;
 			this.buttonBoneMatrixInverse.Click += new System.EventHandler(this.buttonBoneMatrixInverse_Click);
@@ -1354,8 +1423,7 @@
 			this.tabControlBoneMatrix.Name = "tabControlBoneMatrix";
 			this.tabControlBoneMatrix.SelectedIndex = 0;
 			this.tabControlBoneMatrix.Size = new System.Drawing.Size(253, 112);
-			this.tabControlBoneMatrix.TabIndex = 172;
-			this.tabControlBoneMatrix.TabStop = false;
+			this.tabControlBoneMatrix.TabIndex = 40;
 			// 
 			// tabPageBoneSRT
 			// 
@@ -1431,8 +1499,7 @@
 			this.buttonBoneRemove.Location = new System.Drawing.Point(89, 41);
 			this.buttonBoneRemove.Name = "buttonBoneRemove";
 			this.buttonBoneRemove.Size = new System.Drawing.Size(75, 23);
-			this.buttonBoneRemove.TabIndex = 114;
-			this.buttonBoneRemove.TabStop = false;
+			this.buttonBoneRemove.TabIndex = 22;
 			this.buttonBoneRemove.Text = "Remove";
 			this.buttonBoneRemove.UseVisualStyleBackColor = true;
 			this.buttonBoneRemove.Click += new System.EventHandler(this.buttonBoneRemove_Click);
@@ -1442,8 +1509,7 @@
 			this.buttonBoneCopy.Location = new System.Drawing.Point(176, 41);
 			this.buttonBoneCopy.Name = "buttonBoneCopy";
 			this.buttonBoneCopy.Size = new System.Drawing.Size(75, 23);
-			this.buttonBoneCopy.TabIndex = 113;
-			this.buttonBoneCopy.TabStop = false;
+			this.buttonBoneCopy.TabIndex = 24;
 			this.buttonBoneCopy.Text = "Copy->New";
 			this.buttonBoneCopy.UseVisualStyleBackColor = true;
 			this.buttonBoneCopy.Click += new System.EventHandler(this.buttonBoneCopy_Click);
@@ -1453,8 +1519,7 @@
 			this.buttonBoneGotoFrame.Location = new System.Drawing.Point(2, 41);
 			this.buttonBoneGotoFrame.Name = "buttonBoneGotoFrame";
 			this.buttonBoneGotoFrame.Size = new System.Drawing.Size(75, 23);
-			this.buttonBoneGotoFrame.TabIndex = 112;
-			this.buttonBoneGotoFrame.TabStop = false;
+			this.buttonBoneGotoFrame.TabIndex = 20;
 			this.buttonBoneGotoFrame.Text = "Goto Frame";
 			this.buttonBoneGotoFrame.UseVisualStyleBackColor = true;
 			this.buttonBoneGotoFrame.Click += new System.EventHandler(this.buttonBoneGotoFrame_Click);
@@ -1473,8 +1538,7 @@
 			this.textBoxBoneName.Location = new System.Drawing.Point(35, 6);
 			this.textBoxBoneName.Name = "textBoxBoneName";
 			this.textBoxBoneName.Size = new System.Drawing.Size(215, 20);
-			this.textBoxBoneName.TabIndex = 87;
-			this.textBoxBoneName.TabStop = false;
+			this.textBoxBoneName.TabIndex = 1;
 			// 
 			// tabPageMeshView
 			// 
@@ -1502,7 +1566,6 @@
 			this.buttonMeshNormals.Name = "buttonMeshNormals";
 			this.buttonMeshNormals.Size = new System.Drawing.Size(73, 23);
 			this.buttonMeshNormals.TabIndex = 133;
-			this.buttonMeshNormals.TabStop = false;
 			this.buttonMeshNormals.Text = "Normals...";
 			this.buttonMeshNormals.UseVisualStyleBackColor = true;
 			this.buttonMeshNormals.Click += new System.EventHandler(this.buttonMeshNormals_Click);
@@ -1513,7 +1576,6 @@
 			this.buttonMeshEditHex.Name = "buttonMeshEditHex";
 			this.buttonMeshEditHex.Size = new System.Drawing.Size(73, 23);
 			this.buttonMeshEditHex.TabIndex = 132;
-			this.buttonMeshEditHex.TabStop = false;
 			this.buttonMeshEditHex.Text = "Edit Hex";
 			this.buttonMeshEditHex.UseVisualStyleBackColor = true;
 			this.buttonMeshEditHex.Click += new System.EventHandler(this.buttonMeshEditHex_Click);
@@ -1524,7 +1586,6 @@
 			this.buttonMeshMinBones.Name = "buttonMeshMinBones";
 			this.buttonMeshMinBones.Size = new System.Drawing.Size(73, 23);
 			this.buttonMeshMinBones.TabIndex = 131;
-			this.buttonMeshMinBones.TabStop = false;
 			this.buttonMeshMinBones.Text = "Min Bones";
 			this.buttonMeshMinBones.UseVisualStyleBackColor = true;
 			this.buttonMeshMinBones.Click += new System.EventHandler(this.buttonMeshMinBones_Click);
@@ -1534,8 +1595,7 @@
 			this.MeshGotoFrame.Location = new System.Drawing.Point(5, 118);
 			this.MeshGotoFrame.Name = "MeshGotoFrame";
 			this.MeshGotoFrame.Size = new System.Drawing.Size(73, 23);
-			this.MeshGotoFrame.TabIndex = 130;
-			this.MeshGotoFrame.TabStop = false;
+			this.MeshGotoFrame.TabIndex = 110;
 			this.MeshGotoFrame.Text = "Goto Frame";
 			this.MeshGotoFrame.UseVisualStyleBackColor = true;
 			this.MeshGotoFrame.Click += new System.EventHandler(this.buttonMeshGotoFrame_Click);
@@ -1543,17 +1603,17 @@
 			// groupBox2
 			// 
 			this.groupBox2.Controls.Add(this.label28);
+			this.groupBox2.Controls.Add(this.comboBoxMeshExportFormat);
+			this.groupBox2.Controls.Add(this.buttonMeshExport);
 			this.groupBox2.Controls.Add(this.panelMeshExportOptionsDefault);
 			this.groupBox2.Controls.Add(this.panelMeshExportOptionsDirectX);
 			this.groupBox2.Controls.Add(this.panelMeshExportOptionsCollada);
 			this.groupBox2.Controls.Add(this.panelMeshExportOptionsMqo);
 			this.groupBox2.Controls.Add(this.panelMeshExportOptionsFbx);
-			this.groupBox2.Controls.Add(this.comboBoxMeshExportFormat);
-			this.groupBox2.Controls.Add(this.buttonMeshExport);
 			this.groupBox2.Location = new System.Drawing.Point(0, 42);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(253, 66);
-			this.groupBox2.TabIndex = 129;
+			this.groupBox2.TabIndex = 20;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Export Options";
 			// 
@@ -1566,12 +1626,84 @@
 			this.label28.TabIndex = 131;
 			this.label28.Text = "Format";
 			// 
+			// comboBoxMeshExportFormat
+			// 
+			this.comboBoxMeshExportFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBoxMeshExportFormat.Location = new System.Drawing.Point(42, 15);
+			this.comboBoxMeshExportFormat.Name = "comboBoxMeshExportFormat";
+			this.comboBoxMeshExportFormat.Size = new System.Drawing.Size(126, 21);
+			this.comboBoxMeshExportFormat.TabIndex = 22;
+			this.comboBoxMeshExportFormat.SelectedIndexChanged += new System.EventHandler(this.comboBoxMeshExportFormat_SelectedIndexChanged);
+			// 
+			// buttonMeshExport
+			// 
+			this.buttonMeshExport.Location = new System.Drawing.Point(175, 14);
+			this.buttonMeshExport.Name = "buttonMeshExport";
+			this.buttonMeshExport.Size = new System.Drawing.Size(73, 23);
+			this.buttonMeshExport.TabIndex = 24;
+			this.buttonMeshExport.Text = "Export";
+			this.buttonMeshExport.UseVisualStyleBackColor = true;
+			this.buttonMeshExport.Click += new System.EventHandler(this.buttonMeshExport_Click);
+			// 
+			// panelMeshExportOptionsFbx
+			// 
+			this.panelMeshExportOptionsFbx.Controls.Add(this.label13);
+			this.panelMeshExportOptionsFbx.Controls.Add(this.textBoxKeyframeRange);
+			this.panelMeshExportOptionsFbx.Controls.Add(this.checkBoxMeshExportFbxSkins);
+			this.panelMeshExportOptionsFbx.Controls.Add(this.checkBoxMeshExportFbxAllFrames);
+			this.panelMeshExportOptionsFbx.Location = new System.Drawing.Point(3, 40);
+			this.panelMeshExportOptionsFbx.Name = "panelMeshExportOptionsFbx";
+			this.panelMeshExportOptionsFbx.Size = new System.Drawing.Size(246, 22);
+			this.panelMeshExportOptionsFbx.TabIndex = 260;
+			// 
+			// label13
+			// 
+			this.label13.AutoSize = true;
+			this.label13.Location = new System.Drawing.Point(141, 4);
+			this.label13.Name = "label13";
+			this.label13.Size = new System.Drawing.Size(56, 13);
+			this.label13.TabIndex = 268;
+			this.label13.Text = "Keyframes";
+			// 
+			// textBoxKeyframeRange
+			// 
+			this.textBoxKeyframeRange.Location = new System.Drawing.Point(200, 1);
+			this.textBoxKeyframeRange.MaxLength = 7;
+			this.textBoxKeyframeRange.Name = "textBoxKeyframeRange";
+			this.textBoxKeyframeRange.Size = new System.Drawing.Size(45, 20);
+			this.textBoxKeyframeRange.TabIndex = 268;
+			this.textBoxKeyframeRange.Text = "-1-0";
+			// 
+			// checkBoxMeshExportFbxSkins
+			// 
+			this.checkBoxMeshExportFbxSkins.AutoSize = true;
+			this.checkBoxMeshExportFbxSkins.CheckAlign = System.Drawing.ContentAlignment.BottomRight;
+			this.checkBoxMeshExportFbxSkins.Checked = true;
+			this.checkBoxMeshExportFbxSkins.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.checkBoxMeshExportFbxSkins.Location = new System.Drawing.Point(81, 2);
+			this.checkBoxMeshExportFbxSkins.Name = "checkBoxMeshExportFbxSkins";
+			this.checkBoxMeshExportFbxSkins.Size = new System.Drawing.Size(52, 17);
+			this.checkBoxMeshExportFbxSkins.TabIndex = 264;
+			this.checkBoxMeshExportFbxSkins.Text = "Skins";
+			this.checkBoxMeshExportFbxSkins.UseVisualStyleBackColor = true;
+			// 
+			// checkBoxMeshExportFbxAllFrames
+			// 
+			this.checkBoxMeshExportFbxAllFrames.AutoSize = true;
+			this.checkBoxMeshExportFbxAllFrames.CheckAlign = System.Drawing.ContentAlignment.BottomRight;
+			this.checkBoxMeshExportFbxAllFrames.Location = new System.Drawing.Point(1, 2);
+			this.checkBoxMeshExportFbxAllFrames.Name = "checkBoxMeshExportFbxAllFrames";
+			this.checkBoxMeshExportFbxAllFrames.Size = new System.Drawing.Size(74, 17);
+			this.checkBoxMeshExportFbxAllFrames.TabIndex = 262;
+			this.checkBoxMeshExportFbxAllFrames.Text = "All Frames";
+			this.checkBoxMeshExportFbxAllFrames.UseVisualStyleBackColor = true;
+			// 
 			// panelMeshExportOptionsDefault
 			// 
 			this.panelMeshExportOptionsDefault.Location = new System.Drawing.Point(3, 40);
 			this.panelMeshExportOptionsDefault.Name = "panelMeshExportOptionsDefault";
 			this.panelMeshExportOptionsDefault.Size = new System.Drawing.Size(246, 22);
-			this.panelMeshExportOptionsDefault.TabIndex = 136;
+			this.panelMeshExportOptionsDefault.TabIndex = 26;
 			// 
 			// panelMeshExportOptionsDirectX
 			// 
@@ -1582,7 +1714,7 @@
 			this.panelMeshExportOptionsDirectX.Location = new System.Drawing.Point(3, 40);
 			this.panelMeshExportOptionsDirectX.Name = "panelMeshExportOptionsDirectX";
 			this.panelMeshExportOptionsDirectX.Size = new System.Drawing.Size(246, 22);
-			this.panelMeshExportOptionsDirectX.TabIndex = 134;
+			this.panelMeshExportOptionsDirectX.TabIndex = 200;
 			// 
 			// numericMeshExportDirectXTicksPerSecond
 			// 
@@ -1599,7 +1731,7 @@
             0});
 			this.numericMeshExportDirectXTicksPerSecond.Name = "numericMeshExportDirectXTicksPerSecond";
 			this.numericMeshExportDirectXTicksPerSecond.Size = new System.Drawing.Size(45, 20);
-			this.numericMeshExportDirectXTicksPerSecond.TabIndex = 97;
+			this.numericMeshExportDirectXTicksPerSecond.TabIndex = 202;
 			this.numericMeshExportDirectXTicksPerSecond.Value = new decimal(new int[] {
             1,
             0,
@@ -1621,7 +1753,7 @@
             0});
 			this.numericMeshExportDirectXKeyframeLength.Name = "numericMeshExportDirectXKeyframeLength";
 			this.numericMeshExportDirectXKeyframeLength.Size = new System.Drawing.Size(45, 20);
-			this.numericMeshExportDirectXKeyframeLength.TabIndex = 100;
+			this.numericMeshExportDirectXKeyframeLength.TabIndex = 202;
 			this.numericMeshExportDirectXKeyframeLength.Value = new decimal(new int[] {
             1,
             0,
@@ -1652,7 +1784,7 @@
 			this.panelMeshExportOptionsCollada.Location = new System.Drawing.Point(3, 40);
 			this.panelMeshExportOptionsCollada.Name = "panelMeshExportOptionsCollada";
 			this.panelMeshExportOptionsCollada.Size = new System.Drawing.Size(246, 22);
-			this.panelMeshExportOptionsCollada.TabIndex = 138;
+			this.panelMeshExportOptionsCollada.TabIndex = 220;
 			// 
 			// checkBoxMeshExportColladaAllFrames
 			// 
@@ -1661,7 +1793,7 @@
 			this.checkBoxMeshExportColladaAllFrames.Location = new System.Drawing.Point(37, 2);
 			this.checkBoxMeshExportColladaAllFrames.Name = "checkBoxMeshExportColladaAllFrames";
 			this.checkBoxMeshExportColladaAllFrames.Size = new System.Drawing.Size(74, 17);
-			this.checkBoxMeshExportColladaAllFrames.TabIndex = 137;
+			this.checkBoxMeshExportColladaAllFrames.TabIndex = 222;
 			this.checkBoxMeshExportColladaAllFrames.Text = "All Frames";
 			this.checkBoxMeshExportColladaAllFrames.UseVisualStyleBackColor = true;
 			// 
@@ -1672,7 +1804,7 @@
 			this.panelMeshExportOptionsMqo.Location = new System.Drawing.Point(3, 40);
 			this.panelMeshExportOptionsMqo.Name = "panelMeshExportOptionsMqo";
 			this.panelMeshExportOptionsMqo.Size = new System.Drawing.Size(246, 22);
-			this.panelMeshExportOptionsMqo.TabIndex = 133;
+			this.panelMeshExportOptionsMqo.TabIndex = 240;
 			// 
 			// checkBoxMeshExportMqoSingleFile
 			// 
@@ -1681,7 +1813,7 @@
 			this.checkBoxMeshExportMqoSingleFile.Location = new System.Drawing.Point(37, 2);
 			this.checkBoxMeshExportMqoSingleFile.Name = "checkBoxMeshExportMqoSingleFile";
 			this.checkBoxMeshExportMqoSingleFile.Size = new System.Drawing.Size(79, 17);
-			this.checkBoxMeshExportMqoSingleFile.TabIndex = 112;
+			this.checkBoxMeshExportMqoSingleFile.TabIndex = 242;
 			this.checkBoxMeshExportMqoSingleFile.Text = "Single Mqo";
 			this.checkBoxMeshExportMqoSingleFile.UseVisualStyleBackColor = true;
 			// 
@@ -1692,63 +1824,9 @@
 			this.checkBoxMeshExportMqoWorldCoords.Location = new System.Drawing.Point(131, 2);
 			this.checkBoxMeshExportMqoWorldCoords.Name = "checkBoxMeshExportMqoWorldCoords";
 			this.checkBoxMeshExportMqoWorldCoords.Size = new System.Drawing.Size(113, 17);
-			this.checkBoxMeshExportMqoWorldCoords.TabIndex = 132;
+			this.checkBoxMeshExportMqoWorldCoords.TabIndex = 244;
 			this.checkBoxMeshExportMqoWorldCoords.Text = "World Coordinates";
 			this.checkBoxMeshExportMqoWorldCoords.UseVisualStyleBackColor = true;
-			// 
-			// panelMeshExportOptionsFbx
-			// 
-			this.panelMeshExportOptionsFbx.Controls.Add(this.checkBoxMeshExportFbxSkins);
-			this.panelMeshExportOptionsFbx.Controls.Add(this.checkBoxMeshExportFbxAllFrames);
-			this.panelMeshExportOptionsFbx.Location = new System.Drawing.Point(3, 40);
-			this.panelMeshExportOptionsFbx.Name = "panelMeshExportOptionsFbx";
-			this.panelMeshExportOptionsFbx.Size = new System.Drawing.Size(246, 22);
-			this.panelMeshExportOptionsFbx.TabIndex = 139;
-			// 
-			// checkBoxMeshExportFbxSkins
-			// 
-			this.checkBoxMeshExportFbxSkins.AutoSize = true;
-			this.checkBoxMeshExportFbxSkins.CheckAlign = System.Drawing.ContentAlignment.BottomRight;
-			this.checkBoxMeshExportFbxSkins.Checked = true;
-			this.checkBoxMeshExportFbxSkins.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkBoxMeshExportFbxSkins.Location = new System.Drawing.Point(141, 2);
-			this.checkBoxMeshExportFbxSkins.Name = "checkBoxMeshExportFbxSkins";
-			this.checkBoxMeshExportFbxSkins.Size = new System.Drawing.Size(52, 17);
-			this.checkBoxMeshExportFbxSkins.TabIndex = 138;
-			this.checkBoxMeshExportFbxSkins.Text = "Skins";
-			this.checkBoxMeshExportFbxSkins.UseVisualStyleBackColor = true;
-			// 
-			// checkBoxMeshExportFbxAllFrames
-			// 
-			this.checkBoxMeshExportFbxAllFrames.AutoSize = true;
-			this.checkBoxMeshExportFbxAllFrames.CheckAlign = System.Drawing.ContentAlignment.BottomRight;
-			this.checkBoxMeshExportFbxAllFrames.Location = new System.Drawing.Point(37, 2);
-			this.checkBoxMeshExportFbxAllFrames.Name = "checkBoxMeshExportFbxAllFrames";
-			this.checkBoxMeshExportFbxAllFrames.Size = new System.Drawing.Size(74, 17);
-			this.checkBoxMeshExportFbxAllFrames.TabIndex = 137;
-			this.checkBoxMeshExportFbxAllFrames.Text = "All Frames";
-			this.checkBoxMeshExportFbxAllFrames.UseVisualStyleBackColor = true;
-			// 
-			// comboBoxMeshExportFormat
-			// 
-			this.comboBoxMeshExportFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboBoxMeshExportFormat.Location = new System.Drawing.Point(42, 15);
-			this.comboBoxMeshExportFormat.Name = "comboBoxMeshExportFormat";
-			this.comboBoxMeshExportFormat.Size = new System.Drawing.Size(126, 21);
-			this.comboBoxMeshExportFormat.TabIndex = 130;
-			this.comboBoxMeshExportFormat.TabStop = false;
-			this.comboBoxMeshExportFormat.SelectedIndexChanged += new System.EventHandler(this.comboBoxMeshExportFormat_SelectedIndexChanged);
-			// 
-			// buttonMeshExport
-			// 
-			this.buttonMeshExport.Location = new System.Drawing.Point(175, 14);
-			this.buttonMeshExport.Name = "buttonMeshExport";
-			this.buttonMeshExport.Size = new System.Drawing.Size(73, 23);
-			this.buttonMeshExport.TabIndex = 41;
-			this.buttonMeshExport.TabStop = false;
-			this.buttonMeshExport.Text = "Export";
-			this.buttonMeshExport.UseVisualStyleBackColor = true;
-			this.buttonMeshExport.Click += new System.EventHandler(this.buttonMeshExport_Click);
 			// 
 			// checkBoxMeshSkinned
 			// 
@@ -1757,8 +1835,7 @@
 			this.checkBoxMeshSkinned.Location = new System.Drawing.Point(221, 23);
 			this.checkBoxMeshSkinned.Name = "checkBoxMeshSkinned";
 			this.checkBoxMeshSkinned.Size = new System.Drawing.Size(15, 14);
-			this.checkBoxMeshSkinned.TabIndex = 126;
-			this.checkBoxMeshSkinned.TabStop = false;
+			this.checkBoxMeshSkinned.TabIndex = 10;
 			this.checkBoxMeshSkinned.UseVisualStyleBackColor = true;
 			// 
 			// label8
@@ -1785,7 +1862,6 @@
 			this.buttonMeshRemove.Name = "buttonMeshRemove";
 			this.buttonMeshRemove.Size = new System.Drawing.Size(73, 23);
 			this.buttonMeshRemove.TabIndex = 115;
-			this.buttonMeshRemove.TabStop = false;
 			this.buttonMeshRemove.Text = "Remove";
 			this.buttonMeshRemove.UseVisualStyleBackColor = true;
 			this.buttonMeshRemove.Click += new System.EventHandler(this.buttonMeshRemove_Click);
@@ -1800,7 +1876,7 @@
 			this.groupBox1.Location = new System.Drawing.Point(0, 181);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(253, 329);
-			this.groupBox1.TabIndex = 101;
+			this.groupBox1.TabIndex = 139;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Submeshes";
 			// 
@@ -1822,8 +1898,7 @@
 			this.dataGridViewMesh.RowHeadersVisible = false;
 			this.dataGridViewMesh.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridViewMesh.Size = new System.Drawing.Size(246, 277);
-			this.dataGridViewMesh.TabIndex = 132;
-			this.dataGridViewMesh.TabStop = false;
+			this.dataGridViewMesh.TabIndex = 152;
 			this.dataGridViewMesh.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewMesh_CellClick);
 			this.dataGridViewMesh.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dataGridViewMesh_EditingControlShowing);
 			this.dataGridViewMesh.SelectionChanged += new System.EventHandler(this.dataGridViewMesh_SelectionChanged);
@@ -1860,8 +1935,7 @@
 			this.buttonSubmeshEdit.Location = new System.Drawing.Point(5, 18);
 			this.buttonSubmeshEdit.Name = "buttonSubmeshEdit";
 			this.buttonSubmeshEdit.Size = new System.Drawing.Size(73, 23);
-			this.buttonSubmeshEdit.TabIndex = 131;
-			this.buttonSubmeshEdit.TabStop = false;
+			this.buttonSubmeshEdit.TabIndex = 140;
 			this.buttonSubmeshEdit.Text = "Edit";
 			this.buttonSubmeshEdit.UseVisualStyleBackColor = true;
 			this.buttonSubmeshEdit.Click += new System.EventHandler(this.buttonSubmeshEdit_Click);
@@ -1871,8 +1945,7 @@
 			this.buttonSubmeshRemove.Location = new System.Drawing.Point(90, 18);
 			this.buttonSubmeshRemove.Name = "buttonSubmeshRemove";
 			this.buttonSubmeshRemove.Size = new System.Drawing.Size(73, 23);
-			this.buttonSubmeshRemove.TabIndex = 122;
-			this.buttonSubmeshRemove.TabStop = false;
+			this.buttonSubmeshRemove.TabIndex = 142;
 			this.buttonSubmeshRemove.Text = "Remove";
 			this.buttonSubmeshRemove.UseVisualStyleBackColor = true;
 			this.buttonSubmeshRemove.Click += new System.EventHandler(this.buttonSubmeshRemove_Click);
@@ -1883,8 +1956,7 @@
 			this.textBoxMeshName.Name = "textBoxMeshName";
 			this.textBoxMeshName.ReadOnly = true;
 			this.textBoxMeshName.Size = new System.Drawing.Size(200, 20);
-			this.textBoxMeshName.TabIndex = 124;
-			this.textBoxMeshName.TabStop = false;
+			this.textBoxMeshName.TabIndex = 1;
 			// 
 			// tabPageMaterialView
 			// 
@@ -1936,8 +2008,7 @@
 			this.buttonTextureExternal.Location = new System.Drawing.Point(178, 310);
 			this.buttonTextureExternal.Name = "buttonTextureExternal";
 			this.buttonTextureExternal.Size = new System.Drawing.Size(75, 22);
-			this.buttonTextureExternal.TabIndex = 40;
-			this.buttonTextureExternal.TabStop = false;
+			this.buttonTextureExternal.TabIndex = 150;
 			this.buttonTextureExternal.Text = "External";
 			this.buttonTextureExternal.UseVisualStyleBackColor = true;
 			this.buttonTextureExternal.Click += new System.EventHandler(this.buttonTextureExternal_Click);
@@ -1949,8 +2020,7 @@
 			this.comboBoxMatTex4.Name = "comboBoxMatTex4";
 			this.comboBoxMatTex4.Size = new System.Drawing.Size(250, 21);
 			this.comboBoxMatTex4.Sorted = true;
-			this.comboBoxMatTex4.TabIndex = 83;
-			this.comboBoxMatTex4.TabStop = false;
+			this.comboBoxMatTex4.TabIndex = 8;
 			// 
 			// comboBoxMatTex3
 			// 
@@ -1959,8 +2029,7 @@
 			this.comboBoxMatTex3.Name = "comboBoxMatTex3";
 			this.comboBoxMatTex3.Size = new System.Drawing.Size(250, 21);
 			this.comboBoxMatTex3.Sorted = true;
-			this.comboBoxMatTex3.TabIndex = 82;
-			this.comboBoxMatTex3.TabStop = false;
+			this.comboBoxMatTex3.TabIndex = 7;
 			// 
 			// comboBoxMatTex2
 			// 
@@ -1969,8 +2038,7 @@
 			this.comboBoxMatTex2.Name = "comboBoxMatTex2";
 			this.comboBoxMatTex2.Size = new System.Drawing.Size(250, 21);
 			this.comboBoxMatTex2.Sorted = true;
-			this.comboBoxMatTex2.TabIndex = 81;
-			this.comboBoxMatTex2.TabStop = false;
+			this.comboBoxMatTex2.TabIndex = 6;
 			// 
 			// comboBoxMatTex1
 			// 
@@ -1979,16 +2047,14 @@
 			this.comboBoxMatTex1.Name = "comboBoxMatTex1";
 			this.comboBoxMatTex1.Size = new System.Drawing.Size(250, 21);
 			this.comboBoxMatTex1.Sorted = true;
-			this.comboBoxMatTex1.TabIndex = 80;
-			this.comboBoxMatTex1.TabStop = false;
+			this.comboBoxMatTex1.TabIndex = 5;
 			// 
 			// buttonMaterialRemove
 			// 
 			this.buttonMaterialRemove.Location = new System.Drawing.Point(2, 309);
 			this.buttonMaterialRemove.Name = "buttonMaterialRemove";
 			this.buttonMaterialRemove.Size = new System.Drawing.Size(75, 23);
-			this.buttonMaterialRemove.TabIndex = 45;
-			this.buttonMaterialRemove.TabStop = false;
+			this.buttonMaterialRemove.TabIndex = 145;
 			this.buttonMaterialRemove.Text = "Remove";
 			this.buttonMaterialRemove.UseVisualStyleBackColor = true;
 			this.buttonMaterialRemove.Click += new System.EventHandler(this.buttonMaterialRemove_Click);
@@ -1998,8 +2064,7 @@
 			this.buttonMaterialCopy.Location = new System.Drawing.Point(89, 309);
 			this.buttonMaterialCopy.Name = "buttonMaterialCopy";
 			this.buttonMaterialCopy.Size = new System.Drawing.Size(75, 23);
-			this.buttonMaterialCopy.TabIndex = 44;
-			this.buttonMaterialCopy.TabStop = false;
+			this.buttonMaterialCopy.TabIndex = 146;
 			this.buttonMaterialCopy.Text = "Copy->New";
 			this.buttonMaterialCopy.UseVisualStyleBackColor = true;
 			this.buttonMaterialCopy.Click += new System.EventHandler(this.buttonMaterialCopy_Click);
@@ -2109,7 +2174,6 @@
 			this.textBoxMatSpecularPower.Name = "textBoxMatSpecularPower";
 			this.textBoxMatSpecularPower.Size = new System.Drawing.Size(49, 20);
 			this.textBoxMatSpecularPower.TabIndex = 38;
-			this.textBoxMatSpecularPower.TabStop = false;
 			// 
 			// textBoxMatEmissiveA
 			// 
@@ -2117,7 +2181,6 @@
 			this.textBoxMatEmissiveA.Name = "textBoxMatEmissiveA";
 			this.textBoxMatEmissiveA.Size = new System.Drawing.Size(49, 20);
 			this.textBoxMatEmissiveA.TabIndex = 37;
-			this.textBoxMatEmissiveA.TabStop = false;
 			// 
 			// textBoxMatEmissiveB
 			// 
@@ -2125,7 +2188,6 @@
 			this.textBoxMatEmissiveB.Name = "textBoxMatEmissiveB";
 			this.textBoxMatEmissiveB.Size = new System.Drawing.Size(49, 20);
 			this.textBoxMatEmissiveB.TabIndex = 36;
-			this.textBoxMatEmissiveB.TabStop = false;
 			// 
 			// textBoxMatEmissiveG
 			// 
@@ -2133,7 +2195,6 @@
 			this.textBoxMatEmissiveG.Name = "textBoxMatEmissiveG";
 			this.textBoxMatEmissiveG.Size = new System.Drawing.Size(49, 20);
 			this.textBoxMatEmissiveG.TabIndex = 35;
-			this.textBoxMatEmissiveG.TabStop = false;
 			// 
 			// textBoxMatEmissiveR
 			// 
@@ -2141,7 +2202,6 @@
 			this.textBoxMatEmissiveR.Name = "textBoxMatEmissiveR";
 			this.textBoxMatEmissiveR.Size = new System.Drawing.Size(49, 20);
 			this.textBoxMatEmissiveR.TabIndex = 34;
-			this.textBoxMatEmissiveR.TabStop = false;
 			// 
 			// textBoxMatSpecularA
 			// 
@@ -2149,7 +2209,6 @@
 			this.textBoxMatSpecularA.Name = "textBoxMatSpecularA";
 			this.textBoxMatSpecularA.Size = new System.Drawing.Size(49, 20);
 			this.textBoxMatSpecularA.TabIndex = 33;
-			this.textBoxMatSpecularA.TabStop = false;
 			// 
 			// textBoxMatSpecularB
 			// 
@@ -2157,7 +2216,6 @@
 			this.textBoxMatSpecularB.Name = "textBoxMatSpecularB";
 			this.textBoxMatSpecularB.Size = new System.Drawing.Size(49, 20);
 			this.textBoxMatSpecularB.TabIndex = 32;
-			this.textBoxMatSpecularB.TabStop = false;
 			// 
 			// textBoxMatSpecularG
 			// 
@@ -2165,7 +2223,6 @@
 			this.textBoxMatSpecularG.Name = "textBoxMatSpecularG";
 			this.textBoxMatSpecularG.Size = new System.Drawing.Size(49, 20);
 			this.textBoxMatSpecularG.TabIndex = 31;
-			this.textBoxMatSpecularG.TabStop = false;
 			// 
 			// textBoxMatSpecularR
 			// 
@@ -2173,7 +2230,6 @@
 			this.textBoxMatSpecularR.Name = "textBoxMatSpecularR";
 			this.textBoxMatSpecularR.Size = new System.Drawing.Size(49, 20);
 			this.textBoxMatSpecularR.TabIndex = 30;
-			this.textBoxMatSpecularR.TabStop = false;
 			// 
 			// textBoxMatAmbientA
 			// 
@@ -2181,7 +2237,6 @@
 			this.textBoxMatAmbientA.Name = "textBoxMatAmbientA";
 			this.textBoxMatAmbientA.Size = new System.Drawing.Size(49, 20);
 			this.textBoxMatAmbientA.TabIndex = 29;
-			this.textBoxMatAmbientA.TabStop = false;
 			// 
 			// textBoxMatAmbientB
 			// 
@@ -2189,7 +2244,6 @@
 			this.textBoxMatAmbientB.Name = "textBoxMatAmbientB";
 			this.textBoxMatAmbientB.Size = new System.Drawing.Size(49, 20);
 			this.textBoxMatAmbientB.TabIndex = 28;
-			this.textBoxMatAmbientB.TabStop = false;
 			// 
 			// textBoxMatAmbientG
 			// 
@@ -2197,7 +2251,6 @@
 			this.textBoxMatAmbientG.Name = "textBoxMatAmbientG";
 			this.textBoxMatAmbientG.Size = new System.Drawing.Size(49, 20);
 			this.textBoxMatAmbientG.TabIndex = 27;
-			this.textBoxMatAmbientG.TabStop = false;
 			// 
 			// textBoxMatAmbientR
 			// 
@@ -2205,7 +2258,6 @@
 			this.textBoxMatAmbientR.Name = "textBoxMatAmbientR";
 			this.textBoxMatAmbientR.Size = new System.Drawing.Size(49, 20);
 			this.textBoxMatAmbientR.TabIndex = 26;
-			this.textBoxMatAmbientR.TabStop = false;
 			// 
 			// textBoxMatDiffuseA
 			// 
@@ -2213,7 +2265,6 @@
 			this.textBoxMatDiffuseA.Name = "textBoxMatDiffuseA";
 			this.textBoxMatDiffuseA.Size = new System.Drawing.Size(49, 20);
 			this.textBoxMatDiffuseA.TabIndex = 25;
-			this.textBoxMatDiffuseA.TabStop = false;
 			// 
 			// textBoxMatDiffuseB
 			// 
@@ -2221,7 +2272,6 @@
 			this.textBoxMatDiffuseB.Name = "textBoxMatDiffuseB";
 			this.textBoxMatDiffuseB.Size = new System.Drawing.Size(49, 20);
 			this.textBoxMatDiffuseB.TabIndex = 24;
-			this.textBoxMatDiffuseB.TabStop = false;
 			// 
 			// textBoxMatDiffuseG
 			// 
@@ -2229,7 +2279,6 @@
 			this.textBoxMatDiffuseG.Name = "textBoxMatDiffuseG";
 			this.textBoxMatDiffuseG.Size = new System.Drawing.Size(49, 20);
 			this.textBoxMatDiffuseG.TabIndex = 23;
-			this.textBoxMatDiffuseG.TabStop = false;
 			// 
 			// textBoxMatDiffuseR
 			// 
@@ -2237,15 +2286,13 @@
 			this.textBoxMatDiffuseR.Name = "textBoxMatDiffuseR";
 			this.textBoxMatDiffuseR.Size = new System.Drawing.Size(49, 20);
 			this.textBoxMatDiffuseR.TabIndex = 18;
-			this.textBoxMatDiffuseR.TabStop = false;
 			// 
 			// textBoxMatName
 			// 
 			this.textBoxMatName.Location = new System.Drawing.Point(0, 19);
 			this.textBoxMatName.Name = "textBoxMatName";
 			this.textBoxMatName.Size = new System.Drawing.Size(250, 20);
-			this.textBoxMatName.TabIndex = 7;
-			this.textBoxMatName.TabStop = false;
+			this.textBoxMatName.TabIndex = 3;
 			// 
 			// tabPageTextureView
 			// 
@@ -2269,8 +2316,7 @@
 			this.buttonTextureAdd.Location = new System.Drawing.Point(2, 70);
 			this.buttonTextureAdd.Name = "buttonTextureAdd";
 			this.buttonTextureAdd.Size = new System.Drawing.Size(75, 23);
-			this.buttonTextureAdd.TabIndex = 39;
-			this.buttonTextureAdd.TabStop = false;
+			this.buttonTextureAdd.TabIndex = 30;
 			this.buttonTextureAdd.Text = "Add Image";
 			this.buttonTextureAdd.UseVisualStyleBackColor = true;
 			this.buttonTextureAdd.Click += new System.EventHandler(this.buttonTextureAdd_Click);
@@ -2314,7 +2360,6 @@
 			this.buttonTextureExport.Name = "buttonTextureExport";
 			this.buttonTextureExport.Size = new System.Drawing.Size(75, 22);
 			this.buttonTextureExport.TabIndex = 16;
-			this.buttonTextureExport.TabStop = false;
 			this.buttonTextureExport.Text = "Export";
 			this.buttonTextureExport.UseVisualStyleBackColor = true;
 			this.buttonTextureExport.Click += new System.EventHandler(this.buttonTextureExport_Click);
@@ -2325,7 +2370,6 @@
 			this.buttonTextureReplace.Name = "buttonTextureReplace";
 			this.buttonTextureReplace.Size = new System.Drawing.Size(75, 23);
 			this.buttonTextureReplace.TabIndex = 36;
-			this.buttonTextureReplace.TabStop = false;
 			this.buttonTextureReplace.Text = "Replace";
 			this.buttonTextureReplace.UseVisualStyleBackColor = true;
 			this.buttonTextureReplace.Click += new System.EventHandler(this.buttonTextureReplace_Click);
@@ -2336,7 +2380,6 @@
 			this.buttonTextureRemove.Name = "buttonTextureRemove";
 			this.buttonTextureRemove.Size = new System.Drawing.Size(75, 22);
 			this.buttonTextureRemove.TabIndex = 20;
-			this.buttonTextureRemove.TabStop = false;
 			this.buttonTextureRemove.Text = "Remove";
 			this.buttonTextureRemove.UseVisualStyleBackColor = true;
 			this.buttonTextureRemove.Click += new System.EventHandler(this.buttonTextureRemove_Click);
@@ -2359,93 +2402,6 @@
 			this.textBoxTexName.Name = "textBoxTexName";
 			this.textBoxTexName.Size = new System.Drawing.Size(148, 20);
 			this.textBoxTexName.TabIndex = 5;
-			this.textBoxTexName.TabStop = false;
-			// 
-			// menuStrip1
-			// 
-			this.menuStrip1.AllowMerge = false;
-			this.menuStrip1.AutoSize = false;
-			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
-            this.optionsToolStripMenuItem});
-			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
-			this.menuStrip1.Size = new System.Drawing.Size(524, 18);
-			this.menuStrip1.TabIndex = 117;
-			this.menuStrip1.Text = "menuStrip1";
-			// 
-			// fileToolStripMenuItem
-			// 
-			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.reopenToolStripMenuItem,
-            this.toolStripSeparator1,
-            this.savexxToolStripMenuItem,
-            this.savexxAsToolStripMenuItem,
-            this.toolStripSeparator6,
-            this.closeToolStripMenuItem});
-			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-			this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 18);
-			this.fileToolStripMenuItem.Text = "&File";
-			// 
-			// reopenToolStripMenuItem
-			// 
-			this.reopenToolStripMenuItem.Name = "reopenToolStripMenuItem";
-			this.reopenToolStripMenuItem.ShortcutKeyDisplayString = "";
-			this.reopenToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
-			this.reopenToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
-			this.reopenToolStripMenuItem.Text = "&Reopen .xx";
-			this.reopenToolStripMenuItem.Click += new System.EventHandler(this.reopenToolStripMenuItem_Click);
-			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(166, 6);
-			// 
-			// savexxToolStripMenuItem
-			// 
-			this.savexxToolStripMenuItem.Name = "savexxToolStripMenuItem";
-			this.savexxToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-			this.savexxToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
-			this.savexxToolStripMenuItem.Text = "&Save .xx";
-			this.savexxToolStripMenuItem.Click += new System.EventHandler(this.savexxToolStripMenuItem_Click);
-			// 
-			// savexxAsToolStripMenuItem
-			// 
-			this.savexxAsToolStripMenuItem.Name = "savexxAsToolStripMenuItem";
-			this.savexxAsToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
-			this.savexxAsToolStripMenuItem.Text = "Save .xx &As...";
-			this.savexxAsToolStripMenuItem.Click += new System.EventHandler(this.savexxAsToolStripMenuItem_Click);
-			// 
-			// toolStripSeparator6
-			// 
-			this.toolStripSeparator6.Name = "toolStripSeparator6";
-			this.toolStripSeparator6.Size = new System.Drawing.Size(166, 6);
-			// 
-			// closeToolStripMenuItem
-			// 
-			this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-			this.closeToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+F4";
-			this.closeToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
-			this.closeToolStripMenuItem.Text = "&Close";
-			this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
-			// 
-			// optionsToolStripMenuItem
-			// 
-			this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.keepBackupToolStripMenuItem});
-			this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(56, 18);
-			this.optionsToolStripMenuItem.Text = "&Options";
-			// 
-			// keepBackupToolStripMenuItem
-			// 
-			this.keepBackupToolStripMenuItem.Checked = true;
-			this.keepBackupToolStripMenuItem.CheckOnClick = true;
-			this.keepBackupToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.keepBackupToolStripMenuItem.Name = "keepBackupToolStripMenuItem";
-			this.keepBackupToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
-			this.keepBackupToolStripMenuItem.Text = "Keep &Backup";
 			// 
 			// FormXX
 			// 
@@ -2458,6 +2414,8 @@
 			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "FormXX";
 			this.Text = "FormXX";
+			this.menuStrip1.ResumeLayout(false);
+			this.menuStrip1.PerformLayout();
 			this.splitContainer1.Panel1.ResumeLayout(false);
 			this.splitContainer1.Panel1.PerformLayout();
 			this.splitContainer1.Panel2.ResumeLayout(false);
@@ -2526,6 +2484,8 @@
 			this.tabPageMeshView.PerformLayout();
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
+			this.panelMeshExportOptionsFbx.ResumeLayout(false);
+			this.panelMeshExportOptionsFbx.PerformLayout();
 			this.panelMeshExportOptionsDirectX.ResumeLayout(false);
 			this.panelMeshExportOptionsDirectX.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericMeshExportDirectXTicksPerSecond)).EndInit();
@@ -2534,8 +2494,6 @@
 			this.panelMeshExportOptionsCollada.PerformLayout();
 			this.panelMeshExportOptionsMqo.ResumeLayout(false);
 			this.panelMeshExportOptionsMqo.PerformLayout();
-			this.panelMeshExportOptionsFbx.ResumeLayout(false);
-			this.panelMeshExportOptionsFbx.PerformLayout();
 			this.groupBox1.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewMesh)).EndInit();
 			this.tabPageMaterialView.ResumeLayout(false);
@@ -2544,8 +2502,6 @@
 			this.tabPageTextureView.PerformLayout();
 			this.panelTexturePic.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxTexture)).EndInit();
-			this.menuStrip1.ResumeLayout(false);
-			this.menuStrip1.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -2740,5 +2696,7 @@
 		private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem keepBackupToolStripMenuItem;
+		private System.Windows.Forms.Label label13;
+		public EditTextBox textBoxKeyframeRange;
 	}
 }

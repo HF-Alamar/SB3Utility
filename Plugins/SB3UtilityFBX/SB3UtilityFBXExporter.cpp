@@ -4,7 +4,7 @@
 
 namespace SB3Utility
 {
-	void Fbx::Exporter::Export(String^ path, xxParser^ xxParser, List<xxFrame^>^ meshParents, List<xaParser^>^ xaSubfileList, String^ exportFormat, bool allFrames, bool skins)
+	void Fbx::Exporter::Export(String^ path, xxParser^ xxParser, List<xxFrame^>^ meshParents, List<xaParser^>^ xaSubfileList, int startKeyframe, int endKeyframe, String^ exportFormat, bool allFrames, bool skins)
 	{
 		FileInfo^ file = gcnew FileInfo(path);
 		DirectoryInfo^ dir = file->Directory;
@@ -16,7 +16,7 @@ namespace SB3Utility
 		Directory::SetCurrentDirectory(dir->FullName);
 
 		Exporter^ exporter = gcnew Exporter(path, xxParser, meshParents, exportFormat, allFrames, skins);
-		exporter->ExportAnimations(xaSubfileList);
+		exporter->ExportAnimations(xaSubfileList, startKeyframe, endKeyframe);
 		exporter->pExporter->Export(exporter->pScene);
 
 		Directory::SetCurrentDirectory(currentDir);
@@ -611,7 +611,7 @@ namespace SB3Utility
 		return pTex;
 	}
 
-	void Fbx::Exporter::ExportAnimations(List<xaParser^>^ xaSubfileList)
+	void Fbx::Exporter::ExportAnimations(List<xaParser^>^ xaSubfileList, int startKeyframe, int endKeyframe)
 	{
 		if (xaSubfileList == nullptr)
 		{
@@ -680,9 +680,20 @@ namespace SB3Utility
 
 					List<xaAnimationKeyframe^>^ keyframes = keyframeList->KeyframeList;
 					double fps = 1.0 / 24;
-					for (int k = 0; k < keyframes->Count; k++)
+					int startAt, endAt;
+					if (startKeyframe >= 0)
 					{
-						lTime.SetSecondDouble(fps * k);
+						startAt = startKeyframe;
+						endAt = endKeyframe < keyframes->Count ? endKeyframe : keyframes->Count - 1;
+					}
+					else
+					{
+						startAt = 0;
+						endAt = keyframes->Count - 1;
+					}
+					for (int k = startAt, keySetIndex = 0; k <= endAt; k++, keySetIndex++)
+					{
+						lTime.SetSecondDouble(fps * (k - startKeyframe));
 
 						lCurveSX->KeyAdd(lTime);
 						lCurveSY->KeyAdd(lTime);
@@ -695,15 +706,15 @@ namespace SB3Utility
 						lCurveTZ->KeyAdd(lTime);
 
 						Vector3 rotation = Fbx::QuaternionToEuler(keyframes[k]->Rotation);
-						lCurveSX->KeySet(k, lTime, keyframes[k]->Scaling.X);
-						lCurveSY->KeySet(k, lTime, keyframes[k]->Scaling.Y);
-						lCurveSZ->KeySet(k, lTime, keyframes[k]->Scaling.Z);
-						lCurveRX->KeySet(k, lTime, rotation.X);
-						lCurveRY->KeySet(k, lTime, rotation.Y);
-						lCurveRZ->KeySet(k, lTime, rotation.Z);
-						lCurveTX->KeySet(k, lTime, keyframes[k]->Translation.X);
-						lCurveTY->KeySet(k, lTime, keyframes[k]->Translation.Y);
-						lCurveTZ->KeySet(k, lTime, keyframes[k]->Translation.Z);
+						lCurveSX->KeySet(keySetIndex, lTime, keyframes[k]->Scaling.X);
+						lCurveSY->KeySet(keySetIndex, lTime, keyframes[k]->Scaling.Y);
+						lCurveSZ->KeySet(keySetIndex, lTime, keyframes[k]->Scaling.Z);
+						lCurveRX->KeySet(keySetIndex, lTime, rotation.X);
+						lCurveRY->KeySet(keySetIndex, lTime, rotation.Y);
+						lCurveRZ->KeySet(keySetIndex, lTime, rotation.Z);
+						lCurveTX->KeySet(keySetIndex, lTime, keyframes[k]->Translation.X);
+						lCurveTY->KeySet(keySetIndex, lTime, keyframes[k]->Translation.Y);
+						lCurveTZ->KeySet(keySetIndex, lTime, keyframes[k]->Translation.Z);
 					}
 					lCurveSX->KeyModifyEnd();
 					lCurveSY->KeyModifyEnd();

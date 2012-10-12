@@ -73,7 +73,7 @@ namespace SB3Utility {
 		ref class Exporter
 		{
 		public:
-			static void Export(String^ path, xxParser^ xxParser, List<xxFrame^>^ meshParents, List<xaParser^>^ xaSubfileList, String^ exportFormat, bool allFrames, bool skins);
+			static void Export(String^ path, xxParser^ xxParser, List<xxFrame^>^ meshParents, List<xaParser^>^ xaSubfileList, int startKeyframe, int endKeyframe, String^ exportFormat, bool allFrames, bool skins);
 			static void ExportMorph(String^ path, xxParser^ xxParser, xxFrame^ meshFrame, xaMorphClip^ morphClip, xaParser^ xaparser, String^ exportFormat);
 
 		private:
@@ -98,7 +98,7 @@ namespace SB3Utility {
 			void ExportFrame(KFbxNode* pParentNode, xxFrame^ frame);
 			void ExportMesh(KFbxNode* pFrameNode, xxFrame^ frame);
 			KFbxFileTexture* ExportTexture(xxMaterialTexture^ matTex, KFbxLayerElementTexture*& pLayerTexture, KFbxMesh* pMesh);
-			void ExportAnimations(List<xaParser^>^ xaSubfileList);
+			void ExportAnimations(List<xaParser^>^ xaSubfileList, int startKeyframe, int endKeyframe);
 			void SetJoints();
 			void SetJointsNode(KFbxNode* pNode, HashSet<String^>^ boneNames);
 			void ExportMorphs(xxFrame^ baseFrame, xaMorphClip^ morphClip, xaParser^ xaparser);

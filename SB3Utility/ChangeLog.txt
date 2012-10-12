@@ -1,4 +1,8 @@
-﻿[0.4.42.17]
+﻿[0.4.42.18]
+  - tab stops in frame, bone, mesh, material and texture editors didn't work
+  - added keyframe range for fbx export of animations
+
+[0.4.42.17]
   - Some scripting variables weren't released and prevented GC to tidy up.
   - Added help for GC in FormXX. Memory is faster released for external XX files.
   - Opening/dropping the same XX/XA files again closes the previously opened editor.

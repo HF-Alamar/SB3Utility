@@ -520,6 +520,21 @@ namespace SB3Utility
 					AnimationSetClip(-1);
 				}
 			}
+
+			string clipRange = "-1-0";
+			if (loadedAnimationClip != null)
+			{
+				xaAnimationClip clip = (xaAnimationClip)loadedAnimationClip.Tag;
+				clipRange = clip.Start.ToString() + "-" + clip.End.ToString();
+			}
+			List<DockContent> formXXList;
+			if (Gui.Docking.DockContents.TryGetValue(typeof(FormXX), out formXXList))
+			{
+				foreach (FormXX form in formXXList)
+				{
+					form.textBoxKeyframeRange.Text = clipRange;
+				}
+			}
 		}
 
 		private void renderTimer_Tick(object sender, EventArgs e)
