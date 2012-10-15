@@ -679,6 +679,7 @@ namespace SB3Utility
 					lCurveTZ->KeyModifyBegin();
 
 					List<xaAnimationKeyframe^>^ keyframes = keyframeList->KeyframeList;
+					double startIdx = keyframes[0]->Index, endIdx = keyframes[keyframes->Count - 1]->Index;
 					double fps = 1.0 / 24;
 					int startAt, endAt;
 					if (startKeyframe >= 0)
@@ -693,7 +694,7 @@ namespace SB3Utility
 					}
 					for (int k = startAt, keySetIndex = 0; k <= endAt; k++, keySetIndex++)
 					{
-						lTime.SetSecondDouble(fps * (k - startKeyframe));
+						lTime.SetSecondDouble(fps * (k - startAt));
 
 						lCurveSX->KeyAdd(lTime);
 						lCurveSY->KeyAdd(lTime);

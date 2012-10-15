@@ -1450,10 +1450,6 @@ namespace SB3Utility
 					int id = (int)e.Item.Tag;
 					if (e.IsSelected)
 					{
-						if (!Gui.Docking.DockRenderer.IsHidden)
-						{
-							Gui.Docking.DockRenderer.Activate();
-						}
 						tabControlViews.SelectedTab = tabPageMeshView;
 						LoadMesh(id);
 						CrossRefAddItem(crossRefMeshMaterials[id], crossRefMeshMaterialsCount, listViewMeshMaterial, listViewMaterial);
@@ -1467,6 +1463,10 @@ namespace SB3Utility
 						}
 						RenderObjectXX renderObj = renderObjectMeshes[id];
 						renderObjectIds[id] = Gui.Renderer.AddRenderObject(renderObj);
+						if (!Gui.Docking.DockRenderer.IsHidden)
+						{
+							Gui.Renderer.CenterView();
+						}
 					}
 					else
 					{
@@ -2648,9 +2648,9 @@ namespace SB3Utility
 				Gui.Scripting.RunScript(EditorVar + ".RemoveMaterial(id=" + loadedMaterial + ")");
 
 				RecreateRenderObjects();
+				LoadMesh(loadedMesh);
 				InitMaterials();
 				RecreateCrossRefs();
-				LoadMesh(loadedMesh);
 				LoadMaterial(-1);
 			}
 			catch (Exception ex)

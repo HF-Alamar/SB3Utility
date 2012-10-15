@@ -41,7 +41,7 @@ namespace SB3Utility
 		Wakeari,
 		LoveGirl,
 		Hero,
-		HETTrial
+		HET
 	}
 
 	public abstract class ppFormat
@@ -77,7 +77,7 @@ namespace SB3Utility
 			new ppFormat_Wakeari(),
 			new ppFormat_LoveGirl(),
 			new ppFormat_Hero(),
-			new ppFormat_HETTrial()
+			new ppFormat_HET()
 		};
 
 		public abstract Stream ReadStream(Stream stream);
@@ -821,9 +821,9 @@ namespace SB3Utility
 		}
 	}
 
-	public class ppFormat_HETTrial : ppFormat_WakeariHeader
+	public class ppFormat_HET : ppFormat_WakeariHeader
 	{
-		public ppFormat_HETTrial() : base("HET Trial", ppFormatIdx.HETTrial) { }
+		public ppFormat_HET() : base("HET", ppFormatIdx.HET) { }
 
 		protected override ICryptoTransform CryptoTransform()
 		{

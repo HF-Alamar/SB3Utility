@@ -1,4 +1,9 @@
-﻿[0.4.42.18]
+﻿[0.4.42.19]
+  - GUI : removing the last (and also used) material caused an error in DataGridViewMesh
+  - GUI : removed explicit activation of the renderer upon mesh selection change
+  - GUI : added automatic centering of the renderer view after mesh selection change
+
+[0.4.42.18]
   - tab stops in frame, bone, mesh, material and texture editors didn't work
   - added keyframe range for fbx export of animations
 

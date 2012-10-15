@@ -11,7 +11,7 @@ namespace SB3Utility
 {
 	public static class Gui
 	{
-		public static string Version = "0.4.42.18";
+		public static string Version = "0.4.42.19";
 
 		public static IScripting Scripting { get; set; }
 		public static IDocking Docking { get; set; }
@@ -58,6 +58,8 @@ namespace SB3Utility
 		event EventHandler RenderObjectAdded;
 
 		Device Device { get; }
+
+		void CenterView();
 
 		bool Wireframe { get; }
 		bool ShowNormals { get; }
