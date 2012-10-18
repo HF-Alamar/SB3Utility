@@ -1,4 +1,8 @@
-﻿[0.4.42.19]
+﻿[0.4.42.20]
+  - FBX InterpolationHelper class aligns tracks for exporting compressed animations
+  - Issue: FbxProperties for SRT have to be created outside of the class as they seem to be put on the stack.
+
+[0.4.42.19]
   - GUI : removing the last (and also used) material caused an error in DataGridViewMesh
   - GUI : removed explicit activation of the renderer upon mesh selection change
   - GUI : added automatic centering of the renderer view after mesh selection change

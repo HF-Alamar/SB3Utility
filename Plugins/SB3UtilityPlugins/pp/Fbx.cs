@@ -21,7 +21,7 @@ namespace SB3Utility
 		}
 
 		[Plugin]
-		public static void ExportFbx([DefaultVar]xxParser xxParser, object[] meshNames, object[] xaParsers, int startKeyframe, int endKeyframe, string path, string exportFormat, bool allFrames, bool skins)
+		public static void ExportFbx([DefaultVar]xxParser xxParser, object[] meshNames, object[] xaParsers, int startKeyframe, int endKeyframe, bool linear, string path, string exportFormat, bool allFrames, bool skins)
 		{
 			List<xaParser> xaParserList = null;
 			if (xaParsers != null)
@@ -30,7 +30,7 @@ namespace SB3Utility
 			}
 
 			List<xxFrame> meshFrames = xx.FindMeshFrames(xxParser.Frame, new List<string>(Utility.Convert<string>(meshNames)));
-			Fbx.Exporter.Export(path, xxParser, meshFrames, xaParserList, startKeyframe, endKeyframe, exportFormat, allFrames, skins);
+			Fbx.Exporter.Export(path, xxParser, meshFrames, xaParserList, startKeyframe, endKeyframe, linear, exportFormat, allFrames, skins);
 		}
 
 		[Plugin]

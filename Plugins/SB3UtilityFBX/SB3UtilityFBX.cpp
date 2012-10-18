@@ -169,4 +169,95 @@ namespace SB3Utility
 			pSdkManager->Destroy();
 		}
 	}
+
+	Fbx::InterpolationHelper::InterpolationHelper(KFbxScene* scene, KFbxAnimLayer* layer, KFbxAnimCurveDef::EInterpolationType interpolationMethod,
+			KFbxTypedProperty<fbxDouble3>* scale, KFbxTypedProperty<fbxDouble3>* rotate, KFbxTypedProperty<fbxDouble3>* translate)
+	{
+		pScene = scene;
+		pAnimLayer = layer;
+
+		pAnimEvaluator = pScene->GetEvaluator();
+
+		this->interpolationMethod = interpolationMethod;
+
+		// S
+		this->scale = scale;
+		scale->ModifyFlag(KFbxProperty::eANIMATABLE, true);
+		KFbxAnimCurveNode* pScaleCurveNode = scale->GetCurveNode(pAnimLayer, true);
+		pAnimLayer->AddMember(pScaleCurveNode);
+		scale->ConnectSrcObject(pScaleCurveNode);
+		pScaleCurveX = pScaleCurveNode->CreateCurve(pScaleName, 0U);
+		pScaleCurveY = pScaleCurveNode->CreateCurve(pScaleName, 1U);
+		pScaleCurveZ = pScaleCurveNode->CreateCurve(pScaleName, 2U);
+
+		// R
+		this->rotate = rotate;
+		rotate->ModifyFlag(KFbxProperty::eANIMATABLE, true);
+		KFbxAnimCurveNode* pRotateCurveNode = rotate->GetCurveNode(pAnimLayer, true);
+		pAnimLayer->AddMember(pRotateCurveNode);
+		rotate->ConnectSrcObject(pRotateCurveNode);
+		pRotateCurveX = pRotateCurveNode->CreateCurve(pRotateName, 0U);
+		pRotateCurveY = pRotateCurveNode->CreateCurve(pRotateName, 1U);
+		pRotateCurveZ = pRotateCurveNode->CreateCurve(pRotateName, 2U);
+
+		// T
+		this->translate = translate;
+		translate->ModifyFlag(KFbxProperty::eANIMATABLE, true);
+		KFbxAnimCurveNode* pTranslateCurveNode = translate->GetCurveNode(pAnimLayer, true);
+		pAnimLayer->AddMember(pTranslateCurveNode);
+		translate->ConnectSrcObject(pTranslateCurveNode);
+		pTranslateCurveX = pTranslateCurveNode->CreateCurve(pTranslateName, 0U);
+		pTranslateCurveY = pTranslateCurveNode->CreateCurve(pTranslateName, 1U);
+		pTranslateCurveZ = pTranslateCurveNode->CreateCurve(pTranslateName, 2U);
+
+		allCurves = gcnew array<KFbxAnimCurve*>(9) { pScaleCurveX, pScaleCurveY, pScaleCurveZ, pRotateCurveX, pRotateCurveY, pRotateCurveZ, pTranslateCurveX, pTranslateCurveY, pTranslateCurveZ };
+	}
+
+	List<xaAnimationKeyframe^>^ Fbx::InterpolationHelper::InterpolateTrack(List<xaAnimationKeyframe^>^ keyframes, int resampleCount)
+	{
+		KTime time;
+		float animationLen = (float)(resampleCount - 1);
+
+		int startIdx = keyframes[0]->Index;
+		int endIdx = keyframes[keyframes->Count - 1]->Index;
+		for (int i = 0; i < keyframes->Count; i++)
+		{
+			xaAnimationKeyframe^ keyframe = keyframes[i];
+			float timePos = (float)(keyframe->Index - startIdx);
+			time.SetSecondDouble(timePos);
+
+			Vector3 s = keyframe->Scaling;
+			ADD_KEY_VECTOR3(pScaleCurveX, pScaleCurveY, pScaleCurveZ, time, s, interpolationMethod);
+			Vector3 r = QuaternionToEuler(keyframe->Rotation);
+			ADD_KEY_VECTOR3(pRotateCurveX, pRotateCurveY, pRotateCurveZ, time, r, interpolationMethod);
+			Vector3 t = keyframe->Translation;
+			ADD_KEY_VECTOR3(pTranslateCurveX, pTranslateCurveY, pTranslateCurveZ, time, t, interpolationMethod);
+		}
+
+		List<xaAnimationKeyframe^>^ newKeyframes = gcnew List<xaAnimationKeyframe^>(resampleCount);
+		for (int i = 0; i < resampleCount; i++)
+		{
+			xaAnimationKeyframe^ newKeyframe = gcnew xaAnimationKeyframe();
+			newKeyframe->Index = i + startIdx;
+			xa::CreateUnknowns(newKeyframe);
+
+			time.SetSecondDouble(i * (endIdx - startIdx) / animationLen);
+			Vector3 s, r, t;
+			ASSIGN_CHANNEL_VALUES(*scale, time, s);
+			newKeyframe->Scaling = s;
+			ASSIGN_CHANNEL_VALUES(*rotate, time, r);
+			newKeyframe->Rotation = EulerToQuaternion(r);
+			ASSIGN_CHANNEL_VALUES(*translate, time, t);
+			newKeyframe->Translation = t;
+
+			newKeyframes->Add(newKeyframe);
+		}
+
+		for each (KFbxAnimCurve* pCurve in allCurves)
+		{
+			pCurve->KeyClear();
+		}
+
+		return newKeyframes;
+	}
 }

@@ -73,7 +73,7 @@ namespace SB3Utility {
 		ref class Exporter
 		{
 		public:
-			static void Export(String^ path, xxParser^ xxParser, List<xxFrame^>^ meshParents, List<xaParser^>^ xaSubfileList, int startKeyframe, int endKeyframe, String^ exportFormat, bool allFrames, bool skins);
+			static void Export(String^ path, xxParser^ xxParser, List<xxFrame^>^ meshParents, List<xaParser^>^ xaSubfileList, int startKeyframe, int endKeyframe, bool linear, String^ exportFormat, bool allFrames, bool skins);
 			static void ExportMorph(String^ path, xxParser^ xxParser, xxFrame^ meshFrame, xaMorphClip^ morphClip, xaParser^ xaparser, String^ exportFormat);
 
 		private:
@@ -98,13 +98,39 @@ namespace SB3Utility {
 			void ExportFrame(KFbxNode* pParentNode, xxFrame^ frame);
 			void ExportMesh(KFbxNode* pFrameNode, xxFrame^ frame);
 			KFbxFileTexture* ExportTexture(xxMaterialTexture^ matTex, KFbxLayerElementTexture*& pLayerTexture, KFbxMesh* pMesh);
-			void ExportAnimations(List<xaParser^>^ xaSubfileList, int startKeyframe, int endKeyframe);
+			void ExportAnimations(List<xaParser^>^ xaSubfileList, int startKeyframe, int endKeyframe, bool linear);
 			void SetJoints();
 			void SetJointsNode(KFbxNode* pNode, HashSet<String^>^ boneNames);
 			void ExportMorphs(xxFrame^ baseFrame, xaMorphClip^ morphClip, xaParser^ xaparser);
 		};
 
 	private:
+		ref class InterpolationHelper
+		{
+		private:
+			KFbxScene* pScene;
+			KFbxAnimLayer* pAnimLayer;
+			KFbxAnimEvaluator* pAnimEvaluator;
+
+			KFbxAnimCurveDef::EInterpolationType interpolationMethod;
+
+			KFbxTypedProperty<fbxDouble3>* scale, * rotate, * translate;
+			KFbxAnimCurve* pScaleCurveX, * pScaleCurveY, * pScaleCurveZ,
+				* pRotateCurveX, * pRotateCurveY, * pRotateCurveZ,
+				* pTranslateCurveX, * pTranslateCurveY, * pTranslateCurveZ;
+
+			array<KFbxAnimCurve*>^ allCurves;
+
+		public:
+			static const char* pScaleName = "Scale";
+			static const char* pRotateName = "Rotate";
+			static const char* pTranslateName = "Translate";
+
+			InterpolationHelper(KFbxScene* scene, KFbxAnimLayer* layer, KFbxAnimCurveDef::EInterpolationType interpolationMethod,
+				KFbxTypedProperty<fbxDouble3>* scale, KFbxTypedProperty<fbxDouble3>* rotate, KFbxTypedProperty<fbxDouble3>* translate);
+			List<xaAnimationKeyframe^>^ InterpolateTrack(List<xaAnimationKeyframe^>^ keyframes, int resampleCount);
+		};
+
 		static char* StringToCharArray(String^ s);
 		static void Init(KFbxSdkManager** pSdkManager, KFbxScene** pScene);
 	};

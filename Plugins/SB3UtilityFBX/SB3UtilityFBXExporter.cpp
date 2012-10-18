@@ -4,7 +4,7 @@
 
 namespace SB3Utility
 {
-	void Fbx::Exporter::Export(String^ path, xxParser^ xxParser, List<xxFrame^>^ meshParents, List<xaParser^>^ xaSubfileList, int startKeyframe, int endKeyframe, String^ exportFormat, bool allFrames, bool skins)
+	void Fbx::Exporter::Export(String^ path, xxParser^ xxParser, List<xxFrame^>^ meshParents, List<xaParser^>^ xaSubfileList, int startKeyframe, int endKeyframe, bool linear, String^ exportFormat, bool allFrames, bool skins)
 	{
 		FileInfo^ file = gcnew FileInfo(path);
 		DirectoryInfo^ dir = file->Directory;
@@ -16,7 +16,7 @@ namespace SB3Utility
 		Directory::SetCurrentDirectory(dir->FullName);
 
 		Exporter^ exporter = gcnew Exporter(path, xxParser, meshParents, exportFormat, allFrames, skins);
-		exporter->ExportAnimations(xaSubfileList, startKeyframe, endKeyframe);
+		exporter->ExportAnimations(xaSubfileList, startKeyframe, endKeyframe, linear);
 		exporter->pExporter->Export(exporter->pScene);
 
 		Directory::SetCurrentDirectory(currentDir);
@@ -611,7 +611,7 @@ namespace SB3Utility
 		return pTex;
 	}
 
-	void Fbx::Exporter::ExportAnimations(List<xaParser^>^ xaSubfileList, int startKeyframe, int endKeyframe)
+	void Fbx::Exporter::ExportAnimations(List<xaParser^>^ xaSubfileList, int startKeyframe, int endKeyframe, bool linear)
 	{
 		if (xaSubfileList == nullptr)
 		{
@@ -619,6 +619,10 @@ namespace SB3Utility
 		}
 
 		List<String^>^ pNotFound = gcnew List<String^>();
+
+		KFbxTypedProperty<fbxDouble3> scale = KFbxProperty::Create(pScene, DTDouble3, InterpolationHelper::pScaleName);
+		KFbxTypedProperty<fbxDouble3> rotate = KFbxProperty::Create(pScene, DTDouble3, InterpolationHelper::pRotateName);
+		KFbxTypedProperty<fbxDouble3> translate = KFbxProperty::Create(pScene, DTDouble3, InterpolationHelper::pTranslateName);
 
 		for (int i = 0; i < xaSubfileList->Count; i++)
 		{
@@ -632,6 +636,26 @@ namespace SB3Utility
 			KFbxAnimStack* lAnimStack = KFbxAnimStack::Create(pScene, lTakeName);
 			KFbxAnimLayer* lAnimLayer = KFbxAnimLayer::Create(pScene, "Base Layer");
 			lAnimStack->AddMember(lAnimLayer);
+
+			int resampleCount = 0;
+			bool resample = false;
+			for (int j = 0; j < pAnimationList->Count; j++)
+			{
+				int numKeyframes = pAnimationList[j]->KeyframeList->Count;
+				if (numKeyframes > resampleCount)
+				{
+					resampleCount = numKeyframes;
+				}
+				if (numKeyframes != resampleCount)
+				{
+					resample = true;
+				}
+			}
+			InterpolationHelper^ interpolationHelper = nullptr;
+			if (resample)
+			{
+				interpolationHelper = gcnew InterpolationHelper(pScene, lAnimLayer, linear ? KFbxAnimCurveDef::eINTERPOLATION_LINEAR : KFbxAnimCurveDef::eINTERPOLATION_CUBIC, &scale, &rotate, &translate);
+			}
 
 			for (int j = 0; j < pAnimationList->Count; j++)
 			{
@@ -679,7 +703,10 @@ namespace SB3Utility
 					lCurveTZ->KeyModifyBegin();
 
 					List<xaAnimationKeyframe^>^ keyframes = keyframeList->KeyframeList;
-					double startIdx = keyframes[0]->Index, endIdx = keyframes[keyframes->Count - 1]->Index;
+					if (keyframes->Count != resampleCount)
+					{
+						keyframes = interpolationHelper->InterpolateTrack(keyframes, resampleCount);
+					}
 					double fps = 1.0 / 24;
 					int startAt, endAt;
 					if (startKeyframe >= 0)
