@@ -656,6 +656,7 @@
 			this.buttonMorphClipExport.TabIndex = 2;
 			this.buttonMorphClipExport.Text = "Export Clip";
 			this.buttonMorphClipExport.UseVisualStyleBackColor = true;
+			this.buttonMorphClipExport.Click += new System.EventHandler(this.buttonMorphClipExport_Click);
 			// 
 			// treeViewMorphClip
 			// 

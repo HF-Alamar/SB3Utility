@@ -114,6 +114,9 @@ namespace SB3Utility
 				Gui.Scripting.Variables.Remove(EditorVar);
 				Editor.Dispose();
 				Editor = null;
+
+				Gui.Docking.DockContentAdded -= DockContentAdded;
+				Gui.Docking.DockContentRemoved -= DockContentRemoved;
 			}
 			catch (Exception ex)
 			{
@@ -148,16 +151,18 @@ namespace SB3Utility
 			xaMaterialMatrixText[4][0] = xaMatSpecularPower;
 			xaMaterialMatrixText[5][0] = xaMatUnknown;
 
-			/*foreach (KeyValuePair<ppSubfile, xxView> pair in mainForm.xxViewDic)
+			comboBoxMorphMesh.DisplayMember = "Item1";
+			comboBoxMorphMesh.ValueMember = "Item2";
+			List<DockContent> formXXList;
+			if (Gui.Docking.DockContents.TryGetValue(typeof(FormXX), out formXXList))
 			{
-				ppSubfile subfile = pair.Key;
-				StringTag morphItem = new StringTag(subfile.name + "  " + subfile.ppParser.ppPath, subfile);
-				comboBoxMorphMesh.Items.Add(morphItem);
+				foreach (FormXX form in formXXList)
+				{
+					DockContentAdded(null, new DockContentEventArgs(form));
+				}
 			}
-			if (comboBoxMorphMesh.Items.Count > 0)
-			{
-				comboBoxMorphMesh.SelectedIndex = 0;
-			}*/
+			Gui.Docking.DockContentAdded += DockContentAdded;
+			Gui.Docking.DockContentRemoved += DockContentRemoved;
 
 			tabControlXA.TabPages.Remove(tabPageXAObjectView);
 
@@ -165,6 +170,44 @@ namespace SB3Utility
 			FollowSequence = checkBoxAnimationClipLoadNextClip.Checked;
 
 			Gui.Docking.ShowDockContent(this, Gui.Docking.DockEditors);
+		}
+
+		void DockContentAdded(object sender, DockContentEventArgs e)
+		{
+			FormXX formXX = e.DockContent as FormXX;
+			if (formXX != null)
+			{
+				var xxParser = (xxParser)Gui.Scripting.Variables[formXX.ParserVar];
+				string xxDir = Path.GetDirectoryName(formXX.ToolTipText);
+				string xxPath = xxDir.ToLower().EndsWith(".pp") ? xxDir : formXX.ToolTipText;
+				comboBoxMorphMesh.Items.Add(new Tuple<string, FormXX>(xxParser.Name + " " + xxPath, formXX));
+				if (comboBoxMorphMesh.Items.Count == 1)
+				{
+					comboBoxMorphMesh.SelectedIndex = 0;
+				}
+			}
+		}
+
+		void DockContentRemoved(object sender, DockContentEventArgs e)
+		{
+			FormXX formXX = e.DockContent as FormXX;
+			if (formXX != null)
+			{
+				for (int i = 0; i < comboBoxMorphMesh.Items.Count; i++)
+				{
+					Tuple<string, FormXX> tuple = (Tuple<string, FormXX>)comboBoxMorphMesh.Items[i];
+					if (tuple.Item2 == formXX)
+					{
+						bool current = comboBoxMorphMesh.SelectedIndex == i;
+						comboBoxMorphMesh.Items.RemoveAt(i);
+						if (current && comboBoxMorphMesh.Items.Count > 0)
+						{
+							comboBoxMorphMesh.SelectedIndex = 0;
+						}
+						break;
+					}
+				}
+			}
 		}
 
 		private void LoadXA()
@@ -724,6 +767,7 @@ namespace SB3Utility
 							Gui.Scripting.RunScript(EditorVar + ".ReplaceMorph(morph=" + source.Variable + ".Morphs[" + (int)source.Id + "], destMorphName=\"" + dragOptions.textBoxName.Text + "\", newName=\"" + dragOptions.textBoxNewName.Text + "\", replaceNormals=" + dragOptions.radioButtonReplaceNormalsYes.Checked + ", minSquaredDistance=" + dragOptions.numericUpDownMinimumDistanceSquared.Value + ")");
 							UnloadXA();
 							LoadXA();
+							tabControlXA.SelectedTab = tabPageMorph;
 						}
 					}
 				}
@@ -755,6 +799,64 @@ namespace SB3Utility
 			else
 			{
 				e.Effect = e.AllowedEffect & DragDropEffects.Copy;
+			}
+		}
+
+		private void buttonMorphClipExport_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				if (treeViewMorphClip.SelectedNode == null)
+				{
+					Report.ReportLog("No morph clip was selected");
+					return;
+				}
+				if (comboBoxMorphMesh.SelectedItem == null)
+				{
+					Report.ReportLog("No .xx file was selected");
+					return;
+				}
+
+				TreeNode clipNode = treeViewMorphClip.SelectedNode;
+				while (clipNode.Parent != null)
+				{
+					clipNode = clipNode.Parent;
+				}
+				xaMorphClip clip = (xaMorphClip)clipNode.Tag;
+				int clipIdx = ((xaParser)Gui.Scripting.Variables[this.ParserVar]).MorphSection.ClipList.IndexOf(clip);
+
+				FormXX formXX = ((Tuple<string, FormXX>)comboBoxMorphMesh.SelectedItem).Item2;
+				string xxParserVar = formXX.ParserVar;
+				xxParser xxParser = (xxParser)Gui.Scripting.Variables[xxParserVar];
+				xxFrame meshFrame = xx.FindFrame(clip.MeshName, xxParser.Frame);
+				if (meshFrame == null)
+				{
+					Report.ReportLog(xxParser.Name + " doesn't contain the " + clip.MeshName + " mesh");
+					return;
+				}
+				string xxEditorVar = formXX.EditorVar;
+				int meshFrameId = formXX.Editor.Frames.IndexOf(meshFrame);
+
+				string path = Path.GetDirectoryName(this.ToolTipText);
+				if (path.ToLower().EndsWith(".pp"))
+				{
+					path = path.Substring(0, path.Length - 3);
+				}
+				path += @"\" + Path.GetFileNameWithoutExtension(this.ToolTipText);
+				DirectoryInfo dir = new DirectoryInfo(path);
+				if (radioButtonMorphExportFormatMqo.Checked)
+				{
+					Gui.Scripting.RunScript("ExportMorphMqo(dirPath=\"" + path + "\", xxparser=" + xxParserVar + ", meshFrame=" + xxEditorVar + ".Frames[" + meshFrameId + "], xaparser=" + this.ParserVar + ", clip="+ this.ParserVar + ".MorphSection.ClipList[" + clipIdx + "])");
+				}
+				else
+				{
+					path = Utility.GetDestFile(dir, clip.MeshName + "-" + clip.Name + "-", ".fbx");
+					Gui.Scripting.RunScript("ExportMorphFbx(xxparser=" + xxParserVar + ", path=\"" + path + "\", meshFrame=" + xxEditorVar + ".Frames[" + meshFrameId + "], xaparser=" + this.ParserVar + ", morphClip=" + this.ParserVar + ".MorphSection.ClipList[" + clipIdx + "], exportFormat=\"" + ".fbx" + "\")");
+				}
+			}
+			catch (Exception ex)
+			{
+				Utility.ReportException(ex);
 			}
 		}
 
