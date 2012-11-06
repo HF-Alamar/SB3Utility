@@ -38,7 +38,7 @@
 			this.tabPageImageSubfiles = new System.Windows.Forms.TabPage();
 			this.imageSubfilesList = new System.Windows.Forms.ListView();
 			this.imageSubfilesListHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.tabPageSoundFiles = new System.Windows.Forms.TabPage();
+			this.tabPageSoundSubfiles = new System.Windows.Forms.TabPage();
 			this.soundSubfilesList = new System.Windows.Forms.ListView();
 			this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.tabPageOtherSubfiles = new System.Windows.Forms.TabPage();
@@ -74,7 +74,7 @@
 			this.tabPageXXSubfiles.SuspendLayout();
 			this.tabPageXASubfiles.SuspendLayout();
 			this.tabPageImageSubfiles.SuspendLayout();
-			this.tabPageSoundFiles.SuspendLayout();
+			this.tabPageSoundSubfiles.SuspendLayout();
 			this.tabPageOtherSubfiles.SuspendLayout();
 			this.panel1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
@@ -88,7 +88,7 @@
 			this.tabControlSubfiles.Controls.Add(this.tabPageXXSubfiles);
 			this.tabControlSubfiles.Controls.Add(this.tabPageXASubfiles);
 			this.tabControlSubfiles.Controls.Add(this.tabPageImageSubfiles);
-			this.tabControlSubfiles.Controls.Add(this.tabPageSoundFiles);
+			this.tabControlSubfiles.Controls.Add(this.tabPageSoundSubfiles);
 			this.tabControlSubfiles.Controls.Add(this.tabPageOtherSubfiles);
 			this.tabControlSubfiles.Location = new System.Drawing.Point(0, 29);
 			this.tabControlSubfiles.Multiline = true;
@@ -198,13 +198,13 @@
 			// 
 			// tabPageSoundFiles
 			// 
-			this.tabPageSoundFiles.Controls.Add(this.soundSubfilesList);
-			this.tabPageSoundFiles.Location = new System.Drawing.Point(4, 22);
-			this.tabPageSoundFiles.Name = "tabPageSoundFiles";
-			this.tabPageSoundFiles.Size = new System.Drawing.Size(272, 336);
-			this.tabPageSoundFiles.TabIndex = 4;
-			this.tabPageSoundFiles.Text = "Snd";
-			this.tabPageSoundFiles.UseVisualStyleBackColor = true;
+			this.tabPageSoundSubfiles.Controls.Add(this.soundSubfilesList);
+			this.tabPageSoundSubfiles.Location = new System.Drawing.Point(4, 22);
+			this.tabPageSoundSubfiles.Name = "tabPageSoundFiles";
+			this.tabPageSoundSubfiles.Size = new System.Drawing.Size(272, 336);
+			this.tabPageSoundSubfiles.TabIndex = 4;
+			this.tabPageSoundSubfiles.Text = "Snd";
+			this.tabPageSoundSubfiles.UseVisualStyleBackColor = true;
 			// 
 			// soundSubfilesList
 			// 
@@ -389,43 +389,43 @@
 			// exportSubfilesToolStripMenuItem
 			// 
 			this.exportSubfilesToolStripMenuItem.Name = "exportSubfilesToolStripMenuItem";
-			this.exportSubfilesToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+			this.exportSubfilesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.exportSubfilesToolStripMenuItem.Text = "&Export...";
 			this.exportSubfilesToolStripMenuItem.Click += new System.EventHandler(this.exportSubfilesToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator4
 			// 
 			this.toolStripSeparator4.Name = "toolStripSeparator4";
-			this.toolStripSeparator4.Size = new System.Drawing.Size(126, 6);
+			this.toolStripSeparator4.Size = new System.Drawing.Size(149, 6);
 			// 
 			// addFilesToolStripMenuItem
 			// 
 			this.addFilesToolStripMenuItem.Name = "addFilesToolStripMenuItem";
-			this.addFilesToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+			this.addFilesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.addFilesToolStripMenuItem.Text = "&Add Files...";
 			this.addFilesToolStripMenuItem.Click += new System.EventHandler(this.addFilesToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(126, 6);
+			this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
 			// 
 			// removeToolStripMenuItem
 			// 
 			this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-			this.removeToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+			this.removeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.removeToolStripMenuItem.Text = "Re&move";
 			this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator3
 			// 
 			this.toolStripSeparator3.Name = "toolStripSeparator3";
-			this.toolStripSeparator3.Size = new System.Drawing.Size(126, 6);
+			this.toolStripSeparator3.Size = new System.Drawing.Size(149, 6);
 			// 
 			// renameToolStripMenuItem
 			// 
 			this.renameToolStripMenuItem.Name = "renameToolStripMenuItem";
-			this.renameToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+			this.renameToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.renameToolStripMenuItem.Text = "Re&name";
 			this.renameToolStripMenuItem.Click += new System.EventHandler(this.renameToolStripMenuItem_Click);
 			// 
@@ -439,11 +439,9 @@
 			// 
 			// keepBackupToolStripMenuItem
 			// 
-			this.keepBackupToolStripMenuItem.Checked = true;
 			this.keepBackupToolStripMenuItem.CheckOnClick = true;
-			this.keepBackupToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.keepBackupToolStripMenuItem.Name = "keepBackupToolStripMenuItem";
-			this.keepBackupToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+			this.keepBackupToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.keepBackupToolStripMenuItem.Text = "Keep &Backup";
 			// 
 			// saveFileDialog1
@@ -471,7 +469,7 @@
 			this.tabPageXXSubfiles.ResumeLayout(false);
 			this.tabPageXASubfiles.ResumeLayout(false);
 			this.tabPageImageSubfiles.ResumeLayout(false);
-			this.tabPageSoundFiles.ResumeLayout(false);
+			this.tabPageSoundSubfiles.ResumeLayout(false);
 			this.tabPageOtherSubfiles.ResumeLayout(false);
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
@@ -523,7 +521,7 @@
 		private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
 		private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
-		private System.Windows.Forms.TabPage tabPageSoundFiles;
+		private System.Windows.Forms.TabPage tabPageSoundSubfiles;
 		private System.Windows.Forms.ListView soundSubfilesList;
 		private System.Windows.Forms.ColumnHeader columnHeader1;
 

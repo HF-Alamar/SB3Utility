@@ -1,4 +1,13 @@
-﻿[0.4.42.21]
+﻿[0.4.42.22]
+  - prevented loosing keyboard focus in image lists (pp subfiles, image file lists, fpk subfiles)
+  - nearly all GUI elements can be tabbed
+  - assert visibility of the Renderer when selecting a mesh
+  - Light colours and menu options for Renderer, Script, XX and PP stored SB3UtilityGUI.exe.config
+  - Center View corrected and adjusted
+  - useless editor.Set{Frame|Bone|Material|Texture}Name() no longer invoked
+  - extended script language to allow hex int32, e.i. '0x1F'
+
+[0.4.42.21]
   - Export of morphs as fbx and mqo with the GUI
 
 [0.4.42.20]

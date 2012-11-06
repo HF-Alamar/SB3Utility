@@ -91,7 +91,9 @@ namespace SB3Utility
 					ResizeImage();
 					if (!this.IsHidden)
 					{
+						Enabled = false;
 						Activate();
+						Enabled = true;
 					}
 
 					textBoxName.Text = tex.Name;

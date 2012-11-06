@@ -43,6 +43,8 @@ namespace SB3Utility
 				InitializeComponent();
 				this.Text += Gui.Version;
 
+				Gui.Config = Properties.Settings.Default;
+
 				openFileDialog1.Filter = "All Files (*.*)|*.*";
 
 				DockFiles = new DockContent();
@@ -67,8 +69,6 @@ namespace SB3Utility
 
 				Gui.Scripting.Variables.Add(MainVar, this);
 				PluginManager.RegisterFunctions(Assembly.GetExecutingAssembly());
-
-				Gui.Config = Properties.Settings.Default;
 			}
 			catch (Exception ex)
 			{

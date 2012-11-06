@@ -282,6 +282,9 @@ namespace SB3Utility
 			comboBoxMeshExportFormat.SelectedIndex = 4;
 
 			Gui.Docking.ShowDockContent(this, Gui.Docking.DockEditors);
+
+			keepBackupToolStripMenuItem.Checked = (bool)Gui.Config["KeepBackupOfXX"];
+			keepBackupToolStripMenuItem.CheckedChanged += keepBackupToolStripMenuItem_CheckedChanged;
 		}
 
 		// http://connect.microsoft.com/VisualStudio/feedback/details/151567/datagridviewcomboboxcell-needs-selectedindexchanged-event
@@ -1357,7 +1360,7 @@ namespace SB3Utility
 					var tag = (DragSource)e.Node.Tag;
 					if (tag.Type == typeof(xxFrame))
 					{
-						tabControlViews.SelectedTab = tabPageFrameView;
+						tabControlViews.SelectTabWithoutLoosingFocus(tabPageFrameView);
 						LoadFrame((int)tag.Id);
 					}
 					else if (tag.Type == typeof(xxMesh))
@@ -1366,7 +1369,7 @@ namespace SB3Utility
 					}
 					else if (tag.Type == typeof(xxBone))
 					{
-						tabControlViews.SelectedTab = tabPageBoneView;
+						tabControlViews.SelectTabWithoutLoosingFocus(tabPageBoneView);
 						int[] ids = (int[])tag.Id;
 						LoadBone(ids);
 
@@ -1450,7 +1453,7 @@ namespace SB3Utility
 					int id = (int)e.Item.Tag;
 					if (e.IsSelected)
 					{
-						tabControlViews.SelectedTab = tabPageMeshView;
+						tabControlViews.SelectTabWithoutLoosingFocus(tabPageMeshView);
 						LoadMesh(id);
 						CrossRefAddItem(crossRefMeshMaterials[id], crossRefMeshMaterialsCount, listViewMeshMaterial, listViewMaterial);
 						CrossRefAddItem(crossRefMeshTextures[id], crossRefMeshTexturesCount, listViewMeshTexture, listViewTexture);
@@ -1465,7 +1468,13 @@ namespace SB3Utility
 						renderObjectIds[id] = Gui.Renderer.AddRenderObject(renderObj);
 						if (!Gui.Docking.DockRenderer.IsHidden)
 						{
-							Gui.Renderer.CenterView();
+							Gui.Docking.DockRenderer.Enabled = false;
+							Gui.Docking.DockRenderer.Activate();
+							Gui.Docking.DockRenderer.Enabled = true;
+							if ((bool)Gui.Config["AutoCenterView"])
+							{
+								Gui.Renderer.CenterView();
+							}
 						}
 					}
 					else
@@ -1508,7 +1517,7 @@ namespace SB3Utility
 					int id = (int)e.Item.Tag;
 					if (e.IsSelected)
 					{
-						tabControlViews.SelectedTab = tabPageMaterialView;
+						tabControlViews.SelectTabWithoutLoosingFocus(tabPageMaterialView);
 						LoadMaterial(id);
 						CrossRefAddItem(crossRefMaterialMeshes[id], crossRefMaterialMeshesCount, listViewMaterialMesh, listViewMesh);
 						CrossRefAddItem(crossRefMaterialTextures[id], crossRefMaterialTexturesCount, listViewMaterialTexture, listViewTexture);
@@ -1551,7 +1560,7 @@ namespace SB3Utility
 					int id = (int)e.Item.Tag;
 					if (e.IsSelected)
 					{
-						tabControlViews.SelectedTab = tabPageTextureView;
+						tabControlViews.SelectTabWithoutLoosingFocus(tabPageTextureView);
 						LoadTexture(id);
 						CrossRefAddItem(crossRefTextureMeshes[id], crossRefTextureMeshesCount, listViewTextureMesh, listViewMesh);
 						CrossRefAddItem(crossRefTextureMaterials[id], crossRefTextureMaterialsCount, listViewTextureMaterial, listViewMaterial);
@@ -3086,6 +3095,11 @@ namespace SB3Utility
 		private void closeToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			this.Close();
+		}
+
+		private void keepBackupToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+		{
+			Gui.Config["KeepBackupOfXX"] = keepBackupToolStripMenuItem.Checked;
 		}
 	}
 }

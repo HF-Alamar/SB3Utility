@@ -25,10 +25,33 @@ namespace SB3Utility
 
 		public Device Device { get; protected set; }
 
-		public bool ShowNormals { get; set; }
-		public bool ShowBones { get; set; }
-		public bool Wireframe { get; set; }
-		public bool Culling { get; set; }
+		bool showNormals;
+		public bool ShowNormals
+		{
+			get { return showNormals; }
+			set { Gui.Config["showNormals"] = showNormals = value; }
+		}
+
+		bool showBones;
+		public bool ShowBones
+		{
+			get { return showBones; }
+			set { Gui.Config["ShowBones"] = showBones = value; }
+		}
+
+		bool wireframe;
+		public bool Wireframe
+		{
+			get { return wireframe; }
+			set { Gui.Config["Wireframe"] = wireframe = value; }
+		}
+
+		bool culling;
+		public bool Culling
+		{
+			get { return culling; }
+			set { Gui.Config["Culling"] = culling = value; }
+		}
 
 		public Color Background { get; set; }
 
@@ -44,6 +67,7 @@ namespace SB3Utility
 				Light light = Device.GetLight(0);
 				light.Diffuse = new Color4(value);
 				Device.SetLight(0, light);
+				Gui.Config["LightDiffuseARGB"] = value.ToArgb().ToString("X8");
 			}
 		}
 
@@ -59,6 +83,7 @@ namespace SB3Utility
 				Light light = Device.GetLight(0);
 				light.Ambient = new Color4(value);
 				Device.SetLight(0, light);
+				Gui.Config["LightAmbientARGB"] = value.ToArgb().ToString("X8");
 			}
 		}
 
@@ -74,6 +99,7 @@ namespace SB3Utility
 				Light light = Device.GetLight(0);
 				light.Specular = new Color4(value);
 				Device.SetLight(0, light);
+				Gui.Config["LightSpecularARGB"] = value.ToArgb().ToString("X8");
 			}
 		}
 
@@ -147,9 +173,9 @@ namespace SB3Utility
 
 			Light light = new Light();
 			light.Type = LightType.Directional;
-			light.Ambient = new Color4(1, 0.3f, 0.3f, 0.3f);
-			light.Diffuse = new Color4(1, 0.6f, 0.6f, 0.6f);
-			light.Specular = new Color4(1, 1, 1, 1);
+			light.Ambient = new Color4(int.Parse((string)Gui.Config["LightAmbientARGB"], System.Globalization.NumberStyles.AllowHexSpecifier));
+			light.Diffuse = new Color4(int.Parse((string)Gui.Config["LightDiffuseARGB"], System.Globalization.NumberStyles.AllowHexSpecifier));
+			light.Specular = new Color4(int.Parse((string)Gui.Config["LightSpecularARGB"], System.Globalization.NumberStyles.AllowHexSpecifier));
 			Device.SetLight(0, light);
 			Device.EnableLight(0, true);
 
@@ -161,7 +187,10 @@ namespace SB3Utility
 			CursorMaterial.Ambient = new Color4(1, 1f, 1f, 1f);
 			CursorMaterial.Diffuse = new Color4(1, 0.6f, 1, 0.3f);
 
-			Culling = true;
+			showNormals = (bool)Gui.Config["ShowNormals"];
+			showBones = (bool)Gui.Config["ShowBones"];
+			wireframe = (bool)Gui.Config["Wireframe"];
+			culling = (bool)Gui.Config["Culling"];
 			Background = Color.FromArgb(255, 10, 10, 60);
 
 			isInitialized = true;
@@ -319,12 +348,24 @@ namespace SB3Utility
 		public void CenterView()
 		{
 			BoundingBox bounds = new BoundingBox();
+			bool first = true;
 			foreach (var pair in renderObjects)
 			{
-				bounds = BoundingBox.Merge(bounds, pair.Value.Bounds);
+				if (first)
+				{
+					bounds = pair.Value.Bounds;
+					first = false;
+				}
+				else
+				{
+					bounds = BoundingBox.Merge(bounds, pair.Value.Bounds);
+				}
 			}
 
 			Vector3 center = (bounds.Minimum + bounds.Maximum) / 2;
+			float radius = Math.Max(bounds.Maximum.X - bounds.Minimum.X, bounds.Maximum.Y - bounds.Minimum.Y);
+			radius = Math.Max(radius, bounds.Maximum.Z - bounds.Minimum.Z) * 1.7f;
+			camera.radius = radius;
 			camera.SetTarget(center);
 			Render();
 		}
@@ -406,9 +447,9 @@ namespace SB3Utility
 
 				Light light = new Light();
 				light.Type = LightType.Directional;
-				light.Ambient = new Color4(1, 0.3f, 0.3f, 0.3f);
-				light.Diffuse = new Color4(1, 0.6f, 0.6f, 0.6f);
-				light.Specular = new Color4(1, 1, 1, 1);
+				light.Ambient = new Color4(int.Parse((string)Gui.Config["LightAmbientARGB"], System.Globalization.NumberStyles.AllowHexSpecifier));
+				light.Diffuse = new Color4(int.Parse((string)Gui.Config["LightDiffuseARGB"], System.Globalization.NumberStyles.AllowHexSpecifier));
+				light.Specular = new Color4(int.Parse((string)Gui.Config["LightSpecularARGB"], System.Globalization.NumberStyles.AllowHexSpecifier));
 				Device.SetLight(0, light);
 				Device.EnableLight(0, true);
 
@@ -610,7 +651,12 @@ namespace SB3Utility
 		public Vector3 target = new Vector3(0, 0, 0);
 		private Vector3 upVector = new Vector3(0, 1, 0);
 
-		public float Sensitivity { get; set; }
+		float sensitivity;
+		public float Sensitivity
+		{
+			get { return sensitivity; }
+			set { Gui.Config["Sensitivity"] = sensitivity = value; }
+		}
 
 		private float nearClip = 0.01f;
 		private float farClip = 100000f;
@@ -624,7 +670,7 @@ namespace SB3Utility
 		public Camera(Control renderControl)
 		{
 			RenderControl = renderControl;
-			Sensitivity = 0.01f;
+			Sensitivity = (float)Gui.Config["Sensitivity"];
 			UpdatePosition();
 		}
 

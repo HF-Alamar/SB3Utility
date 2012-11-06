@@ -23,6 +23,13 @@ namespace SB3Utility
 			}
 		}
 
+		public static void SelectTabWithoutLoosingFocus(this TabControl tab, TabPage newTab)
+		{
+			tab.Enabled = false;
+			tab.SelectedTab = newTab;
+			tab.Enabled = true;
+		}
+
 		public static string GenericName(this Type type)
 		{
 			string s = String.Empty;

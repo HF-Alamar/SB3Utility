@@ -528,7 +528,7 @@ namespace SB3Utility
 			}
 		}
 
-		private static class ExporterCommon
+		public static class ExporterCommon
 		{
 			public static void WriteMeshObject(StreamWriter writer, List<ImportedVertex> vertexList, List<ImportedFace> faceList, int mqoMatIdx, bool[] colorVertex)
 			{

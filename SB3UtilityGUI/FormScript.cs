@@ -50,6 +50,11 @@ namespace SB3Utility
 				ScriptMain.LoadPlugin(plugin.FullName);
 			}
 
+			captureCommandsToolStripMenuItem.Checked = (bool)Gui.Config["CaptureCommands"];
+			captureCommandsToolStripMenuItem.CheckedChanged += captureCommandsToolStripMenuItem_CheckedChanged;
+
+			autosaveToolStripMenuItem.Checked = (bool)Gui.Config["AutosaveCommands"];
+			autosaveToolStripMenuItem.CheckedChanged += autosaveToolStripMenuItem_CheckedChanged;
 			if (autosaveToolStripMenuItem.Checked)
 			{
 				InitAutosave();
@@ -222,8 +227,14 @@ namespace SB3Utility
 			}
 		}
 
+		private void captureCommandsToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+		{
+			Gui.Config["CaptureCommands"] = captureCommandsToolStripMenuItem.Checked;
+		}
+
 		private void autosaveToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
 		{
+			Gui.Config["AutosaveCommands"] = autosaveToolStripMenuItem.Checked;
 			try
 			{
 				if (autosaveToolStripMenuItem.Checked)

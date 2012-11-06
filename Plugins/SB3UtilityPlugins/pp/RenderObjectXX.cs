@@ -48,7 +48,14 @@ namespace SB3Utility
 
 			for (int i = 0; i < meshFrames.Count; i++)
 			{
-				Bounds = BoundingBox.Merge(Bounds, meshFrames[i].Bounds);
+				if (i == 0)
+				{
+					Bounds = meshFrames[i].Bounds;
+				}
+				else
+				{
+					Bounds = BoundingBox.Merge(Bounds, meshFrames[i].Bounds);
+				}
 			}
 		}
 

@@ -74,6 +74,10 @@ namespace SB3Utility
 				{
 					result = Double.Parse(literal.Value);
 				}
+				else if (literal.Type == ExprType.HexInt)
+				{
+					result = Int32.Parse(literal.Value, System.Globalization.NumberStyles.AllowHexSpecifier);
+				}
 				else if (literal.Type == ExprType.Null)
 				{
 				}

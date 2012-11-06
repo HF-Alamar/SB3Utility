@@ -42,6 +42,7 @@ namespace SB3Utility
 		Bool,
 		Null,
 		Number,
+		HexInt,
 
 		DotInstanceDefault,
 		DotInstance,
@@ -73,6 +74,7 @@ namespace SB3Utility
 			Name,
 			String,
 			Number,
+			HexInt,
 			HexOrIndex,
 			Dot,
 			Comma,
@@ -299,11 +301,15 @@ namespace SB3Utility
 				else if (Char.IsDigit(c))
 				{
 					var sb = new StringBuilder();
-					sb.Append(c);
+					bool hex = c == '0' && (char)reader.Peek() == 'x';
+					if (hex)
+						reader.Read(ref line, ref column);
+					else
+						sb.Append(c);
 					while (!reader.EndOfStream && (reader.Peek() != -1))
 					{
 						c = (char)reader.Peek();
-						if (Char.IsDigit(c))
+						if (Char.IsDigit(c) || hex && (c >= 'A' && c <= 'F' || c >= 'a' && c <= 'f'))
 						{
 							sb.Append(c);
 							reader.Read(ref line, ref column);
@@ -313,7 +319,7 @@ namespace SB3Utility
 							break;
 						}
 					}
-					tokens.Add(new Token(sb.ToString(), TokenType.Number, scriptName, line, column));
+					tokens.Add(new Token(sb.ToString(), hex ? TokenType.HexInt : TokenType.Number, scriptName, line, column));
 				}
 				else if (c == '.')
 				{
@@ -740,7 +746,11 @@ namespace SB3Utility
 		Expr GetNumber(List<Token> tokens, ref int tokenIdx)
 		{
 			Expr result = null;
-			if ((tokenIdx < tokens.Count) && (tokens[tokenIdx].Type == TokenType.Number))
+			if (tokens[tokenIdx].Type == TokenType.HexInt)
+			{
+				result = new Literal(ExprType.HexInt, tokens[tokenIdx++].Value);
+			}
+			else if ((tokenIdx < tokens.Count) && (tokens[tokenIdx].Type == TokenType.Number))
 			{
 				Token token = tokens[tokenIdx];
 				tokenIdx++;

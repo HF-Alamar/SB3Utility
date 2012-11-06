@@ -37,6 +37,9 @@ namespace SB3Utility
 
 			cullingToolStripMenuItem.Checked = Renderer.Culling;
 			cullingToolStripMenuItem.CheckedChanged += new EventHandler(cullingToolStripMenuItem_CheckedChanged);
+
+			centerViewAutomaticallyToolStripMenuItem.Checked = (bool)Gui.Config["AutoCenterView"];
+			centerViewAutomaticallyToolStripMenuItem.CheckedChanged += centerViewAutomaticallyToolStripMenuItem_CheckChanged;
 		}
 
 		void CustomDispose()
@@ -121,6 +124,11 @@ namespace SB3Utility
 				Renderer.Background = colorDialog1.Color;
 				Renderer.Render();
 			}
+		}
+
+		private void centerViewAutomaticallyToolStripMenuItem_CheckChanged(object sender, EventArgs e)
+		{
+			Gui.Config["AutoCenterView"] = centerViewAutomaticallyToolStripMenuItem.Checked;
 		}
 	}
 }

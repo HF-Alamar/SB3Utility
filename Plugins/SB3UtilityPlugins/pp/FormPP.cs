@@ -82,6 +82,9 @@ namespace SB3Utility
 						}
 					}
 				}
+
+				keepBackupToolStripMenuItem.Checked = (bool)Gui.Config["KeepBackupOfPP"];
+				keepBackupToolStripMenuItem.CheckedChanged += keepBackupToolStripMenuItem_CheckedChanged;
 			}
 			catch (Exception ex)
 			{
@@ -602,7 +605,7 @@ namespace SB3Utility
 						removed = true;
 					}
 				}
-				else if (tabControlSubfiles.SelectedTab == tabPageSoundFiles)
+				else if (tabControlSubfiles.SelectedTab == tabPageSoundSubfiles)
 				{
 					foreach (ListViewItem item in soundSubfilesList.SelectedItems)
 					{
@@ -659,7 +662,7 @@ namespace SB3Utility
 						item = imageSubfilesList.SelectedItems[0];
 					}
 				}
-				else if (tabControlSubfiles.SelectedTab == tabPageSoundFiles)
+				else if (tabControlSubfiles.SelectedTab == tabPageSoundSubfiles)
 				{
 					if (soundSubfilesList.SelectedItems.Count > 0)
 					{
@@ -772,7 +775,7 @@ namespace SB3Utility
 					{
 						subfilesList = imageSubfilesList;
 					}
-					else if (tabControlSubfiles.SelectedTab == tabPageSoundFiles)
+					else if (tabControlSubfiles.SelectedTab == tabPageSoundSubfiles)
 					{
 						subfilesList = soundSubfilesList;
 					}
@@ -806,6 +809,11 @@ namespace SB3Utility
 			{
 				Utility.ReportException(ex);
 			}
+		}
+
+		private void keepBackupToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+		{
+			Gui.Config["KeepBackupOfPP"] = keepBackupToolStripMenuItem.Checked;
 		}
 	}
 }

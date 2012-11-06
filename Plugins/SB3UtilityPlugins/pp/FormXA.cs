@@ -843,13 +843,13 @@ namespace SB3Utility
 					path = path.Substring(0, path.Length - 3);
 				}
 				path += @"\" + Path.GetFileNameWithoutExtension(this.ToolTipText);
-				DirectoryInfo dir = new DirectoryInfo(path);
 				if (radioButtonMorphExportFormatMqo.Checked)
 				{
 					Gui.Scripting.RunScript("ExportMorphMqo(dirPath=\"" + path + "\", xxparser=" + xxParserVar + ", meshFrame=" + xxEditorVar + ".Frames[" + meshFrameId + "], xaparser=" + this.ParserVar + ", clip="+ this.ParserVar + ".MorphSection.ClipList[" + clipIdx + "])");
 				}
 				else
 				{
+					DirectoryInfo dir = new DirectoryInfo(path);
 					path = Utility.GetDestFile(dir, clip.MeshName + "-" + clip.Name + "-", ".fbx");
 					Gui.Scripting.RunScript("ExportMorphFbx(xxparser=" + xxParserVar + ", path=\"" + path + "\", meshFrame=" + xxEditorVar + ".Frames[" + meshFrameId + "], xaparser=" + this.ParserVar + ", morphClip=" + this.ParserVar + ".MorphSection.ClipList[" + clipIdx + "], exportFormat=\"" + ".fbx" + "\")");
 				}
