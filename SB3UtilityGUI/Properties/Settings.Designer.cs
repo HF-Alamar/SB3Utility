@@ -172,5 +172,25 @@ namespace SB3Utility.Properties {
                 return ((string)(this["LightSpecularARGB"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool FbxImportAnimationEulerFilter {
+            get {
+                return ((bool)(this["FbxImportAnimationEulerFilter"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.25")]
+        public float FbxImportAnimationFilterPrecision {
+            get {
+                return ((float)(this["FbxImportAnimationFilterPrecision"]));
+            }
+        }
     }
 }

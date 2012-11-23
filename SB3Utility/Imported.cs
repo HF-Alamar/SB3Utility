@@ -134,4 +134,70 @@ namespace SB3Utility
 		public string Name { get; set; }
 		public List<ImportedVertex> VertexList { get; set; }
 	}
+
+	public static class ImportedHelpers
+	{
+		public static ImportedFrame FindFrame(String name, ImportedFrame root)
+		{
+			ImportedFrame frame = root;
+			if ((frame != null) && (frame.Name == name))
+			{
+				return frame;
+			}
+
+			for (int i = 0; i < root.Count; i++)
+			{
+				if ((frame = FindFrame(name, root[i])) != null)
+				{
+					return frame;
+				}
+			}
+
+			return null;
+		}
+
+		public static ImportedMesh FindMesh(String frameName, IImported imported)
+		{
+			foreach (ImportedMesh mesh in imported.MeshList)
+			{
+				if (mesh.Name == frameName)
+				{
+					return mesh;
+				}
+			}
+
+			return null;
+		}
+
+		public static ImportedMaterial FindMaterial(String name, IImported imported)
+		{
+			foreach (ImportedMaterial mat in imported.MaterialList)
+			{
+				if (mat.Name == name)
+				{
+					return mat;
+				}
+			}
+
+			return null;
+		}
+
+		public static ImportedTexture FindTexture(String name, IImported imported)
+		{
+			if (name == null || name == String.Empty)
+			{
+				return null;
+			}
+
+			foreach (ImportedTexture tex in imported.TextureList)
+			{
+				if (tex.Name == name)
+				{
+					return tex;
+				}
+			}
+
+			return null;
+		}
+	}
 }

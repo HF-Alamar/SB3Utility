@@ -170,6 +170,43 @@ namespace SB3Utility
 		}
 	}
 
+	void Fbx::InterpolateKeyframes(List<Tuple<ImportedAnimationTrack^, array<ImportedAnimationKeyframe^>^>^>^ extendedTrackList, int resampleCount, bool linear)
+	{
+		KFbxSdkManager* pSdkManager = NULL;
+		KFbxScene* pScene = NULL;
+		pin_ptr<KFbxSdkManager*> pSdkManagerPin = &pSdkManager;
+		pin_ptr<KFbxScene*> pScenePin = &pScene;
+		Init(pSdkManagerPin, pScenePin);
+
+		KFbxAnimStack* pAnimStack = KFbxAnimStack::Create(pScene, NULL);
+		KFbxAnimLayer* pAnimLayer = KFbxAnimLayer::Create(pScene, NULL);
+		pAnimStack->AddMember(pAnimLayer);
+
+		KFbxTypedProperty<fbxDouble3> scale = KFbxProperty::Create(pScene, DTDouble3, InterpolationHelper::pScaleName);
+		KFbxTypedProperty<fbxDouble3> rotate = KFbxProperty::Create(pScene, DTDouble3, InterpolationHelper::pRotateName);
+		KFbxTypedProperty<fbxDouble3> translate = KFbxProperty::Create(pScene, DTDouble3, InterpolationHelper::pTranslateName);
+		InterpolationHelper^ interpolationHelper = gcnew InterpolationHelper(pScene, pAnimLayer, linear ? KFbxAnimCurveDef::eINTERPOLATION_LINEAR : KFbxAnimCurveDef::eINTERPOLATION_CUBIC, &scale, &rotate, &translate);
+
+		KTime time;
+		float animationLen = (float)(resampleCount - 1);
+		for each (Tuple<ImportedAnimationTrack^, array<ImportedAnimationKeyframe^>^>^ tuple in extendedTrackList)
+		{
+			ImportedAnimationTrack^ wsTrack = tuple->Item1;
+			array<ImportedAnimationKeyframe^>^ interpolatedKeyframes = interpolationHelper->InterpolateTrack(wsTrack->Keyframes, resampleCount);
+			array<ImportedAnimationKeyframe^>^ newKeyframes = tuple->Item2;
+			interpolatedKeyframes->CopyTo(newKeyframes, 0);
+		}
+
+		if (pScene != NULL)
+		{
+			pScene->Destroy();
+		}
+		if (pSdkManager != NULL)
+		{
+			pSdkManager->Destroy();
+		}
+	}
+
 	Fbx::InterpolationHelper::InterpolationHelper(KFbxScene* scene, KFbxAnimLayer* layer, KFbxAnimCurveDef::EInterpolationType interpolationMethod,
 			KFbxTypedProperty<fbxDouble3>* scale, KFbxTypedProperty<fbxDouble3>* rotate, KFbxTypedProperty<fbxDouble3>* translate)
 	{
@@ -251,6 +288,53 @@ namespace SB3Utility
 			newKeyframe->Translation = t;
 
 			newKeyframes->Add(newKeyframe);
+		}
+
+		for each (KFbxAnimCurve* pCurve in allCurves)
+		{
+			pCurve->KeyClear();
+		}
+
+		return newKeyframes;
+	}
+
+	array<ImportedAnimationKeyframe^>^ Fbx::InterpolationHelper::InterpolateTrack(array<ImportedAnimationKeyframe^>^ keyframes, int resampleCount)
+	{
+		KTime time;
+		float animationLen = (float)(resampleCount - 1);
+
+		int endIdx = keyframes->Length - 1;
+		for (int i = 0; i < keyframes->Length; i++)
+		{
+			ImportedAnimationKeyframe^ keyframe = keyframes[i];
+			if (keyframe == nullptr)
+				continue;
+
+			time.SetSecondDouble(i);
+
+			Vector3 s = keyframe->Scaling;
+			ADD_KEY_VECTOR3(pScaleCurveX, pScaleCurveY, pScaleCurveZ, time, s, interpolationMethod);
+			Vector3 r = QuaternionToEuler(keyframe->Rotation);
+			ADD_KEY_VECTOR3(pRotateCurveX, pRotateCurveY, pRotateCurveZ, time, r, interpolationMethod);
+			Vector3 t = keyframe->Translation;
+			ADD_KEY_VECTOR3(pTranslateCurveX, pTranslateCurveY, pTranslateCurveZ, time, t, interpolationMethod);
+		}
+
+		array<ImportedAnimationKeyframe^>^ newKeyframes = gcnew array<ImportedAnimationKeyframe^>(resampleCount);
+		for (int i = 0; i < resampleCount; i++)
+		{
+			ImportedAnimationKeyframe^ newKeyframe = gcnew ImportedAnimationKeyframe();
+
+			time.SetSecondDouble(i * endIdx / animationLen);
+			Vector3 s, r, t;
+			ASSIGN_CHANNEL_VALUES(*scale, time, s);
+			newKeyframe->Scaling = s;
+			ASSIGN_CHANNEL_VALUES(*rotate, time, r);
+			newKeyframe->Rotation = EulerToQuaternion(r);
+			ASSIGN_CHANNEL_VALUES(*translate, time, t);
+			newKeyframe->Translation = t;
+
+			newKeyframes[i] = newKeyframe;
 		}
 
 		for each (KFbxAnimCurve* pCurve in allCurves)

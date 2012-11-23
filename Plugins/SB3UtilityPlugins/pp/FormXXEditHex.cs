@@ -93,20 +93,26 @@ namespace SB3Utility
 					int[] cellPath = gotoCells[i];
 					int tabId = cellPath[0];
 					int meshId = cellPath[1];
-					tabControl1.SelectedIndex = tabId;
-					var gridView = gridViews[tabId];
-					gridView.CurrentCell = gridView.Rows[meshId].Cells[1];
-
-					if (gridView == dataGridViewEditorMesh)
+					try
 					{
-						int submeshId = 0;
-						for (int j = 1; j < meshId; j++)
-						{
-							submeshId += editor.Meshes[j].Mesh.SubmeshList.Count;
-						}
-						submeshId++;
+						tabControl1.SelectedIndex = tabId;
+						var gridView = gridViews[tabId];
+						gridView.CurrentCell = gridView.Rows[meshId].Cells[1];
 
-						dataGridViewEditorSubmesh.CurrentCell = dataGridViewEditorSubmesh.Rows[submeshId].Cells[1];
+						if (gridView == dataGridViewEditorMesh)
+						{
+							int submeshId = 0;
+							for (int j = 0; j < meshId; j++)
+							{
+								submeshId += editor.Meshes[j].Mesh.SubmeshList.Count;
+							}
+
+							dataGridViewEditorSubmesh.CurrentCell = dataGridViewEditorSubmesh.Rows[submeshId].Cells[1];
+						}
+					}
+					catch (Exception ex)
+					{
+						Utility.ReportException(ex);
 					}
 				}
 			}

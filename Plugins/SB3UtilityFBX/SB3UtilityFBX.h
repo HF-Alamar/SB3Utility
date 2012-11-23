@@ -21,6 +21,7 @@ namespace SB3Utility {
 		static Vector3 QuaternionToEuler(Quaternion q);
 		static Quaternion EulerToQuaternion(Vector3 v);
 		static void InterpolateKeyframes(List<Tuple<ImportedAnimationTrack^, array<xaAnimationKeyframe^>^>^>^ extendedTrackList, int resampleCount);
+		static void InterpolateKeyframes(List<Tuple<ImportedAnimationTrack^, array<ImportedAnimationKeyframe^>^>^>^ extendedTrackList, int resampleCount, bool linear);
 
 		ref class Importer : IImported
 		{
@@ -32,7 +33,7 @@ namespace SB3Utility {
 			virtual property List<ImportedAnimation^>^ AnimationList;
 			virtual property List<ImportedMorph^>^ MorphList;
 
-			Importer(String^ path);
+			Importer(String^ path, bool EulerFilter, float filterPrecision);
 
 		private:
 			KArrayTemplate<KFbxSurfacePhong*>* pMaterials;
@@ -43,6 +44,10 @@ namespace SB3Utility {
 			KFbxSdkManager* pSdkManager;
 			KFbxScene* pScene;
 			KFbxImporter* pImporter;
+
+			KFbxAnimCurveFilterUnroll* lFilter;
+			bool EulerFilter;
+			float filterPrecision;
 
 			void ImportNode(ImportedFrame^ parent, KFbxNode* pNode);
 			ImportedFrame^ ImportFrame(ImportedFrame^ parent, KFbxNode* pNode);
@@ -76,12 +81,16 @@ namespace SB3Utility {
 			static void Export(String^ path, xxParser^ xxParser, List<xxFrame^>^ meshParents, List<xaParser^>^ xaSubfileList, int startKeyframe, int endKeyframe, bool linear, String^ exportFormat, bool allFrames, bool skins);
 			static void ExportMorph(String^ path, xxParser^ xxParser, xxFrame^ meshFrame, xaMorphClip^ morphClip, xaParser^ xaparser, String^ exportFormat);
 
+			static void Export(String^ path, IImported^ imported, int startKeyframe, int endKeyframe, bool linear, bool EulerFilter, float filterPrecision, String^ exportFormat, bool allFrames, bool skins);
+
 		private:
 			HashSet<String^>^ frameNames;
 			HashSet<String^>^ meshNames;
 			List<xxFrame^>^ meshFrames;
 			bool exportSkins;
 			xxParser^ xxparser;
+
+			IImported^ imported;
 
 			char* cDest;
 			char* cFormat;
@@ -102,6 +111,15 @@ namespace SB3Utility {
 			void SetJoints();
 			void SetJointsNode(KFbxNode* pNode, HashSet<String^>^ boneNames);
 			void ExportMorphs(xxFrame^ baseFrame, xaMorphClip^ morphClip, xaParser^ xaparser);
+
+			Exporter(String^ path, IImported^ imported, String^ exportFormat, bool allFrames, bool skins);
+			HashSet<String^>^ SearchHierarchy();
+			void SearchHierarchy(ImportedFrame^ frame, HashSet<String^>^ exportFrames);
+			void SetJointsFromImportedMeshes();
+			void ExportFrame(KFbxNode* pParentNode, ImportedFrame^ frame);
+			void ExportMesh(KFbxNode* pFrameNode, ImportedMesh^ meshList);
+			KFbxFileTexture* ExportTexture(ImportedTexture^ matTex, KFbxLayerElementTexture*& pTextureLayer, KFbxMesh* pMesh);
+			void ExportAnimations(int startKeyframe, int endKeyframe, bool linear, bool EulerFilter, float filterValue);
 		};
 
 	private:
@@ -129,6 +147,7 @@ namespace SB3Utility {
 			InterpolationHelper(KFbxScene* scene, KFbxAnimLayer* layer, KFbxAnimCurveDef::EInterpolationType interpolationMethod,
 				KFbxTypedProperty<fbxDouble3>* scale, KFbxTypedProperty<fbxDouble3>* rotate, KFbxTypedProperty<fbxDouble3>* translate);
 			List<xaAnimationKeyframe^>^ InterpolateTrack(List<xaAnimationKeyframe^>^ keyframes, int resampleCount);
+			array<ImportedAnimationKeyframe^>^ InterpolateTrack(array<ImportedAnimationKeyframe^>^ keyframes, int resampleCount);
 		};
 
 		static char* StringToCharArray(String^ s);

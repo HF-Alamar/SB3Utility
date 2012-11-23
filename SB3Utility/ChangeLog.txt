@@ -1,4 +1,7 @@
-﻿[0.4.42.22]
+﻿[0.4.42.24]
+  - changing defaults to "Copy Nearest" for normals/bones for imported meshes without normals/bones (XX, ODF, REM)
+
+[0.4.42.22]
   - prevented loosing keyboard focus in image lists (pp subfiles, image file lists, fpk subfiles)
   - nearly all GUI elements can be tabbed
   - assert visibility of the Renderer when selecting a mesh

@@ -23,6 +23,9 @@
     <ClCompile Include="SB3UtilityFBXImporter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ImportedFBXExporter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SB3UtilityFBX.h">

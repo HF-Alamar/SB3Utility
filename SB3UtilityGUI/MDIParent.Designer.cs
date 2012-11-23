@@ -68,6 +68,10 @@
 			this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+			this.fbxImportAnimationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.filterPrecisionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.eulerFilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripEditTextBoxFilterPrecision = new SB3Utility.ToolStripEditTextBox();
 			this.menuStrip.SuspendLayout();
 			this.statusStrip.SuspendLayout();
 			this.SuspendLayout();
@@ -186,7 +190,8 @@
 			// optionsToolStripMenuItem
 			// 
 			this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.pluginsToolStripMenuItem});
+            this.pluginsToolStripMenuItem,
+            this.fbxImportAnimationToolStripMenuItem});
 			this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
 			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
 			this.optionsToolStripMenuItem.Text = "&Options";
@@ -194,7 +199,7 @@
 			// pluginsToolStripMenuItem
 			// 
 			this.pluginsToolStripMenuItem.Name = "pluginsToolStripMenuItem";
-			this.pluginsToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+			this.pluginsToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
 			this.pluginsToolStripMenuItem.Text = "&Plugins";
 			this.pluginsToolStripMenuItem.Click += new System.EventHandler(this.settingsPluginsToolStripMenuItem_Click);
 			// 
@@ -312,6 +317,37 @@
 			this.openFileDialog1.Multiselect = true;
 			this.openFileDialog1.RestoreDirectory = true;
 			// 
+			// fbxImportAnimationToolStripMenuItem
+			// 
+			this.fbxImportAnimationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.eulerFilterToolStripMenuItem,
+            this.filterPrecisionToolStripMenuItem});
+			this.fbxImportAnimationToolStripMenuItem.Name = "fbxImportAnimationToolStripMenuItem";
+			this.fbxImportAnimationToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+			this.fbxImportAnimationToolStripMenuItem.Text = "Fbx Import Animation";
+			// 
+			// filterPrecisionToolStripMenuItem
+			// 
+			this.filterPrecisionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripEditTextBoxFilterPrecision});
+			this.filterPrecisionToolStripMenuItem.Name = "filterPrecisionToolStripMenuItem";
+			this.filterPrecisionToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.filterPrecisionToolStripMenuItem.Text = "Filter Precision";
+			// 
+			// eulerFilterToolStripMenuItem
+			// 
+			this.eulerFilterToolStripMenuItem.Checked = global::SB3Utility.Properties.Settings.Default.FbxImportAnimationEulerFilter;
+			this.eulerFilterToolStripMenuItem.CheckOnClick = true;
+			this.eulerFilterToolStripMenuItem.Name = "eulerFilterToolStripMenuItem";
+			this.eulerFilterToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.eulerFilterToolStripMenuItem.Text = "Euler Filter";
+			// 
+			// toolStripEditTextBoxFilterPrecision
+			// 
+			this.toolStripEditTextBoxFilterPrecision.Name = "toolStripEditTextBoxFilterPrecision";
+			this.toolStripEditTextBoxFilterPrecision.Size = new System.Drawing.Size(100, 21);
+			this.toolStripEditTextBoxFilterPrecision.Text = "0.25";
+			// 
 			// MDIParent
 			// 
 			this.AllowDrop = true;
@@ -365,6 +401,10 @@
 		private System.Windows.Forms.ToolStripMenuItem viewScriptToolStripMenuItem;
 		private System.Windows.Forms.OpenFileDialog openFileDialog1;
 		private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem fbxImportAnimationToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem eulerFilterToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem filterPrecisionToolStripMenuItem;
+		private ToolStripEditTextBox toolStripEditTextBoxFilterPrecision;
 	}
 }
 

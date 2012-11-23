@@ -1867,6 +1867,36 @@ namespace SB3Utility
 						}
 						dragOptions.numericMeshId.Value = destFrameId;
 
+						bool normalsCopyNear = false;
+						bool bonesCopyNear = false;
+						if (srcEditor.Meshes != null)
+						{
+							normalsCopyNear = true;
+							bonesCopyNear = true;
+							foreach (ImportedMesh mesh in srcEditor.Meshes)
+							{
+								foreach (ImportedSubmesh submesh in mesh.SubmeshList)
+								{
+									foreach (ImportedVertex vert in submesh.VertexList)
+									{
+										if (vert.Normal.X != 0f || vert.Normal.Y != 0f || vert.Normal.Z != 0f)
+										{
+											normalsCopyNear = false;
+											break;
+										}
+									}
+								}
+								if (mesh.BoneList != null && mesh.BoneList.Count > 0)
+								{
+									bonesCopyNear = false;
+								}
+							}
+						}
+						if (normalsCopyNear)
+							dragOptions.radioButtonNormalsCopyNear.Checked = true;
+						if (bonesCopyNear)
+							dragOptions.radioButtonBonesCopyNear.Checked = true;
+
 						if (dragOptions.ShowDialog() == DialogResult.OK)
 						{
 							// repeating only final choices for repeatability of the script

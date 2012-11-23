@@ -4,7 +4,7 @@
 
 namespace SB3Utility
 {
-	Fbx::Importer::Importer(String^ path)
+	Fbx::Importer::Importer(String^ path, bool EulerFilter, float filterPrecision)
 	{
 		String^ currentDir;
 
@@ -58,6 +58,8 @@ namespace SB3Utility
 				ImportNode(nullptr, pRootNode);
 			}
 
+			this->EulerFilter = EulerFilter;
+			this->filterPrecision = filterPrecision;
 			ImportAnimation();
 		}
 		finally
@@ -598,6 +600,11 @@ namespace SB3Utility
 
 	void Fbx::Importer::ImportAnimation()
 	{
+		if (EulerFilter)
+		{
+			lFilter = new KFbxAnimCurveFilterUnroll();
+		}
+
 		for (int i = 0; i < pScene->GetSrcObjectCount(FBX_TYPE(KFbxAnimStack)); i++)
 		{
 			KFbxAnimStack* pAnimStack = KFbxCast<KFbxAnimStack>(pScene->GetSrcObject(FBX_TYPE(KFbxAnimStack), i));
@@ -636,6 +643,18 @@ namespace SB3Utility
 			(pAnimCurveRX != NULL) && (pAnimCurveRY != NULL) && (pAnimCurveRZ != NULL) &&
 			(pAnimCurveSX != NULL) && (pAnimCurveSY != NULL) && (pAnimCurveSZ != NULL))
 		{
+			if (EulerFilter)
+			{
+				KFbxAnimCurve* lCurve [3];
+				lCurve[0] = pAnimCurveRX;
+				lCurve[1] = pAnimCurveRY;
+				lCurve[2] = pAnimCurveRZ;
+				lFilter->Reset();
+				lFilter->SetTestForPath(true);
+				lFilter->SetQualityTolerance(filterPrecision);
+				lFilter->Apply((KFbxAnimCurve**)lCurve, 3);
+			}
+
 			array<int>^ keyCount = gcnew array<int>(9) {
 				pAnimCurveSX->KeyGetCount(), pAnimCurveSY->KeyGetCount(), pAnimCurveSZ->KeyGetCount(),
 				pAnimCurveRX->KeyGetCount(), pAnimCurveRY->KeyGetCount(), pAnimCurveRZ->KeyGetCount(),
@@ -648,13 +667,18 @@ namespace SB3Utility
 				}
 			}
 
-			array<ImportedAnimationKeyframe^>^ keyArray = gcnew array<ImportedAnimationKeyframe^>(keyCount[0]);
+			KTime kTime = pAnimCurveSX->KeyGetTime(keyCount[0] - 1);
+			int keyIndex = (int)Math::Round((double)(kTime.GetSecondDouble() * 24.0), 0);
+			array<ImportedAnimationKeyframe^>^ keyArray = gcnew array<ImportedAnimationKeyframe^>(keyIndex + 1);
 			for (int i = 0; i < keyCount[0]; i++)
 			{
-				keyArray[i] = gcnew ImportedAnimationKeyframe();
-				keyArray[i]->Scaling = Vector3(pAnimCurveSX->KeyGetValue(i), pAnimCurveSY->KeyGetValue(i), pAnimCurveSZ->KeyGetValue(i));
-				keyArray[i]->Rotation = Fbx::EulerToQuaternion(Vector3(pAnimCurveRX->KeyGetValue(i), pAnimCurveRY->KeyGetValue(i), pAnimCurveRZ->KeyGetValue(i)));
-				keyArray[i]->Translation = Vector3(pAnimCurveTX->KeyGetValue(i), pAnimCurveTY->KeyGetValue(i), pAnimCurveTZ->KeyGetValue(i));
+				kTime = pAnimCurveSX->KeyGetTime(i);
+				keyIndex = (int)Math::Round((double)(kTime.GetSecondDouble() * 24.0), 0);
+				keyArray[keyIndex] = gcnew ImportedAnimationKeyframe();
+				keyArray[keyIndex]->Scaling = Vector3(pAnimCurveSX->KeyGetValue(i), pAnimCurveSY->KeyGetValue(i), pAnimCurveSZ->KeyGetValue(i));
+				Vector3 rotation = Vector3(pAnimCurveRX->KeyGetValue(i), pAnimCurveRY->KeyGetValue(i), pAnimCurveRZ->KeyGetValue(i));
+				keyArray[keyIndex]->Rotation = Fbx::EulerToQuaternion(rotation);
+				keyArray[keyIndex]->Translation = Vector3(pAnimCurveTX->KeyGetValue(i), pAnimCurveTY->KeyGetValue(i), pAnimCurveTZ->KeyGetValue(i));
 			}
 
 			ImportedAnimationTrack^ track = gcnew ImportedAnimationTrack();

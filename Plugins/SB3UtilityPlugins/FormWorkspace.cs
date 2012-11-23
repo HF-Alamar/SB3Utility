@@ -137,7 +137,13 @@ namespace SB3Utility
 							TreeNode trackNode = new TreeNode();
 							trackNode.Checked = animation.isTrackEnabled(track);
 							trackNode.Tag = track;
-							trackNode.Text = "Track: " + track.Name + ", Keyframes: " + track.Keyframes.Length;
+							int numKeyframes = 0;
+							foreach (ImportedAnimationKeyframe keyframe in track.Keyframes)
+							{
+								if (keyframe != null)
+									numKeyframes++;
+							}
+							trackNode.Text = "Track: " + track.Name + ", Keyframes: " + numKeyframes;
 							this.treeView.AddChild(node, trackNode);
 						}
 					}

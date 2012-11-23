@@ -147,10 +147,10 @@
 			this.buttonMeshMinBones = new System.Windows.Forms.Button();
 			this.MeshGotoFrame = new System.Windows.Forms.Button();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
-			this.panelMeshExportOptionsDefault = new System.Windows.Forms.Panel();
 			this.label28 = new System.Windows.Forms.Label();
 			this.comboBoxMeshExportFormat = new System.Windows.Forms.ComboBox();
 			this.buttonMeshExport = new System.Windows.Forms.Button();
+			this.panelMeshExportOptionsDefault = new System.Windows.Forms.Panel();
 			this.panelMeshExportOptionsDirectX = new System.Windows.Forms.Panel();
 			this.numericMeshExportDirectXTicksPerSecond = new System.Windows.Forms.NumericUpDown();
 			this.numericMeshExportDirectXKeyframeLength = new System.Windows.Forms.NumericUpDown();
@@ -403,6 +403,7 @@
 			this.radioButtonLinear.Name = "radioButtonLinear";
 			this.radioButtonLinear.Size = new System.Drawing.Size(54, 17);
 			this.radioButtonLinear.TabIndex = 269;
+			this.radioButtonLinear.TabStop = true;
 			this.radioButtonLinear.Text = "Linear";
 			this.toolTip1.SetToolTip(this.radioButtonLinear, "Keyframes are linear interpolated");
 			this.radioButtonLinear.UseVisualStyleBackColor = true;
@@ -1632,24 +1633,17 @@
 			this.groupBox2.Controls.Add(this.label28);
 			this.groupBox2.Controls.Add(this.comboBoxMeshExportFormat);
 			this.groupBox2.Controls.Add(this.buttonMeshExport);
+			this.groupBox2.Controls.Add(this.panelMeshExportOptionsFbx);
 			this.groupBox2.Controls.Add(this.panelMeshExportOptionsDefault);
 			this.groupBox2.Controls.Add(this.panelMeshExportOptionsDirectX);
 			this.groupBox2.Controls.Add(this.panelMeshExportOptionsCollada);
 			this.groupBox2.Controls.Add(this.panelMeshExportOptionsMqo);
-			this.groupBox2.Controls.Add(this.panelMeshExportOptionsFbx);
 			this.groupBox2.Location = new System.Drawing.Point(0, 42);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(253, 84);
 			this.groupBox2.TabIndex = 20;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Export Options";
-			// 
-			// panelMeshExportOptionsDefault
-			// 
-			this.panelMeshExportOptionsDefault.Location = new System.Drawing.Point(3, 40);
-			this.panelMeshExportOptionsDefault.Name = "panelMeshExportOptionsDefault";
-			this.panelMeshExportOptionsDefault.Size = new System.Drawing.Size(246, 39);
-			this.panelMeshExportOptionsDefault.TabIndex = 26;
 			// 
 			// label28
 			// 
@@ -1678,6 +1672,13 @@
 			this.buttonMeshExport.Text = "Export";
 			this.buttonMeshExport.UseVisualStyleBackColor = true;
 			this.buttonMeshExport.Click += new System.EventHandler(this.buttonMeshExport_Click);
+			// 
+			// panelMeshExportOptionsDefault
+			// 
+			this.panelMeshExportOptionsDefault.Location = new System.Drawing.Point(3, 40);
+			this.panelMeshExportOptionsDefault.Name = "panelMeshExportOptionsDefault";
+			this.panelMeshExportOptionsDefault.Size = new System.Drawing.Size(246, 39);
+			this.panelMeshExportOptionsDefault.TabIndex = 26;
 			// 
 			// panelMeshExportOptionsDirectX
 			// 

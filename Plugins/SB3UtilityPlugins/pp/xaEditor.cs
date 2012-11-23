@@ -49,11 +49,20 @@ namespace SB3Utility
 				if (!wsAnimation.isTrackEnabled(wsTrack))
 					continue;
 				xaAnimationKeyframe[] newKeyframes = new xaAnimationKeyframe[resampleCount];
-				if (wsTrack.Keyframes.Length == resampleCount)
+				int wsTrackKeyframesLength = 0;
+				for (int i = 0; i < wsTrack.Keyframes.Length; i++)
+				{
+					if (wsTrack.Keyframes[i] != null)
+						wsTrackKeyframesLength++;
+				}
+				if (wsTrackKeyframesLength == resampleCount)
 				{
 					for (int i = 0; i < wsTrack.Keyframes.Length; i++)
 					{
 						ImportedAnimationKeyframe keyframe = wsTrack.Keyframes[i];
+						if (keyframe == null)
+							continue;
+
 						newKeyframes[i] = new xaAnimationKeyframe();
 						newKeyframes[i].Index = i;
 						newKeyframes[i].Rotation = keyframe.Rotation;
@@ -64,7 +73,7 @@ namespace SB3Utility
 				}
 				else
 				{
-					if (wsTrack.Keyframes.Length < 1)
+					if (wsTrackKeyframesLength < 1)
 					{
 						xaAnimationKeyframe keyframe = new xaAnimationKeyframe();
 						keyframe.Rotation = Quaternion.Identity;
@@ -78,22 +87,8 @@ namespace SB3Utility
 							newKeyframes[i] = keyframe;
 						}
 					}
-					else if ((wsTrack.Keyframes.Length == 1) || (resampleCount == 1))
-					{
-						ImportedAnimationKeyframe keyframe = wsTrack.Keyframes[0];
-						for (int i = 0; i < newKeyframes.Length; i++)
-						{
-							newKeyframes[i] = new xaAnimationKeyframe();
-							newKeyframes[i].Index = i;
-							newKeyframes[i].Rotation = keyframe.Rotation;
-							xa.CreateUnknowns(newKeyframes[i]);
-							newKeyframes[i].Translation = keyframe.Translation;
-							newKeyframes[i].Scaling = keyframe.Scaling;
-						}
-					}
 					else
 					{
-						newKeyframes = new xaAnimationKeyframe[resampleCount];
 						interpolateTracks.Add(new Tuple<ImportedAnimationTrack, xaAnimationKeyframe[]>(wsTrack, newKeyframes));
 					}
 				}

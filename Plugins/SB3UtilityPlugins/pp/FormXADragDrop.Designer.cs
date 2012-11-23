@@ -300,8 +300,8 @@
 			this.ClientSize = new System.Drawing.Size(390, 192);
 			this.Controls.Add(this.buttonCancel);
 			this.Controls.Add(this.buttonOK);
-			this.Controls.Add(this.panelMorphList);
 			this.Controls.Add(this.panelAnimation);
+			this.Controls.Add(this.panelMorphList);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.Name = "FormXADragDrop";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
