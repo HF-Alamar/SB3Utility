@@ -673,6 +673,14 @@ namespace SB3Utility
 				Array.Copy(parser.Header, 5, headerBuf, 0, headerBuf.Length);
 				parser.Header = headerBuf;
 			}
+			if (destFormat >= 1)
+			{
+				MemoryStream stream = new MemoryStream(parser.Header);
+				using (BinaryWriter writer = new BinaryWriter(stream))
+				{
+					writer.Write(destFormat);
+				}
+			}
 
 			ConvertFormat(parser.Frame, srcFormat, destFormat);
 
@@ -860,6 +868,7 @@ namespace SB3Utility
 			vertShort.Index = vertex.Index;
 			vertShort.Position = vertex.Position;
 			vertShort.Weights3 = (float[])vertex.Weights3.Clone();
+			vertShort.BoneIndices = (byte[])vertex.BoneIndices.Clone();
 			vertShort.Normal = vertex.Normal;
 			vertShort.UV = (float[])vertex.UV.Clone();
 			vertShort.Unknown1 = new byte[20];
@@ -872,6 +881,7 @@ namespace SB3Utility
 			vertInt.Index = vertex.Index;
 			vertInt.Position = vertex.Position;
 			vertInt.Weights3 = (float[])vertex.Weights3.Clone();
+			vertInt.BoneIndices = (byte[])vertex.BoneIndices.Clone();
 			vertInt.Normal = vertex.Normal;
 			vertInt.UV = (float[])vertex.UV.Clone();
 			return vertInt;

@@ -1,5 +1,10 @@
-﻿[0.4.42.24]
+﻿[0.4.42.25]
+  - XX format conversion fixed
+
+[0.4.42.24]
   - changing defaults to "Copy Nearest" for normals/bones for imported meshes without normals/bones (XX, ODF, REM)
+  - Fbx got a second set of functions for keyframe interpolation, export and import which works with Imported structures.
+  - HET DTL support
 
 [0.4.42.22]
   - prevented loosing keyboard focus in image lists (pp subfiles, image file lists, fpk subfiles)
