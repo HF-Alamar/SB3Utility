@@ -13,6 +13,20 @@ using namespace System::IO;
 using namespace System::Runtime::InteropServices;
 using namespace SlimDX;
 
+#define WITH_MARSHALLED_STRING(name,str,block)\
+	{ \
+		char* name; \
+		try \
+		{ \
+			name = StringToCharArray(str); \
+			block \
+		} \
+		finally \
+		{ \
+			Marshal::FreeHGlobal((IntPtr)name); \
+		} \
+	}
+
 namespace SB3Utility {
 
 	public ref class Fbx

@@ -824,7 +824,23 @@ namespace SB3Utility
 			{
 				xaMorphKeyframe^ keyframe = xa::FindMorphKeyFrame(refList[i]->Name, morphSection);
 
-				KFbxShape* pShape = KFbxShape::Create(pScene, "");
+				KFbxBlendShape* lBlendShape;
+				WITH_MARSHALLED_STRING
+				(
+					pShapeName, "_" + i + "_" + keyframe->Name + "_BlendShape",
+					lBlendShape = KFbxBlendShape::Create(pScene, pShapeName);
+				);
+				KFbxBlendShapeChannel* lBlendShapeChannel = KFbxBlendShapeChannel::Create(pScene, "");
+				KFbxShape* pShape;
+				WITH_MARSHALLED_STRING
+				(
+					pMorphShapeName, keyframe->Name, \
+					pShape = KFbxShape::Create(pScene, pMorphShapeName);
+				);
+				lBlendShapeChannel->AddTargetShape(pShape);
+				lBlendShape->AddBlendShapeChannel(lBlendShapeChannel);
+				pBaseNode->GetChild(meshObjIdx)->GetMesh()->AddDeformer(lBlendShape);
+
 				pShape->InitControlPoints(vertList->Count);
 				KFbxVector4* pControlPoints = pShape->GetControlPoints();
 
@@ -854,17 +870,6 @@ namespace SB3Utility
 					pControlPoints[meshIndices[j]] = KFbxVector4(coords.X, coords.Y, coords.Z);
 					Vector3 normal = keyframe->NormalList[morphIndices[j]];
 					pLayerElementNormal->GetDirectArray().SetAt(meshIndices[j], KFbxVector4(normal.X, normal.Y, normal.Z));
-				}
-
-				char* pMorphShapeName = NULL;
-				try
-				{
-					pMorphShapeName = StringToCharArray(keyframe->Name);
-					pBaseNode->GetChild(meshObjIdx)->GetMesh()->AddShape(pShape, pMorphShapeName);
-				}
-				finally
-				{
-					Marshal::FreeHGlobal((IntPtr)pMorphShapeName);
 				}
 			}
 		}

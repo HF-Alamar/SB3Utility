@@ -1,4 +1,8 @@
-﻿[0.4.42.25]
+﻿[0.4.42.26]
+  - FBX morph imports didn't show the morph names. Export fixed, but the files cant be imported by the old SB3U.
+  - MQO morph export set wrong material index.
+
+[0.4.42.25]
   - XX format conversion fixed
 
 [0.4.42.24]

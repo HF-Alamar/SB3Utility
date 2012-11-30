@@ -779,7 +779,7 @@ namespace SB3Utility
 		{
 			KFbxNode* pNode = pMeshArray->GetAt(i);
 			KFbxMesh* pMesh = pNode->GetMesh();
-			int numShapes = pMesh->GetShapeCount();
+			int numShapes = pMesh->GetDeformerCount(KFbxDeformer::eBLENDSHAPE);
 			if (numShapes > 0)
 			{
 				ImportedMorph^ morphList = gcnew ImportedMorph();
@@ -796,11 +796,21 @@ namespace SB3Utility
 
 				for (int j = 0; j < numShapes; j++)
 				{
-					KFbxShape* pShape = pMesh->GetShape(j);
+					KFbxBlendShape* lBlendShape = (KFbxBlendShape*)pMesh->GetDeformer(j, KFbxDeformer::eBLENDSHAPE);
+					if (lBlendShape->GetBlendShapeChannelCount() != 1)
+					{
+						Report::ReportLog("Warning! " + clipName + "'s blendShape " + j + " has " + lBlendShape->GetBlendShapeChannelCount() + " channels. Channels beyond the first are ignored.");
+					}
+					KFbxBlendShapeChannel* lChannel = lBlendShape->GetBlendShapeChannel(0);
+					if (lChannel->GetTargetShapeCount() != 1)
+					{
+						Report::ReportLog("Warning! " + clipName + "'s blendChannel 0 has " + lChannel->GetTargetShapeCount() + " shapes. Shapes beyond the first are ignored.");
+					}
+					KFbxShape* pShape = lChannel->GetTargetShape(0);
 					ImportedMorphKeyframe^ morph = gcnew ImportedMorphKeyframe();
 					morphList->KeyframeList->Add(morph);
 
-					String^ shapeName = gcnew String(pMesh->GetShapeName(j));
+					String^ shapeName = gcnew String(pShape->GetName());
 					int shapeNameStartIdx = shapeName->LastIndexOf(".");
 					if (shapeNameStartIdx >= 0)
 					{

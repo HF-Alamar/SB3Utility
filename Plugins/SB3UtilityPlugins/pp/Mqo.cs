@@ -893,6 +893,8 @@ namespace SB3Utility
 						}
 						writer.WriteLine(s);
 						writer.WriteLine("}");
+
+						matIdx = 0;
 					}
 					else
 					{
