@@ -27,6 +27,108 @@ namespace SB3Utility
 		}
 
 		[Plugin]
+		public void CalculateNormals(xxFrame meshFrame, string morphClip, string keyframe, double threshold)
+		{
+			xa.CalculateNormals(Parser, meshFrame, morphClip, keyframe, (float)threshold);
+		}
+
+		[Plugin]
+		public void CreateMorphKeyframeRef(string morphClip, int position, string keyframe)
+		{
+			foreach (xaMorphClip clip in Parser.MorphSection.ClipList)
+			{
+				if (clip.Name == morphClip)
+				{
+					xaMorphKeyframeRef morphRef = new xaMorphKeyframeRef();
+					xa.CreateUnknowns(morphRef);
+					morphRef.Index = -1;
+					morphRef.Name = keyframe;
+					clip.KeyframeRefList.Insert(position, morphRef);
+					return;
+				}
+			}
+		}
+
+		[Plugin]
+		public void RemoveMorphKeyframeRef(string morphClip, int position)
+		{
+			foreach (xaMorphClip clip in Parser.MorphSection.ClipList)
+			{
+				if (clip.Name == morphClip)
+				{
+					clip.KeyframeRefList.RemoveAt(position);
+					return;
+				}
+			}
+		}
+
+		[Plugin]
+		public void MoveMorphKeyframeRef(string morphClip, int fromPos, int toPos)
+		{
+			foreach (xaMorphClip clip in Parser.MorphSection.ClipList)
+			{
+				if (clip.Name == morphClip)
+				{
+					xaMorphKeyframeRef morphRef = clip.KeyframeRefList[fromPos];
+					clip.KeyframeRefList.RemoveAt(fromPos);
+					clip.KeyframeRefList.Insert(toPos, morphRef);
+					return;
+				}
+			}
+		}
+
+		[Plugin]
+		public void RemoveMorphKeyframe(string name)
+		{
+			xaMorphKeyframe keyframe = xa.FindMorphKeyFrame(name, Parser.MorphSection);
+			Parser.MorphSection.KeyframeList.Remove(keyframe);
+		}
+
+		[Plugin]
+		public void SetMorphKeyframeRefKeyframe(string morphClip, int position, string keyframe)
+		{
+			foreach (xaMorphClip clip in Parser.MorphSection.ClipList)
+			{
+				if (clip.Name == morphClip)
+				{
+					clip.KeyframeRefList[position].Name = keyframe;
+					return;
+				}
+			}
+		}
+
+		[Plugin]
+		public void SetMorphKeyframeRefIndex(string morphClip, int position, int id)
+		{
+			foreach (xaMorphClip clip in Parser.MorphSection.ClipList)
+			{
+				if (clip.Name == morphClip)
+				{
+					clip.KeyframeRefList[position].Index = id;
+					return;
+				}
+			}
+		}
+
+		[Plugin]
+		public void RenameMorphKeyframe(int position, string newName)
+		{
+			xaMorphKeyframe keyframe = Parser.MorphSection.KeyframeList[position];
+			string oldName = keyframe.Name;
+			foreach (xaMorphClip clip in Parser.MorphSection.ClipList)
+			{
+				foreach (xaMorphKeyframeRef morphRef in clip.KeyframeRefList)
+				{
+					if (morphRef.Name == oldName)
+					{
+						morphRef.Name = newName;
+					}
+				}
+			}
+			keyframe.Name = newName;
+		}
+
+		[Plugin]
 		public void ReplaceAnimation(WorkspaceAnimation animation, int resampleCount, string method, int insertPos)
 		{
 			var replaceMethod = (ReplaceAnimationMethod)Enum.Parse(typeof(ReplaceAnimationMethod), method);

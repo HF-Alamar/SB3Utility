@@ -476,6 +476,7 @@ namespace SB3Utility
 
 			if (xxFormat >= 7)
 			{
+				submesh.Unknown2 = new byte[20];
 				submesh.Unknown4 = new byte[284];
 
 				if (xxFormat >= 8)
@@ -506,6 +507,11 @@ namespace SB3Utility
 					vertList[j].Unknown1 = new byte[20];
 				}
 			}
+		}
+
+		public static void CreateUnknown(xxVertex vertex)
+		{
+			vertex.Unknown1 = new byte[20];
 		}
 
 		public static void CopyUnknowns(xxMaterial src, xxMaterial dest)

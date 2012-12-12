@@ -73,16 +73,31 @@
 			this.tabPageType2 = new System.Windows.Forms.TabPage();
 			this.tabPageMorph = new System.Windows.Forms.TabPage();
 			this.splitContainerMorph = new System.Windows.Forms.SplitContainer();
+			this.checkBoxEndKeyframe = new System.Windows.Forms.CheckBox();
+			this.checkBoxStartKeyframe = new System.Windows.Forms.CheckBox();
+			this.trackBarMorphFactor = new System.Windows.Forms.TrackBar();
+			this.checkBoxOnlyValidKeyframes = new System.Windows.Forms.CheckBox();
+			this.groupBox6 = new System.Windows.Forms.GroupBox();
+			this.buttonRefDown = new System.Windows.Forms.Button();
+			this.buttonRefUp = new System.Windows.Forms.Button();
+			this.buttonDeleteRef = new System.Windows.Forms.Button();
+			this.buttonNewRef = new System.Windows.Forms.Button();
+			this.label8 = new System.Windows.Forms.Label();
+			this.label6 = new System.Windows.Forms.Label();
+			this.comboBoxRefKeyframe = new System.Windows.Forms.ComboBox();
 			this.groupBox5 = new System.Windows.Forms.GroupBox();
+			this.buttonMorphClipExport = new System.Windows.Forms.Button();
 			this.label5 = new System.Windows.Forms.Label();
 			this.comboBoxMorphMesh = new System.Windows.Forms.ComboBox();
-			this.groupBox4 = new System.Windows.Forms.GroupBox();
-			this.radioButtonMorphExportFormatFbx = new System.Windows.Forms.RadioButton();
-			this.radioButtonMorphExportFormatMqo = new System.Windows.Forms.RadioButton();
 			this.label4 = new System.Windows.Forms.Label();
-			this.buttonMorphClipExport = new System.Windows.Forms.Button();
+			this.groupBox4 = new System.Windows.Forms.GroupBox();
+			this.radioButtonMorphExportFormatFbxSeparateBlendShapes = new System.Windows.Forms.RadioButton();
+			this.radioButtonMorphExportFormatFbx1BlendShape = new System.Windows.Forms.RadioButton();
+			this.radioButtonMorphExportFormatMqo = new System.Windows.Forms.RadioButton();
 			this.treeViewMorphClip = new System.Windows.Forms.TreeView();
 			this.label57 = new System.Windows.Forms.Label();
+			this.buttonDeleteKeyframe = new System.Windows.Forms.Button();
+			this.label9 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.listViewMorphKeyframe = new System.Windows.Forms.ListView();
 			this.columnHeaderMorphKeyframeName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -124,6 +139,10 @@
 			this.numericAnimationClipKeyframe = new System.Windows.Forms.NumericUpDown();
 			this.labelSkeletalRender = new System.Windows.Forms.Label();
 			this.label30 = new System.Windows.Forms.Label();
+			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+			this.groupBox7 = new System.Windows.Forms.GroupBox();
+			this.textBoxFrameNameRefID = new SB3Utility.EditTextBox();
+			this.editTextBoxNewKeyframeName = new SB3Utility.EditTextBox();
 			this.tabControlXA.SuspendLayout();
 			this.tabPageXAObjectView.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).BeginInit();
@@ -137,6 +156,8 @@
 			this.splitContainerMorph.Panel1.SuspendLayout();
 			this.splitContainerMorph.Panel2.SuspendLayout();
 			this.splitContainerMorph.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.trackBarMorphFactor)).BeginInit();
+			this.groupBox6.SuspendLayout();
 			this.groupBox5.SuspendLayout();
 			this.groupBox4.SuspendLayout();
 			this.tabPageAnimation.SuspendLayout();
@@ -153,6 +174,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.trackBarAnimationClipKeyframe)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericAnimationClipSpeed)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericAnimationClipKeyframe)).BeginInit();
+			this.groupBox7.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControlXA
@@ -553,33 +575,192 @@
 			// 
 			// splitContainerMorph.Panel1
 			// 
+			this.splitContainerMorph.Panel1.Controls.Add(this.checkBoxOnlyValidKeyframes);
+			this.splitContainerMorph.Panel1.Controls.Add(this.groupBox6);
+			this.splitContainerMorph.Panel1.Controls.Add(this.buttonDeleteRef);
+			this.splitContainerMorph.Panel1.Controls.Add(this.buttonNewRef);
+			this.splitContainerMorph.Panel1.Controls.Add(this.textBoxFrameNameRefID);
+			this.splitContainerMorph.Panel1.Controls.Add(this.label8);
+			this.splitContainerMorph.Panel1.Controls.Add(this.label6);
+			this.splitContainerMorph.Panel1.Controls.Add(this.comboBoxRefKeyframe);
 			this.splitContainerMorph.Panel1.Controls.Add(this.groupBox5);
 			this.splitContainerMorph.Panel1.Controls.Add(this.treeViewMorphClip);
 			this.splitContainerMorph.Panel1.Controls.Add(this.label57);
+			this.splitContainerMorph.Panel1.Controls.Add(this.groupBox7);
 			// 
 			// splitContainerMorph.Panel2
 			// 
+			this.splitContainerMorph.Panel2.Controls.Add(this.buttonDeleteKeyframe);
+			this.splitContainerMorph.Panel2.Controls.Add(this.label9);
+			this.splitContainerMorph.Panel2.Controls.Add(this.editTextBoxNewKeyframeName);
 			this.splitContainerMorph.Panel2.Controls.Add(this.label3);
 			this.splitContainerMorph.Panel2.Controls.Add(this.listViewMorphKeyframe);
 			this.splitContainerMorph.Size = new System.Drawing.Size(510, 504);
-			this.splitContainerMorph.SplitterDistance = 287;
+			this.splitContainerMorph.SplitterDistance = 348;
 			this.splitContainerMorph.TabIndex = 123;
+			// 
+			// checkBoxEndKeyframe
+			// 
+			this.checkBoxEndKeyframe.Appearance = System.Windows.Forms.Appearance.Button;
+			this.checkBoxEndKeyframe.Location = new System.Drawing.Point(94, 15);
+			this.checkBoxEndKeyframe.Margin = new System.Windows.Forms.Padding(0);
+			this.checkBoxEndKeyframe.Name = "checkBoxEndKeyframe";
+			this.checkBoxEndKeyframe.Size = new System.Drawing.Size(87, 23);
+			this.checkBoxEndKeyframe.TabIndex = 132;
+			this.checkBoxEndKeyframe.Text = "End";
+			this.checkBoxEndKeyframe.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.checkBoxEndKeyframe.UseVisualStyleBackColor = true;
+			this.checkBoxEndKeyframe.Click += new System.EventHandler(this.checkBoxStartEndKeyframe_Click);
+			// 
+			// checkBoxStartKeyframe
+			// 
+			this.checkBoxStartKeyframe.Appearance = System.Windows.Forms.Appearance.Button;
+			this.checkBoxStartKeyframe.Location = new System.Drawing.Point(4, 15);
+			this.checkBoxStartKeyframe.Margin = new System.Windows.Forms.Padding(0);
+			this.checkBoxStartKeyframe.Name = "checkBoxStartKeyframe";
+			this.checkBoxStartKeyframe.Size = new System.Drawing.Size(87, 23);
+			this.checkBoxStartKeyframe.TabIndex = 130;
+			this.checkBoxStartKeyframe.Text = "Start";
+			this.checkBoxStartKeyframe.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.checkBoxStartKeyframe.UseVisualStyleBackColor = true;
+			this.checkBoxStartKeyframe.Click += new System.EventHandler(this.checkBoxStartEndKeyframe_Click);
+			// 
+			// trackBarMorphFactor
+			// 
+			this.trackBarMorphFactor.AutoSize = false;
+			this.trackBarMorphFactor.Location = new System.Drawing.Point(3, 41);
+			this.trackBarMorphFactor.Maximum = 25;
+			this.trackBarMorphFactor.Name = "trackBarMorphFactor";
+			this.trackBarMorphFactor.Size = new System.Drawing.Size(178, 18);
+			this.trackBarMorphFactor.TabIndex = 135;
+			this.trackBarMorphFactor.TickStyle = System.Windows.Forms.TickStyle.None;
+			this.trackBarMorphFactor.ValueChanged += new System.EventHandler(this.trackBarMorphFactor_ValueChanged);
+			// 
+			// checkBoxOnlyValidKeyframes
+			// 
+			this.checkBoxOnlyValidKeyframes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.checkBoxOnlyValidKeyframes.AutoSize = true;
+			this.checkBoxOnlyValidKeyframes.Checked = true;
+			this.checkBoxOnlyValidKeyframes.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.checkBoxOnlyValidKeyframes.Location = new System.Drawing.Point(324, 91);
+			this.checkBoxOnlyValidKeyframes.Name = "checkBoxOnlyValidKeyframes";
+			this.checkBoxOnlyValidKeyframes.Size = new System.Drawing.Size(125, 17);
+			this.checkBoxOnlyValidKeyframes.TabIndex = 114;
+			this.checkBoxOnlyValidKeyframes.Text = "Only Valid Keyframes";
+			this.checkBoxOnlyValidKeyframes.UseVisualStyleBackColor = true;
+			this.checkBoxOnlyValidKeyframes.CheckedChanged += new System.EventHandler(this.checkBoxOnlyValidKeyframes_CheckedChanged);
+			// 
+			// groupBox6
+			// 
+			this.groupBox6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox6.Controls.Add(this.buttonRefDown);
+			this.groupBox6.Controls.Add(this.buttonRefUp);
+			this.groupBox6.Location = new System.Drawing.Point(324, 120);
+			this.groupBox6.Name = "groupBox6";
+			this.groupBox6.Size = new System.Drawing.Size(89, 79);
+			this.groupBox6.TabIndex = 114;
+			this.groupBox6.TabStop = false;
+			this.groupBox6.Text = "Move Ref";
+			// 
+			// buttonRefDown
+			// 
+			this.buttonRefDown.Location = new System.Drawing.Point(7, 49);
+			this.buttonRefDown.Name = "buttonRefDown";
+			this.buttonRefDown.Size = new System.Drawing.Size(75, 23);
+			this.buttonRefDown.TabIndex = 117;
+			this.buttonRefDown.Text = "Down";
+			this.buttonRefDown.UseVisualStyleBackColor = true;
+			this.buttonRefDown.Click += new System.EventHandler(this.buttonRefDown_Click);
+			// 
+			// buttonRefUp
+			// 
+			this.buttonRefUp.Location = new System.Drawing.Point(7, 16);
+			this.buttonRefUp.Name = "buttonRefUp";
+			this.buttonRefUp.Size = new System.Drawing.Size(75, 23);
+			this.buttonRefUp.TabIndex = 116;
+			this.buttonRefUp.Text = "Up";
+			this.buttonRefUp.UseVisualStyleBackColor = true;
+			this.buttonRefUp.Click += new System.EventHandler(this.buttonRefUp_Click);
+			// 
+			// buttonDeleteRef
+			// 
+			this.buttonDeleteRef.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonDeleteRef.Location = new System.Drawing.Point(428, 176);
+			this.buttonDeleteRef.Name = "buttonDeleteRef";
+			this.buttonDeleteRef.Size = new System.Drawing.Size(75, 23);
+			this.buttonDeleteRef.TabIndex = 125;
+			this.buttonDeleteRef.Text = "Delete";
+			this.buttonDeleteRef.UseVisualStyleBackColor = true;
+			this.buttonDeleteRef.Click += new System.EventHandler(this.buttonDeleteRef_Click);
+			// 
+			// buttonNewRef
+			// 
+			this.buttonNewRef.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonNewRef.Location = new System.Drawing.Point(428, 120);
+			this.buttonNewRef.Name = "buttonNewRef";
+			this.buttonNewRef.Size = new System.Drawing.Size(75, 23);
+			this.buttonNewRef.TabIndex = 120;
+			this.buttonNewRef.Text = "New Ref";
+			this.buttonNewRef.UseVisualStyleBackColor = true;
+			this.buttonNewRef.Click += new System.EventHandler(this.buttonNewRef_Click);
+			// 
+			// label8
+			// 
+			this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.label8.AutoSize = true;
+			this.label8.Location = new System.Drawing.Point(321, 19);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(71, 13);
+			this.label8.TabIndex = 129;
+			this.label8.Text = "Reference ID";
+			// 
+			// label6
+			// 
+			this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.label6.AutoSize = true;
+			this.label6.Location = new System.Drawing.Point(321, 48);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(112, 13);
+			this.label6.TabIndex = 127;
+			this.label6.Text = "Referencing Keyframe";
+			// 
+			// comboBoxRefKeyframe
+			// 
+			this.comboBoxRefKeyframe.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.comboBoxRefKeyframe.Enabled = false;
+			this.comboBoxRefKeyframe.FormattingEnabled = true;
+			this.comboBoxRefKeyframe.Location = new System.Drawing.Point(324, 64);
+			this.comboBoxRefKeyframe.Name = "comboBoxRefKeyframe";
+			this.comboBoxRefKeyframe.Size = new System.Drawing.Size(179, 21);
+			this.comboBoxRefKeyframe.TabIndex = 112;
+			this.comboBoxRefKeyframe.SelectedIndexChanged += new System.EventHandler(this.comboBoxRefKeyframe_SelectedIndexChanged);
 			// 
 			// groupBox5
 			// 
 			this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox5.Controls.Add(this.buttonMorphClipExport);
 			this.groupBox5.Controls.Add(this.label5);
 			this.groupBox5.Controls.Add(this.comboBoxMorphMesh);
-			this.groupBox5.Controls.Add(this.groupBox4);
 			this.groupBox5.Controls.Add(this.label4);
-			this.groupBox5.Controls.Add(this.buttonMorphClipExport);
-			this.groupBox5.Location = new System.Drawing.Point(0, 220);
+			this.groupBox5.Controls.Add(this.groupBox4);
+			this.groupBox5.Location = new System.Drawing.Point(0, 281);
 			this.groupBox5.Name = "groupBox5";
 			this.groupBox5.Size = new System.Drawing.Size(509, 67);
 			this.groupBox5.TabIndex = 125;
 			this.groupBox5.TabStop = false;
 			this.groupBox5.Text = "Export Options";
+			// 
+			// buttonMorphClipExport
+			// 
+			this.buttonMorphClipExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonMorphClipExport.Location = new System.Drawing.Point(411, 38);
+			this.buttonMorphClipExport.Name = "buttonMorphClipExport";
+			this.buttonMorphClipExport.Size = new System.Drawing.Size(92, 23);
+			this.buttonMorphClipExport.TabIndex = 148;
+			this.buttonMorphClipExport.Text = "Export Clip";
+			this.buttonMorphClipExport.UseVisualStyleBackColor = true;
+			this.buttonMorphClipExport.Click += new System.EventHandler(this.buttonMorphClipExport_Click);
 			// 
 			// label5
 			// 
@@ -602,40 +783,7 @@
 			this.comboBoxMorphMesh.Location = new System.Drawing.Point(133, 13);
 			this.comboBoxMorphMesh.Name = "comboBoxMorphMesh";
 			this.comboBoxMorphMesh.Size = new System.Drawing.Size(370, 21);
-			this.comboBoxMorphMesh.TabIndex = 122;
-			// 
-			// groupBox4
-			// 
-			this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.groupBox4.Controls.Add(this.radioButtonMorphExportFormatFbx);
-			this.groupBox4.Controls.Add(this.radioButtonMorphExportFormatMqo);
-			this.groupBox4.Location = new System.Drawing.Point(133, 33);
-			this.groupBox4.Name = "groupBox4";
-			this.groupBox4.Size = new System.Drawing.Size(127, 28);
-			this.groupBox4.TabIndex = 124;
-			this.groupBox4.TabStop = false;
-			// 
-			// radioButtonMorphExportFormatFbx
-			// 
-			this.radioButtonMorphExportFormatFbx.AutoSize = true;
-			this.radioButtonMorphExportFormatFbx.Checked = true;
-			this.radioButtonMorphExportFormatFbx.Location = new System.Drawing.Point(76, 8);
-			this.radioButtonMorphExportFormatFbx.Name = "radioButtonMorphExportFormatFbx";
-			this.radioButtonMorphExportFormatFbx.Size = new System.Drawing.Size(42, 17);
-			this.radioButtonMorphExportFormatFbx.TabIndex = 1;
-			this.radioButtonMorphExportFormatFbx.TabStop = true;
-			this.radioButtonMorphExportFormatFbx.Text = "Fbx";
-			this.radioButtonMorphExportFormatFbx.UseVisualStyleBackColor = true;
-			// 
-			// radioButtonMorphExportFormatMqo
-			// 
-			this.radioButtonMorphExportFormatMqo.AutoSize = true;
-			this.radioButtonMorphExportFormatMqo.Location = new System.Drawing.Point(11, 8);
-			this.radioButtonMorphExportFormatMqo.Name = "radioButtonMorphExportFormatMqo";
-			this.radioButtonMorphExportFormatMqo.Size = new System.Drawing.Size(46, 17);
-			this.radioButtonMorphExportFormatMqo.TabIndex = 0;
-			this.radioButtonMorphExportFormatMqo.Text = "Mqo";
-			this.radioButtonMorphExportFormatMqo.UseVisualStyleBackColor = true;
+			this.comboBoxMorphMesh.TabIndex = 138;
 			// 
 			// label4
 			// 
@@ -647,16 +795,54 @@
 			this.label4.TabIndex = 123;
 			this.label4.Text = ".xx File with Target Mesh";
 			// 
-			// buttonMorphClipExport
+			// groupBox4
 			// 
-			this.buttonMorphClipExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonMorphClipExport.Location = new System.Drawing.Point(411, 38);
-			this.buttonMorphClipExport.Name = "buttonMorphClipExport";
-			this.buttonMorphClipExport.Size = new System.Drawing.Size(92, 23);
-			this.buttonMorphClipExport.TabIndex = 2;
-			this.buttonMorphClipExport.Text = "Export Clip";
-			this.buttonMorphClipExport.UseVisualStyleBackColor = true;
-			this.buttonMorphClipExport.Click += new System.EventHandler(this.buttonMorphClipExport_Click);
+			this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.groupBox4.Controls.Add(this.radioButtonMorphExportFormatFbxSeparateBlendShapes);
+			this.groupBox4.Controls.Add(this.radioButtonMorphExportFormatFbx1BlendShape);
+			this.groupBox4.Controls.Add(this.radioButtonMorphExportFormatMqo);
+			this.groupBox4.Location = new System.Drawing.Point(133, 33);
+			this.groupBox4.Name = "groupBox4";
+			this.groupBox4.Size = new System.Drawing.Size(272, 28);
+			this.groupBox4.TabIndex = 140;
+			this.groupBox4.TabStop = false;
+			// 
+			// radioButtonMorphExportFormatFbxSeparateBlendShapes
+			// 
+			this.radioButtonMorphExportFormatFbxSeparateBlendShapes.AutoSize = true;
+			this.radioButtonMorphExportFormatFbxSeparateBlendShapes.Location = new System.Drawing.Point(152, 8);
+			this.radioButtonMorphExportFormatFbxSeparateBlendShapes.Name = "radioButtonMorphExportFormatFbxSeparateBlendShapes";
+			this.radioButtonMorphExportFormatFbxSeparateBlendShapes.Size = new System.Drawing.Size(116, 17);
+			this.radioButtonMorphExportFormatFbxSeparateBlendShapes.TabIndex = 144;
+			this.radioButtonMorphExportFormatFbxSeparateBlendShapes.TabStop = true;
+			this.radioButtonMorphExportFormatFbxSeparateBlendShapes.Text = "Fbx (Separate BSs)";
+			this.toolTip1.SetToolTip(this.radioButtonMorphExportFormatFbxSeparateBlendShapes, "Every morph keyframe will appear as channel in it\'s own BlendShape.\r\nEarlier vers" +
+        "ions of SB3UGS used this style.");
+			this.radioButtonMorphExportFormatFbxSeparateBlendShapes.UseVisualStyleBackColor = true;
+			// 
+			// radioButtonMorphExportFormatFbx1BlendShape
+			// 
+			this.radioButtonMorphExportFormatFbx1BlendShape.AutoSize = true;
+			this.radioButtonMorphExportFormatFbx1BlendShape.Checked = true;
+			this.radioButtonMorphExportFormatFbx1BlendShape.Location = new System.Drawing.Point(58, 8);
+			this.radioButtonMorphExportFormatFbx1BlendShape.Name = "radioButtonMorphExportFormatFbx1BlendShape";
+			this.radioButtonMorphExportFormatFbx1BlendShape.Size = new System.Drawing.Size(88, 17);
+			this.radioButtonMorphExportFormatFbx1BlendShape.TabIndex = 143;
+			this.radioButtonMorphExportFormatFbx1BlendShape.TabStop = true;
+			this.radioButtonMorphExportFormatFbx1BlendShape.Text = "Fbx (One BS)";
+			this.toolTip1.SetToolTip(this.radioButtonMorphExportFormatFbx1BlendShape, "All morph keyframes appear as channels in one common BlendShape.");
+			this.radioButtonMorphExportFormatFbx1BlendShape.UseVisualStyleBackColor = true;
+			// 
+			// radioButtonMorphExportFormatMqo
+			// 
+			this.radioButtonMorphExportFormatMqo.AutoSize = true;
+			this.radioButtonMorphExportFormatMqo.Location = new System.Drawing.Point(6, 8);
+			this.radioButtonMorphExportFormatMqo.Name = "radioButtonMorphExportFormatMqo";
+			this.radioButtonMorphExportFormatMqo.Size = new System.Drawing.Size(46, 17);
+			this.radioButtonMorphExportFormatMqo.TabIndex = 142;
+			this.radioButtonMorphExportFormatMqo.TabStop = true;
+			this.radioButtonMorphExportFormatMqo.Text = "Mqo";
+			this.radioButtonMorphExportFormatMqo.UseVisualStyleBackColor = true;
 			// 
 			// treeViewMorphClip
 			// 
@@ -667,9 +853,10 @@
 			this.treeViewMorphClip.HideSelection = false;
 			this.treeViewMorphClip.Location = new System.Drawing.Point(0, 18);
 			this.treeViewMorphClip.Name = "treeViewMorphClip";
-			this.treeViewMorphClip.Size = new System.Drawing.Size(509, 197);
-			this.treeViewMorphClip.TabIndex = 7;
+			this.treeViewMorphClip.Size = new System.Drawing.Size(315, 258);
+			this.treeViewMorphClip.TabIndex = 104;
 			this.treeViewMorphClip.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeViewMorphClip_ItemDrag);
+			this.treeViewMorphClip.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewMorphClip_AfterSelect);
 			this.treeViewMorphClip.DragDrop += new System.Windows.Forms.DragEventHandler(this.treeViewMorphClip_DragDrop);
 			this.treeViewMorphClip.DragEnter += new System.Windows.Forms.DragEventHandler(this.treeViewMorphClip_DragEnter);
 			this.treeViewMorphClip.DragOver += new System.Windows.Forms.DragEventHandler(this.treeViewMorphClip_DragOver);
@@ -682,6 +869,27 @@
 			this.label57.Size = new System.Drawing.Size(128, 13);
 			this.label57.TabIndex = 8;
 			this.label57.Text = "Morph Clips [Mesh Name]";
+			// 
+			// buttonDeleteKeyframe
+			// 
+			this.buttonDeleteKeyframe.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonDeleteKeyframe.Location = new System.Drawing.Point(364, 75);
+			this.buttonDeleteKeyframe.Name = "buttonDeleteKeyframe";
+			this.buttonDeleteKeyframe.Size = new System.Drawing.Size(58, 23);
+			this.buttonDeleteKeyframe.TabIndex = 168;
+			this.buttonDeleteKeyframe.Text = "Delete";
+			this.buttonDeleteKeyframe.UseVisualStyleBackColor = true;
+			this.buttonDeleteKeyframe.Click += new System.EventHandler(this.buttonDeleteKeyframe_Click);
+			// 
+			// label9
+			// 
+			this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.label9.AutoSize = true;
+			this.label9.Location = new System.Drawing.Point(361, 17);
+			this.label9.Name = "label9";
+			this.label9.Size = new System.Drawing.Size(63, 13);
+			this.label9.TabIndex = 136;
+			this.label9.Text = "Rename To";
 			// 
 			// label3
 			// 
@@ -710,10 +918,11 @@
 			this.listViewMorphKeyframe.Name = "listViewMorphKeyframe";
 			this.listViewMorphKeyframe.ShowGroups = false;
 			this.listViewMorphKeyframe.ShowItemToolTips = true;
-			this.listViewMorphKeyframe.Size = new System.Drawing.Size(509, 196);
-			this.listViewMorphKeyframe.TabIndex = 6;
+			this.listViewMorphKeyframe.Size = new System.Drawing.Size(358, 135);
+			this.listViewMorphKeyframe.TabIndex = 160;
 			this.listViewMorphKeyframe.UseCompatibleStateImageBehavior = false;
 			this.listViewMorphKeyframe.View = System.Windows.Forms.View.Details;
+			this.listViewMorphKeyframe.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.listViewMorphKeyframe_ItemSelectionChanged);
 			// 
 			// columnHeaderMorphKeyframeName
 			// 
@@ -1128,6 +1337,38 @@
 			this.label30.TabIndex = 146;
 			this.label30.Text = "Speed";
 			// 
+			// groupBox7
+			// 
+			this.groupBox7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox7.Controls.Add(this.checkBoxEndKeyframe);
+			this.groupBox7.Controls.Add(this.trackBarMorphFactor);
+			this.groupBox7.Controls.Add(this.checkBoxStartKeyframe);
+			this.groupBox7.Location = new System.Drawing.Point(324, 210);
+			this.groupBox7.Name = "groupBox7";
+			this.groupBox7.Size = new System.Drawing.Size(185, 65);
+			this.groupBox7.TabIndex = 136;
+			this.groupBox7.TabStop = false;
+			this.groupBox7.Text = "Morph Preview";
+			// 
+			// textBoxFrameNameRefID
+			// 
+			this.textBoxFrameNameRefID.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.textBoxFrameNameRefID.Enabled = false;
+			this.textBoxFrameNameRefID.Location = new System.Drawing.Point(398, 16);
+			this.textBoxFrameNameRefID.Name = "textBoxFrameNameRefID";
+			this.textBoxFrameNameRefID.Size = new System.Drawing.Size(36, 20);
+			this.textBoxFrameNameRefID.TabIndex = 110;
+			this.textBoxFrameNameRefID.AfterEditTextChanged += new System.EventHandler(this.textBoxFrameNameRefID_AfterEditTextChanged);
+			// 
+			// editTextBoxNewKeyframeName
+			// 
+			this.editTextBoxNewKeyframeName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.editTextBoxNewKeyframeName.Location = new System.Drawing.Point(364, 33);
+			this.editTextBoxNewKeyframeName.Name = "editTextBoxNewKeyframeName";
+			this.editTextBoxNewKeyframeName.Size = new System.Drawing.Size(139, 20);
+			this.editTextBoxNewKeyframeName.TabIndex = 164;
+			this.editTextBoxNewKeyframeName.AfterEditTextChanged += new System.EventHandler(this.editTextBoxNewKeyframeName_AfterEditTextChanged);
+			// 
 			// FormXA
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1153,6 +1394,8 @@
 			this.splitContainerMorph.Panel2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerMorph)).EndInit();
 			this.splitContainerMorph.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.trackBarMorphFactor)).EndInit();
+			this.groupBox6.ResumeLayout(false);
 			this.groupBox5.ResumeLayout(false);
 			this.groupBox5.PerformLayout();
 			this.groupBox4.ResumeLayout(false);
@@ -1175,6 +1418,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.trackBarAnimationClipKeyframe)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericAnimationClipSpeed)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericAnimationClipKeyframe)).EndInit();
+			this.groupBox7.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -1226,14 +1470,12 @@
 		private System.Windows.Forms.Label label5;
 		public System.Windows.Forms.ComboBox comboBoxMorphMesh;
 		private System.Windows.Forms.GroupBox groupBox4;
-		private System.Windows.Forms.RadioButton radioButtonMorphExportFormatFbx;
+		private System.Windows.Forms.RadioButton radioButtonMorphExportFormatFbx1BlendShape;
 		private System.Windows.Forms.RadioButton radioButtonMorphExportFormatMqo;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Button buttonMorphClipExport;
-		private System.Windows.Forms.TreeView treeViewMorphClip;
 		private System.Windows.Forms.Label label57;
 		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.ListView listViewMorphKeyframe;
 		private System.Windows.Forms.ColumnHeader columnHeaderMorphKeyframeName;
 		private System.Windows.Forms.ColumnHeader columnHeaderMorphKeyframeVertices;
 		private System.Windows.Forms.TabPage tabPageType4;
@@ -1273,5 +1515,26 @@
 		private System.Windows.Forms.Label labelSkeletalRender;
 		private System.Windows.Forms.Label label30;
 		private System.Windows.Forms.ImageList imageList1;
+		public System.Windows.Forms.TreeView treeViewMorphClip;
+		private System.Windows.Forms.ListView listViewMorphKeyframe;
+		private System.Windows.Forms.Label label8;
+		private System.Windows.Forms.Label label6;
+		private System.Windows.Forms.ComboBox comboBoxRefKeyframe;
+		private System.Windows.Forms.GroupBox groupBox6;
+		private System.Windows.Forms.Button buttonRefDown;
+		private System.Windows.Forms.Button buttonRefUp;
+		private System.Windows.Forms.Button buttonDeleteRef;
+		private System.Windows.Forms.Button buttonNewRef;
+		private EditTextBox textBoxFrameNameRefID;
+		private EditTextBox editTextBoxNewKeyframeName;
+		private System.Windows.Forms.Button buttonDeleteKeyframe;
+		private System.Windows.Forms.Label label9;
+		private System.Windows.Forms.CheckBox checkBoxOnlyValidKeyframes;
+		private System.Windows.Forms.RadioButton radioButtonMorphExportFormatFbxSeparateBlendShapes;
+		private System.Windows.Forms.ToolTip toolTip1;
+		private System.Windows.Forms.TrackBar trackBarMorphFactor;
+		private System.Windows.Forms.CheckBox checkBoxStartKeyframe;
+		private System.Windows.Forms.CheckBox checkBoxEndKeyframe;
+		private System.Windows.Forms.GroupBox groupBox7;
 	}
 }

@@ -1,4 +1,25 @@
-﻿[0.4.42.26]
+﻿[0.4.42.28]
+  - XA Morphs preview
+  - Scrolling to newly added morph keyframes after import of morphs. Also scrolling to imported morph clip.
+  - DirectX export/import integrated and fixed
+  - DAE Collada (FBX SDK) export/import integrated
+
+[0.4.42.27]
+  - Saving a pp file caused crashes on subsequent openings of subfiles (XX and XA). (No data corruption in the pp file.)
+  - XX ReplaceMesh corrupted XX unit when replacing a mesh with NumVector2PerVertex==0 or when inserting a new mesh.
+  - PP saving failed in the same session after deletion of last backup file.
+  - XX deleting last bone crashed (hightlighting).
+
+  - FBX morph export can apply keyframes as channels of only one blendshape.
+  - FBX import reads old and newly organized files, but not mixed.
+  - New keyframes can be imported.
+  - Added calculation of normals for morphs in XAs.
+  - Added editing of xaMorphKeyframeRef components and names of xaMorphKeyframes.
+  - Change: "fixed" size of the renderer's cursor
+  - Added fine grained zoom in renderer. Activated by ALT-RMB
+  - Both zoom functions are taking Sensitivity into account.
+
+[0.4.42.26]
   - FBX morph imports didn't show the morph names. Export fixed, but the files cant be imported by the old SB3U.
   - MQO morph export set wrong material index.
 

@@ -81,7 +81,7 @@ namespace SB3Utility
 		Dictionary<int, int> crossRefTextureMeshesCount = new Dictionary<int, int>();
 		Dictionary<int, int> crossRefTextureMaterialsCount = new Dictionary<int, int>();
 
-		List<RenderObjectXX> renderObjectMeshes;
+		public List<RenderObjectXX> renderObjectMeshes { get; protected set; }
 		List<int> renderObjectIds;
 
 		private bool listViewItemSyncSelectedSent = false;
@@ -897,6 +897,12 @@ namespace SB3Utility
 				LoadMatrix(bone.Matrix, dataGridViewBoneSRT, dataGridViewBoneMatrix);
 			}
 			loadedBone = id;
+
+			if (highlightedBone != null)
+				HighlightBone(highlightedBone, false);
+			if (loadedBone != null)
+				HighlightBone(loadedBone, true);
+			highlightedBone = loadedBone;
 		}
 
 		void LoadMesh(int id)
@@ -1372,11 +1378,6 @@ namespace SB3Utility
 						tabControlViews.SelectTabWithoutLoosingFocus(tabPageBoneView);
 						int[] ids = (int[])tag.Id;
 						LoadBone(ids);
-
-						if (highlightedBone != null)
-							HighlightBone(highlightedBone, false);
-						HighlightBone(ids, true);
-						highlightedBone = ids;
 					}
 					else if (tag.Type == typeof(xxMaterial))
 					{
@@ -2595,7 +2596,50 @@ namespace SB3Utility
 				{
 					if (normals.ShowDialog() == DialogResult.OK)
 					{
-						Gui.Scripting.RunScript(EditorVar + ".CalculateNormals(id=" + loadedMesh + ", threshold=" + normals.numericThreshold.Value + ")");
+						if (normals.checkBoxNewNormalsForMesh.Checked)
+						{
+							Gui.Scripting.RunScript(EditorVar + ".CalculateNormals(id=" + loadedMesh + ", threshold=" + normals.numericThreshold.Value + ")");
+						}
+						if (normals.checkBoxCalculateNormalsInXAs.Checked || normals.checkBoxSelectedItemsOnly.Checked)
+						{
+							List<DockContent> formXAList;
+							if (Gui.Docking.DockContents.TryGetValue(typeof(FormXA), out formXAList))
+							{
+								foreach (FormXA form in formXAList)
+								{
+									string keyframeName = null, morphClipName = null;
+									if (normals.checkBoxSelectedItemsOnly.Checked)
+									{
+										TreeNode node = form.treeViewMorphClip.SelectedNode;
+										if (node != null)
+										{
+											xaMorphClip clip = null;
+											if (node.Tag is xaMorphKeyframeRef)
+											{
+												clip = (xaMorphClip)node.Parent.Tag;
+												keyframeName = ((xaMorphKeyframeRef)node.Tag).Name;
+											}
+											else if (node.Tag is xaMorphClip)
+											{
+												clip = (xaMorphClip)node.Tag;
+											}
+											if (clip.MeshName == Editor.Meshes[loadedMesh].Name)
+											{
+												morphClipName = clip.Name;
+											}
+											else
+											{
+												Report.ReportLog("Skipping selected morph clip " + clip.Name + " because it morphs mesh " + clip.MeshName + ".");
+												continue;
+											}
+										}
+										if (keyframeName == null && morphClipName == null)
+											continue;
+									}
+									Gui.Scripting.RunScript(form.EditorVar + ".CalculateNormals(meshFrame=" + EditorVar + ".Meshes[" + loadedMesh + "], morphClip=" + (morphClipName != null ? "\"" + morphClipName + "\"" : "null") + ", keyframe=" + (keyframeName != null ? "\"" + keyframeName + "\"" : "null") + ", threshold=" + normals.numericThreshold.Value + ")");
+								}
+							}
+						}
 
 						RecreateRenderObjects();
 					}
@@ -2970,16 +3014,14 @@ namespace SB3Utility
 						Gui.Scripting.RunScript("ExportMqo(parser=" + ParserVar + ", meshNames=" + meshNames + ", dirPath=\"" + dir.FullName + "\", singleMqo=" + checkBoxMeshExportMqoSingleFile.Checked + ", worldCoords=" + checkBoxMeshExportMqoWorldCoords.Checked + ")");
 						break;
 					case MeshExportFormat.DirectXSDK:
-						Report.ReportLog("not implemented");
-						//DirectX.Exporter.Export(Utility.GetDestFile(dir, "meshes", ".x"), parser, meshParents, xaSubfileList, 10, 1);
+						Gui.Scripting.RunScript("ExportDirectX(path=\"" + Utility.GetDestFile(dir, "meshes", ".x") + "\", xxParser=" + ParserVar + ", meshNames=" + meshNames + ", xaParsers=" + xaVars + ", ticksPerSecond=" + numericMeshExportDirectXTicksPerSecond.Value + ", keyframeLength=" + numericMeshExportDirectXKeyframeLength.Value + ")");
 						break;
 					case MeshExportFormat.Collada:
 						Report.ReportLog("not implemented");
 						//Collada.Exporter.Export(Utility.GetDestFile(dir, "meshes", ".dae"), parser, meshParents, xaSubfileList, checkBoxMeshExportColladaAllFrames.Checked);
 						break;
 					case MeshExportFormat.ColladaFbx:
-						Report.ReportLog("not implemented");
-						//Fbx.Exporter.Export(Utility.GetDestFile(dir, "meshes", ".dae"), parser, meshParents, xaSubfileList, checkBoxMeshExportFbxAllFrames.Checked, checkBoxMeshExportFbxSkins.Checked, ".dae");
+						Gui.Scripting.RunScript("ExportFbx(xxParser=" + ParserVar + ", meshNames=" + meshNames + ", xaParsers=" + xaVars + ", startKeyframe=" + startKeyframe + ", endKeyframe=" + endKeyframe + ", linear=" + linear + ", path=\"" + Utility.GetDestFile(dir, "meshes", ".dae") + "\", exportFormat=\".dae\", allFrames=" + checkBoxMeshExportFbxAllFrames.Checked + ", skins=" + checkBoxMeshExportFbxSkins.Checked + ")");
 						break;
 					case MeshExportFormat.Fbx:
 						Gui.Scripting.RunScript("ExportFbx(xxParser=" + ParserVar + ", meshNames=" + meshNames + ", xaParsers=" + xaVars + ", startKeyframe=" + startKeyframe + ", endKeyframe=" + endKeyframe + ", linear=" + linear + ", path=\"" + Utility.GetDestFile(dir, "meshes", ".fbx") + "\", exportFormat=\".fbx\", allFrames=" + checkBoxMeshExportFbxAllFrames.Checked + ", skins=" + checkBoxMeshExportFbxSkins.Checked + ")");

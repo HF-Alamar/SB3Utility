@@ -9,6 +9,7 @@ namespace SB3Utility
 	{
 		[Plugin]
 		[PluginOpensFile(".fbx")]
+		[PluginOpensFile(".dae")]
 		public static void WorkspaceFbx(string path, string variable)
 		{
 			string importVar = Gui.Scripting.GetNextVariable("importFbx");
@@ -34,9 +35,9 @@ namespace SB3Utility
 		}
 
 		[Plugin]
-		public static void ExportMorphFbx([DefaultVar]xxParser xxparser, string path, xxFrame meshFrame, xaParser xaparser, xaMorphClip morphClip, string exportFormat)
+		public static void ExportMorphFbx([DefaultVar]xxParser xxparser, string path, xxFrame meshFrame, xaParser xaparser, xaMorphClip morphClip, string exportFormat, bool oneBlendShape)
 		{
-			Fbx.Exporter.ExportMorph(path, xxparser, meshFrame, morphClip, xaparser, exportFormat);
+			Fbx.Exporter.ExportMorph(path, xxparser, meshFrame, morphClip, xaparser, exportFormat, oneBlendShape);
 		}
 
 		[Plugin]

@@ -22,7 +22,7 @@ namespace SB3Utility
 		Directory::SetCurrentDirectory(currentDir);
 	}
 
-	void Fbx::Exporter::ExportMorph(String^ path, xxParser^ xxParser, xxFrame^ meshFrame, xaMorphClip^ morphClip, xaParser^ xaparser, String^ exportFormat)
+	void Fbx::Exporter::ExportMorph(String^ path, xxParser^ xxParser, xxFrame^ meshFrame, xaMorphClip^ morphClip, xaParser^ xaparser, String^ exportFormat, bool oneBlendShape)
 	{
 		FileInfo^ file = gcnew FileInfo(path);
 		DirectoryInfo^ dir = file->Directory;
@@ -36,7 +36,7 @@ namespace SB3Utility
 		List<xxFrame^>^ meshParents = gcnew List<xxFrame^>(1);
 		meshParents->Add(meshFrame);
 		Exporter^ exporter = gcnew Exporter(path, xxParser, meshParents, exportFormat, false, false);
-		exporter->ExportMorphs(meshFrame, morphClip, xaparser);
+		exporter->ExportMorphs(meshFrame, morphClip, xaparser, oneBlendShape);
 		exporter->pExporter->Export(exporter->pScene);
 
 		Directory::SetCurrentDirectory(currentDir);
@@ -768,7 +768,7 @@ namespace SB3Utility
 		}
 	}
 
-	void Fbx::Exporter::ExportMorphs(xxFrame^ baseFrame, xaMorphClip^ morphClip, xaParser^ xaparser)
+	void Fbx::Exporter::ExportMorphs(xxFrame^ baseFrame, xaMorphClip^ morphClip, xaParser^ xaparser, bool oneBlendShape)
 	{
 		KFbxNode* pBaseNode = pMeshNodes->GetAt(0);
 		xaMorphSection^ morphSection = xaparser->MorphSection;
@@ -816,6 +816,16 @@ namespace SB3Utility
 			pVertexColorLayer->GetDirectArray().SetAt(meshIndices[i], KFbxColor(0, 0, 1));
 		}
 
+		KFbxBlendShape* lBlendShape;
+		if (oneBlendShape)
+		{
+			WITH_MARSHALLED_STRING
+			(
+				pShapeName, morphClip->Name + "_BlendShape",
+				lBlendShape = KFbxBlendShape::Create(pScene, pShapeName);
+			);
+			pBaseNode->GetChild(meshObjIdx)->GetMesh()->AddDeformer(lBlendShape);
+		}
 		List<xaMorphKeyframeRef^>^ refList = morphClip->KeyframeRefList;
 		List<String^>^ morphNames = gcnew List<String^>(refList->Count);
 		for (int i = 0; i < refList->Count; i++)
@@ -824,12 +834,15 @@ namespace SB3Utility
 			{
 				xaMorphKeyframe^ keyframe = xa::FindMorphKeyFrame(refList[i]->Name, morphSection);
 
-				KFbxBlendShape* lBlendShape;
-				WITH_MARSHALLED_STRING
-				(
-					pShapeName, "_" + i + "_" + keyframe->Name + "_BlendShape",
-					lBlendShape = KFbxBlendShape::Create(pScene, pShapeName);
-				);
+				if (!oneBlendShape)
+				{
+					WITH_MARSHALLED_STRING
+					(
+						pShapeName, morphClip->Name + "_BlendShape",
+						lBlendShape = KFbxBlendShape::Create(pScene, pShapeName);
+					);
+					pBaseNode->GetChild(meshObjIdx)->GetMesh()->AddDeformer(lBlendShape);
+				}
 				KFbxBlendShapeChannel* lBlendShapeChannel = KFbxBlendShapeChannel::Create(pScene, "");
 				KFbxShape* pShape;
 				WITH_MARSHALLED_STRING
@@ -839,7 +852,6 @@ namespace SB3Utility
 				);
 				lBlendShapeChannel->AddTargetShape(pShape);
 				lBlendShape->AddBlendShapeChannel(lBlendShapeChannel);
-				pBaseNode->GetChild(meshObjIdx)->GetMesh()->AddDeformer(lBlendShape);
 
 				pShape->InitControlPoints(vertList->Count);
 				KFbxVector4* pControlPoints = pShape->GetControlPoints();

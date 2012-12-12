@@ -6,6 +6,41 @@ using SlimDX;
 
 namespace SB3Utility
 {
+	public static partial class Plugins
+	{
+		[Plugin]
+		[PluginOpensFile(".x")]
+		public static void WorkspaceDirectX(string path, string variable)
+		{
+			string importVar = Gui.Scripting.GetNextVariable("importDirectX");
+			var importer = (DirectX.Importer)Gui.Scripting.RunScript(importVar + " = ImportDirectX(\"" + path + "\")");
+
+			string editorVar = Gui.Scripting.GetNextVariable("importedEditor");
+			var editor = (ImportedEditor)Gui.Scripting.RunScript(editorVar + " = ImportedEditor(" + importVar + ")");
+
+			new FormWorkspace(path, importer, editorVar, editor);
+		}
+
+		[Plugin]
+		public static void ExportDirectX(string path, xxParser xxParser, object[] meshNames, object[] xaParsers, int ticksPerSecond, int keyframeLength)
+		{
+			List<xaParser> xaParserList = null;
+			if (xaParsers != null)
+			{
+				xaParserList = new List<xaParser>(Utility.Convert<xaParser>(xaParsers));
+			}
+
+			List<xxFrame> meshParents = xx.FindMeshFrames(xxParser.Frame, new List<string>(Utility.Convert<string>(meshNames)));
+			DirectX.Exporter.Export(path, xxParser, meshParents.ToArray(), xaParserList, ticksPerSecond, keyframeLength);
+		}
+
+		[Plugin]
+		public static DirectX.Importer ImportDirectX([DefaultVar]string path)
+		{
+			return new DirectX.Importer(path);
+		}
+	}
+
 	public class DirectX
 	{
 		private const ushort TOKEN_NAME = 1;
@@ -96,7 +131,7 @@ namespace SB3Utility
 							xx.ExportTexture(tex, dir.FullName + @"\" + Path.GetFileName(tex.Name));
 						}
 					}
-					if (xaParsers.Count > 0)
+					if (xaParsers != null && xaParsers.Count > 0)
 					{
 						writer.WriteLine("AnimTicksPerSecond {");
 						writer.WriteLine(" " + ticksPerSecond + ";");
@@ -859,6 +894,7 @@ namespace SB3Utility
 			private ImportedFrame ImportFrame(Section section)
 			{
 				ImportedFrame frame = new ImportedFrame();
+				frame.InitChildren(0);
 
 				if (section.name == null)
 				{
@@ -902,7 +938,7 @@ namespace SB3Utility
 						ImportedFrame childFrame = ImportFrame(child);
 						if (childFrame != null)
 						{
-							childFrame.AddChild(childFrame);
+							frame.AddChild(childFrame);
 						}
 					}
 					else

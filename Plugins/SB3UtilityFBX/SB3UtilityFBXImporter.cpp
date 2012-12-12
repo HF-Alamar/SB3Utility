@@ -780,8 +780,19 @@ namespace SB3Utility
 			KFbxNode* pNode = pMeshArray->GetAt(i);
 			KFbxMesh* pMesh = pNode->GetMesh();
 			int numShapes = pMesh->GetDeformerCount(KFbxDeformer::eBLENDSHAPE);
+			bool channelOrganized = false;
 			if (numShapes > 0)
 			{
+				KFbxBlendShape* lBlendShape = NULL;
+				if (numShapes == 1)
+				{
+					lBlendShape = (KFbxBlendShape*)pMesh->GetDeformer(0, KFbxDeformer::eBLENDSHAPE);
+					if (lBlendShape->GetBlendShapeChannelCount() > 1)
+					{
+						numShapes = lBlendShape->GetBlendShapeChannelCount();
+						channelOrganized = true;
+					}
+				}
 				ImportedMorph^ morphList = gcnew ImportedMorph();
 				morphList->KeyframeList = gcnew List<ImportedMorphKeyframe^>(numShapes);
 				MorphList->Add(morphList);
@@ -796,15 +807,23 @@ namespace SB3Utility
 
 				for (int j = 0; j < numShapes; j++)
 				{
-					KFbxBlendShape* lBlendShape = (KFbxBlendShape*)pMesh->GetDeformer(j, KFbxDeformer::eBLENDSHAPE);
-					if (lBlendShape->GetBlendShapeChannelCount() != 1)
+					KFbxBlendShapeChannel* lChannel;
+					if (channelOrganized)
 					{
-						Report::ReportLog("Warning! " + clipName + "'s blendShape " + j + " has " + lBlendShape->GetBlendShapeChannelCount() + " channels. Channels beyond the first are ignored.");
+						lChannel = lBlendShape->GetBlendShapeChannel(j);
 					}
-					KFbxBlendShapeChannel* lChannel = lBlendShape->GetBlendShapeChannel(0);
+					else
+					{
+						lBlendShape = (KFbxBlendShape*)pMesh->GetDeformer(j, KFbxDeformer::eBLENDSHAPE);
+						if (lBlendShape->GetBlendShapeChannelCount() != 1)
+						{
+							Report::ReportLog("Warning! " + clipName + "'s blendShape " + j + " has " + lBlendShape->GetBlendShapeChannelCount() + " channels. Channels beyond the first are ignored.");
+						}
+						lChannel = lBlendShape->GetBlendShapeChannel(0);
+					}
 					if (lChannel->GetTargetShapeCount() != 1)
 					{
-						Report::ReportLog("Warning! " + clipName + "'s blendChannel 0 has " + lChannel->GetTargetShapeCount() + " shapes. Shapes beyond the first are ignored.");
+						Report::ReportLog("Warning! " + clipName + "'s has a blendChannel with " + lChannel->GetTargetShapeCount() + " shapes. Shapes beyond the first are ignored.");
 					}
 					KFbxShape* pShape = lChannel->GetTargetShape(0);
 					ImportedMorphKeyframe^ morph = gcnew ImportedMorphKeyframe();

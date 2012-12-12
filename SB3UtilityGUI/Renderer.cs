@@ -157,6 +157,10 @@ namespace SB3Utility
 			presentParams.BackBufferWidth = Screen.PrimaryScreen.WorkingArea.Width;
 			presentParams.BackBufferHeight = Screen.PrimaryScreen.WorkingArea.Height;
 			Device = new Device(new Direct3D(), 0, DeviceType.Hardware, control.Handle, CreateFlags.SoftwareVertexProcessing, presentParams);
+			if ((Device.Capabilities.VertexProcessingCaps & VertexProcessingCaps.Tweening) == 0)
+			{
+				Report.ReportLog("Vertex tweening is not supported!");
+			}
 
 			camera = new Camera(control);
 			RenderControl = control;
@@ -491,13 +495,15 @@ namespace SB3Utility
 			Device.SetRenderState(RenderState.Lighting, true);
 			Device.SetRenderState(RenderState.FillMode, FillMode.Solid);
 			Device.SetRenderState(RenderState.CullMode, Cull.None);
-			Device.SetTransform(TransformState.World, Matrix.Translation(camera.target));
+			Vector3 v = camera.target - camera.position;
+			float distScaled = v.Length() / 25f;
+			Device.SetTransform(TransformState.World, Matrix.Scaling(distScaled, distScaled, distScaled) * Matrix.Translation(camera.target));
 
 			Light light = Device.GetLight(0);
 			Color4 ambient = light.Ambient;
 			Color4 diffuse = light.Diffuse;
 
-			light.Ambient = new Color4(1, 0.3f, 0.3f, 0.3f);
+			light.Ambient = new Color4(1, 0.03f, 0.03f, 0.03f);
 			light.Diffuse = new Color4(1, 0.8f, 0.8f, 0.8f);
 			Device.SetLight(0, light);
 
@@ -573,7 +579,17 @@ namespace SB3Utility
 			}
 			else if (right != MouseButtons.None)
 			{
-				camera.Translate((float)(e.X - lastMousePos.X), (float)(e.Y - lastMousePos.Y));
+				bool alt_pressed = (Control.ModifierKeys & Keys.Alt) != 0;
+				if (alt_pressed)
+				{
+					int moveX = e.X - lastMousePos.X;
+					int moveY = e.Y - lastMousePos.Y;
+					camera.Zoom((float)(Math.Abs(moveX) > Math.Abs(moveY) ? moveX : moveY) / 2.5f);
+				}
+				else
+				{
+					camera.Translate((float)(e.X - lastMousePos.X), (float)(e.Y - lastMousePos.Y));
+				}
 				lastMousePos = new Point(e.X, e.Y);
 				Render();
 			}
@@ -689,7 +705,7 @@ namespace SB3Utility
 
 		public void Zoom(float dist)
 		{
-			radius -= dist / 100;
+			radius -= dist * Sensitivity;
 			if (radius < nearClip)
 			{
 				radius = nearClip;

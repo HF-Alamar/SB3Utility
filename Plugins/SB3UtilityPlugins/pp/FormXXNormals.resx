@@ -117,4 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="numericThreshold.ToolTip" xml:space="preserve">
+    <value>A negative threshold computes normals without using the actual value.
+Only positive thresholds are used and compute normals in a different fashion
+which is able to generate good normals for unwelded submeshes.</value>
+  </data>
 </root>

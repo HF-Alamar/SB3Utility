@@ -47,7 +47,7 @@
     <OutputPath>..\..\bin\plugins\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <DocumentationFile>..\..\bin\plugins\SB3UtilityPlugins.XML</DocumentationFile>

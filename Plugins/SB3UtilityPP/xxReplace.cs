@@ -112,6 +112,7 @@ namespace SB3Utility
 					if (xxFormat >= 4)
 					{
 						xxVertex = new xxVertexUShort();
+						CreateUnknown(xxVertex);
 					}
 					else
 					{

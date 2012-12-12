@@ -12,6 +12,7 @@ namespace SB3Utility
 	{
 		private AnimationFrame rootFrame;
 		private Device device;
+		private VertexDeclaration tweeningVertDec;
 		private List<AnimationFrame> meshFrames;
 		private Material highlightMaterial;
 		private Material nullMaterial = new Material();
@@ -37,6 +38,7 @@ namespace SB3Utility
 			highlightMaterial.Diffuse = new Color4(1, 0, 1, 0);
 
 			this.device = Gui.Renderer.Device;
+			this.tweeningVertDec = new VertexDeclaration(this.device, TweeningMeshesVertexBufferFormat.ThreeStreams);
 
 			Textures = new Texture[parser.TextureList.Count];
 			Materials = new Material[parser.MaterialList.Count];
@@ -46,16 +48,10 @@ namespace SB3Utility
 			AnimationController = new AnimationController(numFrames, 30, 30, 1);
 			Frame.RegisterNamedMatrices(rootFrame, AnimationController);
 
-			for (int i = 0; i < meshFrames.Count; i++)
+			Bounds = meshFrames[0].Bounds;
+			for (int i = 1; i < meshFrames.Count; i++)
 			{
-				if (i == 0)
-				{
-					Bounds = meshFrames[i].Bounds;
-				}
-				else
-				{
-					Bounds = BoundingBox.Merge(Bounds, meshFrames[i].Bounds);
-				}
+				Bounds = BoundingBox.Merge(Bounds, meshFrames[i].Bounds);
 			}
 		}
 
@@ -68,12 +64,32 @@ namespace SB3Utility
 		{
 			for (int i = 0; i < meshFrames.Count; i++)
 			{
-				AnimationMeshContainer mesh = (AnimationMeshContainer)meshFrames[i].MeshContainer;
+				MeshContainer mesh = meshFrames[i].MeshContainer;
 				while (mesh != null)
 				{
 					if ((mesh.MeshData != null) && (mesh.MeshData.Mesh != null))
 					{
 						mesh.MeshData.Mesh.Dispose();
+					}
+					if (mesh is MorphMeshContainer)
+					{
+						MorphMeshContainer morphMesh = (MorphMeshContainer)mesh;
+						if (morphMesh.StartBuffer != morphMesh.EndBuffer)
+						{
+							morphMesh.StartBuffer.Dispose();
+						}
+						if (morphMesh.EndBuffer != null)
+						{
+							morphMesh.EndBuffer.Dispose();
+						}
+						if (morphMesh.CommonBuffer != null)
+						{
+							morphMesh.CommonBuffer.Dispose();
+						}
+						if (morphMesh.IndexBuffer != null)
+						{
+							morphMesh.IndexBuffer.Dispose();
+						}
 					}
 
 					for (int j = 0; j < Textures.Length; j++)
@@ -85,12 +101,14 @@ namespace SB3Utility
 						}
 					}
 
-					mesh = (AnimationMeshContainer)mesh.NextMeshContainer;
+					mesh = mesh.NextMeshContainer;
 				}
 			}
 
 			rootFrame.Dispose();
 			AnimationController.Dispose();
+
+			tweeningVertDec.Dispose();
 
 			IsDisposed = true;
 		}
@@ -112,10 +130,10 @@ namespace SB3Utility
 
 		private void DrawMeshFrame(AnimationFrame frame)
 		{
-			AnimationMeshContainer meshContainer = (AnimationMeshContainer)frame.MeshContainer;
-			if (meshContainer != null)
+			if (frame.MeshContainer is AnimationMeshContainer)
 			{
-				if (meshContainer.BoneNames.Length > 0)
+				AnimationMeshContainer animMeshContainer = (AnimationMeshContainer)frame.MeshContainer;
+				if (animMeshContainer.BoneNames.Length > 0)
 				{
 					device.SetRenderState(RenderState.VertexBlend, VertexBlend.Weights3);
 					device.SetRenderState(RenderState.IndexedVertexBlendEnable, true);
@@ -123,11 +141,11 @@ namespace SB3Utility
 					// device.SetRenderState(RenderState.DiffuseMaterialSource, ColorSource.Color1);
 					device.SetRenderState(RenderState.AmbientMaterialSource, ColorSource.Color1);
 
-					for (int i = 0; i < meshContainer.BoneNames.Length; i++)
+					for (int i = 0; i < animMeshContainer.BoneNames.Length; i++)
 					{
-						if (meshContainer.BoneFrames[i] != null)
+						if (animMeshContainer.BoneFrames[i] != null)
 						{
-							device.SetTransform(i, meshContainer.BoneOffsets[i] * meshContainer.BoneFrames[i].CombinedTransform);
+							device.SetTransform(i, animMeshContainer.BoneOffsets[i] * animMeshContainer.BoneFrames[i].CombinedTransform);
 						}
 					}
 				}
@@ -137,18 +155,27 @@ namespace SB3Utility
 					device.SetRenderState(RenderState.AmbientMaterialSource, ColorSource.Material);
 					device.SetTransform(TransformState.World, frame.CombinedTransform);
 				}
-			}
 
-			submeshNum = 0;
-			while (meshContainer != null)
+				submeshNum = 0;
+				while (animMeshContainer != null)
+				{
+					DrawAnimationMeshContainer(animMeshContainer);
+					animMeshContainer = (AnimationMeshContainer)animMeshContainer.NextMeshContainer;
+					submeshNum++;
+				}
+			}
+			else if (frame.MeshContainer is MorphMeshContainer)
 			{
-				DrawMeshContainer(meshContainer, frame);
-				meshContainer = (AnimationMeshContainer)meshContainer.NextMeshContainer;
-				submeshNum++;
+				MorphMeshContainer morphMeshContainer = (MorphMeshContainer)frame.MeshContainer;
+				device.SetRenderState(RenderState.AmbientMaterialSource, ColorSource.Material);
+				device.SetTransform(TransformState.World, frame.CombinedTransform);
+
+				submeshNum = 0;
+				DrawMorphMeshContainer(morphMeshContainer);
 			}
 		}
 
-		private void DrawMeshContainer(AnimationMeshContainer meshContainer, AnimationFrame frame)
+		private void DrawAnimationMeshContainer(AnimationMeshContainer meshContainer)
 		{
 			device.SetRenderState(RenderState.ZEnable, ZBufferType.UseZBuffer);
 			device.SetRenderState(RenderState.Lighting, true);
@@ -196,6 +223,44 @@ namespace SB3Utility
 				device.SetTexture(0, null);
 				device.VertexFormat = PositionBlendWeightIndexedColored.Format;
 				device.DrawUserPrimitives(PrimitiveType.LineList, meshContainer.BoneLines.Length / 2, meshContainer.BoneLines);
+			}
+		}
+
+		private void DrawMorphMeshContainer(MorphMeshContainer meshContainer)
+		{
+			device.SetRenderState(RenderState.ZEnable, ZBufferType.UseZBuffer);
+			device.SetRenderState(RenderState.Lighting, true);
+
+			Cull culling = (Gui.Renderer.Culling) ? Cull.Counterclockwise : Cull.None;
+			device.SetRenderState(RenderState.CullMode, culling);
+
+			FillMode fill = (Gui.Renderer.Wireframe) ? FillMode.Wireframe : FillMode.Solid;
+			device.SetRenderState(RenderState.FillMode, fill);
+
+			int matIdx = meshContainer.MaterialIndex;
+			device.Material = ((matIdx >= 0) && (matIdx < Materials.Length)) ? Materials[matIdx] : nullMaterial;
+
+			int texIdx = meshContainer.TextureIndex;
+			Texture tex = ((texIdx >= 0) && (texIdx < Textures.Length)) ? Textures[texIdx] : null;
+			device.SetTexture(0, tex);
+
+			device.SetRenderState(RenderState.VertexBlend, VertexBlend.Tweening);
+			device.SetRenderState(RenderState.TweenFactor, meshContainer.TweenFactor);
+
+			device.VertexDeclaration = tweeningVertDec;
+			device.Indices = meshContainer.IndexBuffer;
+			device.SetStreamSource(0, meshContainer.StartBuffer, 0, Marshal.SizeOf(typeof(TweeningMeshesVertexBufferFormat.Stream0)));
+			device.SetStreamSource(1, meshContainer.EndBuffer, 0, Marshal.SizeOf(typeof(TweeningMeshesVertexBufferFormat.Stream1)));
+			device.SetStreamSource(2, meshContainer.CommonBuffer, 0, Marshal.SizeOf(typeof(TweeningMeshesVertexBufferFormat.Stream2)));
+			device.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, meshContainer.VertexCount, 0, meshContainer.FaceCount);
+
+			if (HighlightSubmesh.Contains(submeshNum))
+			{
+				device.SetRenderState(RenderState.ZEnable, ZBufferType.DontUseZBuffer);
+				device.SetRenderState(RenderState.FillMode, FillMode.Wireframe);
+				device.Material = highlightMaterial;
+				device.SetTexture(0, null);
+				device.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, meshContainer.VertexCount, 0, meshContainer.FaceCount);
 			}
 		}
 
@@ -361,7 +426,7 @@ namespace SB3Utility
 				min = Vector3.TransformCoordinate(min, animationFrame.CombinedTransform);
 				max = Vector3.TransformCoordinate(max, animationFrame.CombinedTransform);
 				animationFrame.Bounds = new BoundingBox(min, max);
-					animationFrame.MeshContainer = meshContainers[0];
+				animationFrame.MeshContainer = meshContainers[0];
 				meshFrames.Add(animationFrame);
 			}
 
@@ -577,6 +642,232 @@ namespace SB3Utility
 				}
 			}
 		}
+
+		public float SetMorphKeyframe(xxFrame meshFrame, xaMorphIndexSet idxSet, xaMorphKeyframe keyframe, bool asStart)
+		{
+			foreach (AnimationFrame frame in meshFrames)
+			{
+				if (frame.Name == meshFrame.Name)
+				{
+					xxMesh xxMesh = meshFrame.Mesh;
+					int meshObjIdx = xa.MorphMeshObjIdx(idxSet.MeshIndices, xxMesh);
+					if (meshObjIdx < 0)
+					{
+						Report.ReportLog("no valid mesh object was found for the morph");
+						return -1f;
+					}
+					MorphMeshContainer morphMesh = null;
+					AnimationMeshContainer animMesh = frame.MeshContainer as AnimationMeshContainer;
+					if (animMesh != null)
+					{
+						for (int i = 1; i < meshObjIdx; i++)
+						{
+							animMesh = (AnimationMeshContainer)animMesh.NextMeshContainer;
+							if (animMesh == null)
+								break;
+						}
+						if (animMesh == null)
+						{
+							Report.ReportLog("Bad submesh specified.");
+							return -1f;
+						}
+
+						morphMesh = new MorphMeshContainer();
+						morphMesh.FaceCount = xxMesh.SubmeshList[meshObjIdx].FaceList.Count;
+						morphMesh.IndexBuffer = animMesh.MeshData.Mesh.IndexBuffer;
+
+						morphMesh.VertexCount = xxMesh.SubmeshList[meshObjIdx].VertexList.Count;
+						List<xxVertex> vertexList = xxMesh.SubmeshList[meshObjIdx].VertexList;
+						VertexBuffer vertBuffer = CreateMorphVertexBuffer(idxSet, keyframe, vertexList);
+						morphMesh.StartBuffer = morphMesh.EndBuffer = vertBuffer;
+
+						int vertBufferSize = morphMesh.VertexCount * Marshal.SizeOf(typeof(TweeningMeshesVertexBufferFormat.Stream2));
+						vertBuffer = new VertexBuffer(device, vertBufferSize, Usage.WriteOnly, VertexFormat.Texture1, Pool.Managed);
+						using (DataStream vertexStream = vertBuffer.Lock(0, vertBufferSize, LockFlags.None))
+						{
+							for (int i = 0; i < vertexList.Count; i++)
+							{
+								xxVertex vertex = vertexList[i];
+								vertexStream.Write(vertex.UV[0]);
+								vertexStream.Write(vertex.UV[1]);
+							}
+							vertBuffer.Unlock();
+						}
+						morphMesh.CommonBuffer = vertBuffer;
+
+						morphMesh.MaterialIndex = animMesh.MaterialIndex;
+						morphMesh.TextureIndex = animMesh.TextureIndex;
+
+						morphMesh.NextMeshContainer = animMesh;
+						frame.MeshContainer = morphMesh;
+
+						morphMesh.TweenFactor = 0.0f;
+					}
+					else
+					{
+						morphMesh = frame.MeshContainer as MorphMeshContainer;
+						List<xxVertex> vertexList = xxMesh.SubmeshList[meshObjIdx].VertexList;
+						VertexBuffer vertBuffer = CreateMorphVertexBuffer(idxSet, keyframe, vertexList);
+						if (asStart)
+						{
+							if (morphMesh.StartBuffer != morphMesh.EndBuffer)
+							{
+								morphMesh.StartBuffer.Dispose();
+							}
+							morphMesh.StartBuffer = vertBuffer;
+							morphMesh.TweenFactor = 0.0f;
+						}
+						else
+						{
+							if (morphMesh.StartBuffer != morphMesh.EndBuffer)
+							{
+								morphMesh.EndBuffer.Dispose();
+							}
+							morphMesh.EndBuffer = vertBuffer;
+							morphMesh.TweenFactor = 1.0f;
+						}
+					}
+					return morphMesh.TweenFactor;
+				}
+			}
+			Report.ReportLog("Mesh frame " + meshFrame + " not displayed.");
+			return -1f;
+		}
+
+		private VertexBuffer CreateMorphVertexBuffer(xaMorphIndexSet idxSet, xaMorphKeyframe keyframe, List<xxVertex> vertexList)
+		{
+			int vertBufferSize = keyframe.PositionList.Count * Marshal.SizeOf(typeof(TweeningMeshesVertexBufferFormat.Stream0));
+			VertexBuffer vertBuffer = new VertexBuffer(device, vertBufferSize, Usage.WriteOnly, VertexFormat.Position | VertexFormat.Normal, Pool.Managed);
+			Vector3[] positions = new Vector3[vertexList.Count];
+			Vector3[] normals = new Vector3[vertexList.Count];
+			for (int i = 0; i < positions.Length; i++)
+			{
+				positions[i] = vertexList[i].Position;
+				normals[i] = vertexList[i].Normal;
+			}
+			ushort[] meshIndices = idxSet.MeshIndices;
+			ushort[] morphIndices = idxSet.MorphIndices;
+			List<Vector3> keyframePositions = keyframe.PositionList;
+			List<Vector3> keyframeNormals = keyframe.NormalList;
+			for (int i = 0; i < meshIndices.Length; i++)
+			{
+				positions[meshIndices[i]] = keyframePositions[morphIndices[i]];
+				normals[meshIndices[i]] = keyframeNormals[morphIndices[i]];
+			}
+
+			using (DataStream vertexStream = vertBuffer.Lock(0, vertBufferSize, LockFlags.None))
+			{
+				for (int i = 0; i < positions.Length; i++)
+				{
+					Vector3 pos = positions[i];
+					vertexStream.Write(pos.X);
+					vertexStream.Write(pos.Y);
+					vertexStream.Write(pos.Z);
+					Vector3 normal = normals[i];
+					vertexStream.Write(normal.X);
+					vertexStream.Write(normal.Y);
+					vertexStream.Write(normal.Z);
+				}
+				vertBuffer.Unlock();
+			}
+
+			return vertBuffer;
+		}
+
+		public float UnsetMorphKeyframe(xxFrame meshFrame, xaMorphIndexSet idxSet, bool asStart)
+		{
+			foreach (AnimationFrame frame in meshFrames)
+			{
+				if (frame.Name == meshFrame.Name)
+				{
+					xxMesh xxMesh = meshFrame.Mesh;
+					int meshObjIdx = xa.MorphMeshObjIdx(idxSet.MeshIndices, xxMesh);
+					if (meshObjIdx < 0)
+					{
+						Report.ReportLog("no valid mesh object was found for the morph");
+						return -1f;
+					}
+					MeshContainer animMesh = frame.MeshContainer;
+					for (int i = 1; i < meshObjIdx; i++)
+					{
+						animMesh = animMesh.NextMeshContainer;
+						if (animMesh == null)
+							break;
+					}
+					if (animMesh == null)
+					{
+						Report.ReportLog("Bad submesh specified.");
+						return -1f;
+					}
+					MorphMeshContainer morphMesh = (MorphMeshContainer)animMesh;
+
+					if (asStart)
+					{
+						if (morphMesh.StartBuffer != morphMesh.EndBuffer)
+						{
+							morphMesh.StartBuffer.Dispose();
+							morphMesh.StartBuffer = morphMesh.EndBuffer;
+						}
+						else
+						{
+							frame.MeshContainer = morphMesh.NextMeshContainer;
+						}
+						morphMesh.TweenFactor = 1.0f;
+					}
+					else
+					{
+						if (morphMesh.StartBuffer != morphMesh.EndBuffer)
+						{
+							morphMesh.EndBuffer.Dispose();
+							morphMesh.EndBuffer = morphMesh.StartBuffer;
+						}
+						else
+						{
+							frame.MeshContainer = morphMesh.NextMeshContainer;
+						}
+						morphMesh.TweenFactor = 0.0f;
+					}
+					return morphMesh.TweenFactor;
+				}
+			}
+			Report.ReportLog("Mesh frame " + meshFrame + " not displayed.");
+			return -1f;
+		}
+
+		public void SetTweenFactor(xxFrame meshFrame, xaMorphIndexSet idxSet, float tweenFactor)
+		{
+			foreach (AnimationFrame frame in meshFrames)
+			{
+				if (frame.Name == meshFrame.Name)
+				{
+					xxMesh xxMesh = meshFrame.Mesh;
+					int meshObjIdx = xa.MorphMeshObjIdx(idxSet.MeshIndices, xxMesh);
+					if (meshObjIdx < 0)
+					{
+						Report.ReportLog("no valid mesh object was found for the morph");
+						return;
+					}
+					MeshContainer animMesh = frame.MeshContainer;
+					for (int i = 1; i < meshObjIdx; i++)
+					{
+						animMesh = animMesh.NextMeshContainer;
+						if (animMesh == null)
+							break;
+					}
+					if (animMesh == null)
+					{
+						Report.ReportLog("Bad submesh specified.");
+						return;
+					}
+					MorphMeshContainer morphMesh = (MorphMeshContainer)animMesh;
+
+					morphMesh.TweenFactor = tweenFactor;
+					return;
+				}
+			}
+			Report.ReportLog("Mesh frame " + meshFrame + " not displayed.");
+			return;
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -629,6 +920,16 @@ namespace SB3Utility
 
 		public static readonly VertexFormat Format = VertexFormat.PositionBlend4 | VertexFormat.LastBetaUByte4 | VertexFormat.Normal | VertexFormat.Texture1 | VertexFormat.Diffuse;
 
+		public static readonly VertexElement[] LikeFormat = new[] {
+			new VertexElement(0, 0, DeclarationType.Float3, DeclarationMethod.Default, DeclarationUsage.Position, 0),
+			new VertexElement(0, 12, DeclarationType.Float3, DeclarationMethod.Default, DeclarationUsage.BlendWeight, 0),
+			new VertexElement(0, 24, DeclarationType.Ubyte4, DeclarationMethod.Default, DeclarationUsage.BlendIndices, 0),
+			new VertexElement(0, 28, DeclarationType.Float3, DeclarationMethod.Default, DeclarationUsage.Normal, 0),
+			new VertexElement(0, 40, DeclarationType.Color, DeclarationMethod.Default, DeclarationUsage.Color, 0),
+			new VertexElement(0, 44, DeclarationType.Float2, DeclarationMethod.Default, DeclarationUsage.TextureCoordinate, 0),
+			VertexElement.VertexDeclarationEnd
+		};
+
 		public PositionBlendWeightsIndexedNormalTexturedColoured(Vector3 pos, Vector3 norm, float[] weights3, byte[] boneIndices, Vector2 uv, int colour)
 		{
 			Position = pos;
@@ -639,6 +940,36 @@ namespace SB3Utility
 			U = uv[0];
 			V = uv[1];
 		}
+	}
+
+	public static class TweeningMeshesVertexBufferFormat
+	{
+		[StructLayout(LayoutKind.Sequential)]
+		public struct Stream0
+		{
+			public Vector3 Position;
+			public Vector3 Normal;
+		}
+		[StructLayout(LayoutKind.Sequential)]
+		public struct Stream1
+		{
+			public Vector3 Position;
+			public Vector3 Normal;
+		}
+		[StructLayout(LayoutKind.Sequential)]
+		public struct Stream2
+		{
+			public float U, V;
+		}
+
+		public static readonly VertexElement[] ThreeStreams = new[] {
+			new VertexElement(0, 0, DeclarationType.Float3, DeclarationMethod.Default, DeclarationUsage.Position, 0),
+			new VertexElement(0, 12, DeclarationType.Float3, DeclarationMethod.Default, DeclarationUsage.Normal, 0),
+			new VertexElement(1, 0, DeclarationType.Float3, DeclarationMethod.Default, DeclarationUsage.Position, 1),
+			new VertexElement(1, 12, DeclarationType.Float3, DeclarationMethod.Default, DeclarationUsage.Normal, 1),
+			new VertexElement(2, 0, DeclarationType.Float2, DeclarationMethod.Default, DeclarationUsage.TextureCoordinate, 0),
+			VertexElement.VertexDeclarationEnd
+		};
 	}
 
 	public class AnimationFrame : Frame
@@ -672,6 +1003,29 @@ namespace SB3Utility
 		{
 			MaterialIndex = -1;
 			TextureIndex = -1;
+		}
+	}
+
+	public class MorphMeshContainer : MeshContainer
+	{
+		public int MaterialIndex { get; set; }
+		public int TextureIndex { get; set; }
+
+		public int VertexCount { get; set; }
+		public int FaceCount { get; set; }
+		public VertexBuffer StartBuffer { get; set; }
+		public VertexBuffer EndBuffer { get; set; }
+		public VertexBuffer CommonBuffer { get; set; }
+		public IndexBuffer IndexBuffer { get; set; }
+
+		public float TweenFactor { get; set; }
+
+		public MorphMeshContainer()
+		{
+			MaterialIndex = -1;
+			TextureIndex = -1;
+
+			TweenFactor = 0f;
 		}
 	}
 }

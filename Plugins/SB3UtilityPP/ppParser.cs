@@ -126,6 +126,17 @@ namespace SB3Utility
 					{
 						writer.BaseStream.Seek(0, SeekOrigin.Begin);
 						Format.ppHeader.WriteHeader(writer.BaseStream, Subfiles, sizes, metadata);
+						offset = (int)writer.BaseStream.Position;
+						for (int i = 0; i < Subfiles.Count; i++)
+						{
+							ppSubfile subfile = Subfiles[i] as ppSubfile;
+							if (subfile != null)
+							{
+								subfile.offset = offset;
+								subfile.size = sizes[i];
+							}
+							offset += sizes[i];
+						}
 					}
 				}
 
@@ -135,7 +146,21 @@ namespace SB3Utility
 				}
 				else
 				{
-					this.FilePath = destPath;
+					if (destPath.Equals(this.FilePath, StringComparison.InvariantCultureIgnoreCase))
+					{
+						for (int i = 0; i < Subfiles.Count; i++)
+						{
+							ppSubfile subfile = Subfiles[i] as ppSubfile;
+							if ((subfile != null) && subfile.ppPath.Equals(backup, StringComparison.InvariantCultureIgnoreCase))
+							{
+								subfile.ppPath = this.FilePath;
+							}
+						}
+					}
+					else
+					{
+						this.FilePath = destPath;
+					}
 
 					if ((backup != null) && !keepBackup)
 					{
